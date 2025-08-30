@@ -1,0 +1,48 @@
+# Environment & Configuration
+.env
+.env.*
+!.env.example
+/auth.json
+
+# Dependencies
+/vendor
+/node_modules
+composer.phar
+
+# Build & Compiled Assets
+/bootstrap/ssr
+/public/build
+/public/hot
+/public/storage
+dist/
+
+# Cache & Temporary Files
+/.phpunit.cache
+.phpunit.result.cache
+/storage/*.key
+/storage/pail
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+*.tmp
+*.temp
+.eslintcache
+
+# Browser tests
+/tests/Browser/Screenshots
+
+# Logs
+*.log
+npm-debug.log
+yarn-error.log
+
+# IDE & Editor Files
+/.fleet
+/.idea
+/.nova
+/.zed
+
+# System Files
+.DS_Store
+Thumbs.db

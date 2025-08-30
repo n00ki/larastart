@@ -1,0 +1,81 @@
+{
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "vite build",
+    "build:ssr": "vite build && vite build --ssr",
+    "dev": "vite",
+    "check": "svelte-check resources/ --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check resources/ --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint . && svelte-check resources/ --tsconfig ./tsconfig.json",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {},
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.50.0",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.1.12",
+    "lightningcss-linux-x64-gnu": "^1.30.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^5.2.1",
+    "@inertiajs/svelte": "^2.1.3",
+    "@internationalized/date": "^3.9.0",
+    "@laravel/vite-plugin-wayfinder": "^0.1.3",
+    "@lucide/svelte": "^0.542.0",
+    "@sveltejs/vite-plugin-svelte": "^6.1.3",
+    "@tailwindcss/vite": "^4.1.12",
+    "@tanstack/table-core": "^8.21.3",
+    "@tsconfig/svelte": "^5.0.5",
+    "@types/node": "^24.3.0",
+    "axios": "^1.11.0",
+    "bits-ui": "^2.9.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "embla-carousel-svelte": "^8.6.0",
+    "eslint": "^9.34.0",
+    "eslint-plugin-format": "^1.0.1",
+    "eslint-plugin-svelte": "^3.11.0",
+    "eslint-plugin-tailwindcss": "^3.18.2",
+    "formsnap": "^2.0.1",
+    "globals": "^16.3.0",
+    "laravel-vite-plugin": "^2.0.1",
+    "layerchart": "^1.0.11",
+    "lint-staged": "^16.1.5",
+    "maildev": "^2.2.1",
+    "paneforge": "^1.0.2",
+    "playwright": "^1.55.0",
+    "simple-git-hooks": "^2.13.1",
+    "svelte": "^5.38.6",
+    "svelte-check": "^4.3.1",
+    "svelte-portal": "^2.2.1",
+    "svelte-sonner": "^1.0.5",
+    "svelte-transition": "^0.0.17",
+    "sveltekit-superforms": "^2.27.1",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.0",
+    "tailwindcss": "^4.1.12",
+    "tailwindcss-animate": "^1.0.7",
+    "tw-animate-css": "^1.3.7",
+    "typescript": "^5.9.2",
+    "vaul-svelte": "^0.3.2",
+    "vite": "^7.1.3",
+    "ziggy-js": "^2.5.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "bun x lint-staged"
+  },
+  "lint-staged": {
+    "**/*.php": [
+      "./vendor/bin/pint"
+    ],
+    "{app,bootstrap,database,public}/**/*.php": [
+      "./vendor/bin/rector"
+    ],
+    "app/**/*.php": [
+      "./vendor/bin/phpstan analyse -c ./phpstan.neon --error-format=table"
+    ],
+    "**/*.{js,ts,svelte,css,md}": [
+      "eslint --cache --fix"
+    ]
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://getcomposer.org/schema.json",
+  "name": "n00ki/larasvelte",
+  "type": "project",
+  "description": "The Laravel + Svelte starter kit",
+  "keywords": [
+    "laravel",
+    "framework",
+    "svelte"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^8.4",
+    "inertiajs/inertia-laravel": "^2.0.6",
+    "laravel/framework": "^12.26.4",
+    "laravel/tinker": "^2.10.1",
+    "laravel/wayfinder": "^0.1.10",
+    "tightenco/ziggy": "^2.5.3"
+  },
+  "require-dev": {
+    "barryvdh/laravel-ide-helper": "^3.6.0",
+    "fakerphp/faker": "^1.24.1",
+    "larastan/larastan": "^3.6.1",
+    "laravel/pail": "^1.2.3",
+    "laravel/pint": "^1.24.0",
+    "laravel/sail": "^1.45.0",
+    "mockery/mockery": "^1.6.12",
+    "nunomaduro/collision": "^8.8.2",
+    "pestphp/pest": "^4.0.4",
+    "pestphp/pest-plugin-browser": "^4.0.2",
+    "pestphp/pest-plugin-laravel": "^4.0",
+    "pestphp/pest-plugin-type-coverage": "^4.0.2",
+    "rector/rector": "^2.1.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi"
+    ],
+    "post-update-cmd": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+    ],
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "@php artisan key:generate --ansi",
+      "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+      "@php artisan migrate --graceful --ansi"
+    ],
+    "dev": [
+      "Composer\\Config::disableProcessTimeout",
+      "bun x concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"bun run dev\" --names=server,queue,logs,vite --kill-others"
+    ],
+    "dev:ssr": [
+      "bun run build:ssr",
+      "Composer\\Config::disableProcessTimeout",
+      "bun x concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr --kill-others"
+    ],
+    "annotate": [
+      "@php artisan ide-helper:generate",
+      "@php artisan ide-helper:models -RW"
+    ],
+    "format": "pint",
+    "lint": [
+      "pint --test",
+      "rector --dry-run",
+      "bun run lint"
+    ],
+    "lint:fix": [
+      "pint",
+      "rector",
+      "bun run lint:fix"
+    ],
+    "test:type-coverage": "pest --type-coverage --exactly=100",
+    "test:types": "phpstan analyse",
+    "test:unit": "pest --parallel --testsuite Unit",
+    "test:feature": "pest --parallel --testsuite Feature",
+    "test:browser": "pest --parallel --testsuite Browser",
+    "test:all": "pest --parallel --coverage --min=90",
+    "test": [
+      "@php artisan config:clear --ansi",
+      "@lint",
+      "@test:type-coverage",
+      "@test:types",
+      "@test:all"
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": []
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "php-http/discovery": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

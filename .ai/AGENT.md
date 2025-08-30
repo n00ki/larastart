@@ -1,0 +1,106 @@
+# LaraStart
+
+This is a comprehensive reference for AI coding assistants working with the LaraStart project -
+a starter kit for a Laravel 12 application with PHP 8.4, Svelte 5, TypeScript, Inertia.js 2.0, TailwindCSS v4, shadcn-svelte, and Laravel Wayfinder.
+
+## 📚 Documentation Structure
+
+**Complete documentation is available in the `/docs` folder:**
+
+- **[`/docs/README.md`](./docs/README.md)** - Complete documentation index
+- **[`/docs/project-overview.md`](./docs/project-overview.md)** - Architecture, principles, and project structure
+- **[`/docs/development-workflow.md`](./docs/development-workflow.md)** - Tools, commands, and development processes
+
+### Backend Documentation
+
+- **[`/docs/backend/php-laravel-guidelines.md`](./docs/backend/php-laravel-guidelines.md)** - PHP 8.4 and Laravel 12 guidelines
+- **[`/docs/backend/architecture-guidelines.md`](./docs/backend/architecture-guidelines.md)** - Controllers, Actions, Models, and project patterns
+- **[`/docs/backend/database-guidelines.md`](./docs/backend/database-guidelines.md)** - Eloquent, migrations, and data handling
+- **[`/docs/backend/security-guidelines.md`](./docs/backend/security-guidelines.md)** - Authentication, authorization, and data protection
+- **[`/docs/backend/error-handling-guidelines.md`](./docs/backend/error-handling-guidelines.md)** - Exception handling and error patterns
+
+### Frontend Documentation
+
+- **[`/docs/frontend/svelte-guidelines.md`](./docs/frontend/svelte-guidelines.md)** - Svelte 5 runes, component patterns, and state management
+- **[`/docs/frontend/inertia-guidelines.md`](./docs/frontend/inertia-guidelines.md)** - Navigation, forms, and type-safe routing with Wayfinder
+- **[`/docs/frontend/ui-guidelines.md`](./docs/frontend/ui-guidelines.md)** - TailwindCSS v4, shadcn-svelte, and design patterns
+
+### Testing Documentation
+
+- **[`/docs/testing/testing-guidelines.md`](./docs/testing/testing-guidelines.md)** - Pest PHP, testing patterns, and coverage requirements
+
+## 🚀 Quick Reference
+
+### Core Principles
+
+1. **Consistency First** - Follow established patterns and conventions
+2. **Security by Default** - Apply secure coding practices throughout
+3. **Performance-Conscious** - Write efficient, optimized code
+4. **Type Safety** - Leverage PHP 8.4 and TypeScript type systems
+5. **Test-Driven** - All features must include comprehensive tests
+
+### Essential Commands
+
+```bash
+# Development
+composer dev              # Start all development services
+composer lint:fix         # Fix code formatting and linting
+composer test             # Run complete test suite
+
+# Frontend
+bun run dev              # Frontend development server
+bun run build            # Production build
+```
+
+### Critical Rules
+
+#### Backend (Laravel 12 + PHP 8.4)
+
+- **Never use `DB::`** - always use `Model::query()`
+- Use **Action pattern** for all business logic
+- **Avoid `$fillable`** - use `$guarded = []`
+- Use `declare(strict_types=1);` in all PHP files
+- Use the new `Model::casts()` method for casting
+
+#### Frontend (Svelte 5 + TypeScript)
+
+- Use **Svelte 5 runes** (`$state`, `$derived`, `$effect`, `$props`)
+- Use **kebab-case** for component files, **PascalCase** for imports
+- Use **Wayfinder** for all routing and navigation
+- Use **shadcn-svelte** components from `@/components/ui`
+- **Never modify** `@/components/ui` files directly
+
+#### State Management Scaling
+
+1. **Local**: Use `$state` directly in component
+2. **Complex**: Use class-based state machines
+3. **Global**: Create class-based state machines in `@/lib/state/*.svelte.ts`
+
+### Before Task Completion
+
+- [ ] Run `composer lint:fix`
+- [ ] Run `composer test`
+
+## 📖 When You Need Detailed Guidance
+
+This rules file provides quick reference. For comprehensive guidance, consult these documentation files:
+
+### Backend Development Issues
+
+- **PHP/Laravel patterns** → `/docs/backend/php-laravel-guidelines.md`
+- **Architecture questions** → `/docs/backend/architecture-guidelines.md`
+- **Database/Eloquent** → `/docs/backend/database-guidelines.md`
+- **Security concerns** → `/docs/backend/security-guidelines.md`
+- **Error handling** → `/docs/backend/error-handling-guidelines.md`
+
+### Frontend Development Issues
+
+- **Svelte 5 patterns** → `/docs/frontend/svelte-guidelines.md`
+- **Navigation/forms** → `/docs/frontend/inertia-guidelines.md`
+- **UI/styling** → `/docs/frontend/ui-guidelines.md`
+
+### Testing Issues
+
+- **Test patterns** → `/docs/testing/testing-guidelines.md`
+
+**Key insight**: This project emphasizes the Action pattern, Svelte 5 runes, type safety, and comprehensive testing. When in doubt about implementation details, refer to the specific documentation files above rather than guessing.
