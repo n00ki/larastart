@@ -2,6 +2,15 @@
 
 **The ultimate \***mise en place**\* for your next Laravel + Svelte project 🚀**
 
+<div align="center">
+  <img src="https://res.cloudinary.com/nshemesh/image/upload/v1756713825/larastart/meta.png" alt="LaraStart" width="600">
+
+<a href="https://larastart.laravel.cloud">🌐 View Demo</a> ·
+<a href="#getting-started">⚡ Quick Start</a> ·
+<a href="#documentation">📚 Documentation</a>
+
+</div>
+
 ## Tech Stack
 
 - [🐘 Laravel 12](https://laravel.com/) - Latest PHP framework with modern features
