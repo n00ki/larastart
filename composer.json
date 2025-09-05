@@ -12,9 +12,9 @@
   "require": {
     "php": "^8.4",
     "inertiajs/inertia-laravel": "^2.0.6",
-    "laravel/framework": "^12.26.4",
+    "laravel/framework": "^12.28.1",
     "laravel/tinker": "^2.10.1",
-    "laravel/wayfinder": "^0.1.10",
+    "laravel/wayfinder": "^0.1.11",
     "tightenco/ziggy": "^2.5.3"
   },
   "require-dev": {
@@ -27,10 +27,10 @@
     "mockery/mockery": "^1.6.12",
     "nunomaduro/collision": "^8.8.2",
     "pestphp/pest": "^4.0.4",
-    "pestphp/pest-plugin-browser": "^4.0.2",
+    "pestphp/pest-plugin-browser": "^4.0.3",
     "pestphp/pest-plugin-laravel": "^4.0",
     "pestphp/pest-plugin-type-coverage": "^4.0.2",
-    "rector/rector": "^2.1.4"
+    "rector/rector": "^2.1.5"
   },
   "autoload": {
     "psr-4": {
