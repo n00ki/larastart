@@ -36,8 +36,8 @@
       {value}
       class={cn(
         "flex items-center rounded-md px-3.5 py-1.5 transition-colors",
-        "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-        "data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-sm",
+        `text-muted-foreground hover:bg-accent hover:text-accent-foreground`,
+        `data-[state=on]:bg-background data-[state=on]:text-foreground data-[state=on]:shadow-sm`,
       )}
     >
       <Icon name={icon} />

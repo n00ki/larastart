@@ -1,5 +1,7 @@
 <div
-  class="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground"
+  class="
+    flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground
+  "
 >
   <svg viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg" class="size-5 fill-current text-muted">
     <path

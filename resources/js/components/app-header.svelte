@@ -116,7 +116,13 @@
               <Link
                 href={item.href}
                 class={cn(
-                  "inline-flex items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium text-accent-foreground ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+                  `
+                    inline-flex items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium
+                    text-accent-foreground ring-offset-background transition-colors
+                    hover:bg-accent hover:text-accent-foreground
+                    focus:bg-accent focus:text-accent-foreground focus:outline-none
+                    disabled:pointer-events-none disabled:opacity-50
+                  `,
                   "h-9 cursor-pointer px-3",
                   $page.url === item.href && activeItemStyles,
                 )}
@@ -149,7 +155,14 @@
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="group ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md bg-transparent p-0 text-sm font-medium text-accent-foreground ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+                    class="
+                      group ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md bg-transparent p-0 text-sm
+                      font-medium text-accent-foreground ring-offset-background transition-colors
+                      hover:bg-accent hover:text-accent-foreground
+                      focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                      focus-visible:outline-none
+                      disabled:pointer-events-none disabled:opacity-50
+                    "
                   >
                     <span class="sr-only">{item.title}</span>
                     {#if item.icon}

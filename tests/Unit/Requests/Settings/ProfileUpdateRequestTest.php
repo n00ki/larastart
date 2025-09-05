@@ -62,7 +62,7 @@ test('it validates email requirements', function () {
     expect($validator->fails())->toBeTrue();
 
     // Test max length
-    $validator = Validator::make(['email' => str_repeat('a', 250).'@example.com'], $rules);
+    $validator = Validator::make(['email' => str_repeat('a', 250) . '@example.com'], $rules);
     expect($validator->errors()->has('email'))->toBeTrue();
 });
 

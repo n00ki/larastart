@@ -1,4 +1,6 @@
 import antfu from "@antfu/eslint-config";
+import eslintPluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
+// import eslintParserSvelte from "svelte-eslint-parser";
 
 export default antfu(
   {
@@ -99,6 +101,9 @@ export default antfu(
   // Svelte
   {
     files: ["**/*.svelte", "**/*.svelte.ts", "**/*.svelte.js"],
+    plugins: {
+      "better-tailwindcss": eslintPluginBetterTailwindcss,
+    },
     rules: {
       "svelte/infinite-reactive-loop": "error",
       "svelte/no-target-blank": "error",
@@ -114,14 +119,16 @@ export default antfu(
       "ts/no-unsafe-assignment": "off",
       "ts/no-unsafe-call": "off",
       "ts/no-unsafe-member-access": "off",
+
+      // TailwindCSS rules
+      ...eslintPluginBetterTailwindcss.configs["recommended-warn"].rules,
+      ...eslintPluginBetterTailwindcss.configs["recommended-error"].rules,
+      "better-tailwindcss/enforce-consistent-line-wrapping": ["warn", { preferSingleLine: true, printWidth: 120 }],
     },
-    // TODO: monitor v4 support progress on https://github.com/francoismassart/eslint-plugin-tailwindcss/tree/alpha/v4
-    // plugins: {
-    //   tailwindcss,
-    // },
-    // settings: {
-    //   tailwindcss: {
-    //   },
-    // },
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "resources/css/app.css",
+      },
+    },
   },
 );

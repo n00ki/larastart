@@ -6,4 +6,7 @@
   const { ...props }: Props = $props();
 </script>
 
-<img {...props} src="https://res.cloudinary.com/nshemesh/image/upload/v1756715372/larastart/logo.png" class="mx-auto size-16 md:size-20" />
+<img {...props} src="https://res.cloudinary.com/nshemesh/image/upload/v1756715372/larastart/logo.png" class="
+  mx-auto size-16
+  md:size-20
+" />

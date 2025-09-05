@@ -1,6 +1,10 @@
 {
   "preset": "laravel",
   "rules": {
+    "concat_space": {
+      "spacing": "one"
+    },
+    "method_chaining_indentation": true,
     "declare_strict_types": true,
     "trailing_comma_in_multiline": {
       "elements": ["arguments", "arrays", "match", "parameters"]

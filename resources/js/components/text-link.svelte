@@ -15,7 +15,10 @@
 
 <Link
   class={cn(
-    "text-foreground underline decoration-border underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current!",
+    `
+      text-foreground underline decoration-border underline-offset-4 transition-colors duration-300 ease-out
+      hover:decoration-current!
+    `,
     className,
   )}
   {...props}

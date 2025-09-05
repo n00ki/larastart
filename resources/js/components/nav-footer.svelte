@@ -19,7 +19,10 @@
   const { items, class: className, ...props }: Props = $props();
 </script>
 
-<SidebarGroup {...props} class={`group-data-[collapsible=icon]:p-0 ${className || ""}`}>
+<SidebarGroup {...props} class={`
+  group-data-[collapsible=icon]:p-0
+  ${className || ""}
+`}>
   <SidebarGroupContent>
     <SidebarMenu>
       {#each items as item (item.title)}
