@@ -122,7 +122,6 @@ export default antfu(
 
       // TailwindCSS rules
       ...eslintPluginBetterTailwindcss.configs["recommended-warn"].rules,
-      ...eslintPluginBetterTailwindcss.configs["recommended-error"].rules,
       "better-tailwindcss/enforce-consistent-line-wrapping": ["warn", { preferSingleLine: true, printWidth: 120 }],
     },
     settings: {
