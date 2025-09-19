@@ -37,12 +37,6 @@ dist/
 npm-debug.log
 yarn-error.log
 
-# IDE & Editor Files
-/.fleet
-/.idea
-/.nova
-/.zed
-
 # System Files
 .DS_Store
 Thumbs.db
