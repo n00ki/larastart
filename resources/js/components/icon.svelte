@@ -1,5 +1,5 @@
-<script lang="ts">
-  import type { Icon as IconType } from "@lucide/svelte";
+<script lang='ts'>
+  import type { Icon as IconType } from '@lucide/svelte';
 
   interface Props {
     name: typeof IconType;

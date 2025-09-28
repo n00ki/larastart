@@ -1,4 +1,4 @@
-export type Mode = "light" | "dark" | "system";
+export type Mode = 'light' | 'dark' | 'system';
 
 /**
  * Theme management system.
@@ -6,15 +6,15 @@ export type Mode = "light" | "dark" | "system";
  */
 export class Theme {
   // State
-  current = $state<Mode>("system");
+  current = $state<Mode>('system');
 
   // Configuration
-  private readonly STORAGE_KEY = "theme";
-  private readonly MODES: Mode[] = ["light", "dark", "system"];
+  private readonly STORAGE_KEY = 'theme';
+  private readonly MODES: Mode[] = ['light', 'dark', 'system'];
 
   constructor() {
     // Initialize with stored theme or default to system
-    this.current = this.getStoredTheme() || "system";
+    this.current = this.getStoredTheme() || 'system';
   }
 
   /**
@@ -39,7 +39,7 @@ export class Theme {
    * Initializes the theme system with proper DOM handling and event listeners
    */
   initialize(): void {
-    if (typeof window === "undefined")
+    if (typeof window === 'undefined')
 return;
 
     // Apply initial theme
@@ -56,19 +56,19 @@ return;
    * Resets theme to system default
    */
   reset(): void {
-    this.setTheme("system");
+    this.setTheme('system');
   }
 
   // Private methods
   private getStoredTheme(): Mode | null {
-    if (typeof window === "undefined")
+    if (typeof window === 'undefined')
 return null;
     const stored = localStorage.getItem(this.STORAGE_KEY);
     return this.MODES.includes(stored as Mode) ? (stored as Mode) : null;
   }
 
   private persistTheme(value: Mode): void {
-    if (typeof window === "undefined")
+    if (typeof window === 'undefined')
 return;
 
     // Persist to localStorage for client-side sessions
@@ -79,7 +79,7 @@ return;
   }
 
   private setThemeCookie(name: string, value: string, days = 365): void {
-    if (typeof document === "undefined")
+    if (typeof document === 'undefined')
 return;
 
     const maxAge = days * 24 * 60 * 60;
@@ -87,33 +87,32 @@ return;
   }
 
   private applyTheme(value: Mode): void {
-    if (typeof window === "undefined")
+    if (typeof window === 'undefined')
 return;
 
-    if (value === "system") {
-      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      const systemTheme = mediaQuery.matches ? "dark" : "light";
-      document.documentElement.classList.toggle("dark", systemTheme === "dark");
-    }
- else {
-      document.documentElement.classList.toggle("dark", value === "dark");
+    if (value === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const systemTheme = mediaQuery.matches ? 'dark' : 'light';
+      document.documentElement.classList.toggle('dark', systemTheme === 'dark');
+    } else {
+      document.documentElement.classList.toggle('dark', value === 'dark');
     }
   }
 
   private setupSystemThemeListener(): void {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
     const handleSystemThemeChange = (): void => {
-      if (this.current === "system") {
-        this.applyTheme("system");
+      if (this.current === 'system') {
+        this.applyTheme('system');
       }
     };
 
-    mediaQuery.addEventListener("change", handleSystemThemeChange);
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
 
     // Cleanup on page unload
-    window.addEventListener("beforeunload", () => {
-      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    window.addEventListener('beforeunload', () => {
+      mediaQuery.removeEventListener('change', handleSystemThemeChange);
     });
   }
 
@@ -121,24 +120,24 @@ return;
     const handleKeydown = (e: KeyboardEvent): void => {
       // Skip if user is typing in input fields
       if (
-        e.target instanceof HTMLInputElement
-        || e.target instanceof HTMLTextAreaElement
-        || (e.target instanceof HTMLElement && e.target.isContentEditable)
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        (e.target instanceof HTMLElement && e.target.isContentEditable)
       ) {
         return;
       }
 
-      if (e.key.toLowerCase() === "t") {
+      if (e.key.toLowerCase() === 't') {
         e.preventDefault();
         this.cycleTheme();
       }
     };
 
-    window.addEventListener("keydown", handleKeydown);
+    window.addEventListener('keydown', handleKeydown);
 
     // Cleanup on page unload
-    window.addEventListener("beforeunload", () => {
-      window.removeEventListener("keydown", handleKeydown);
+    window.addEventListener('beforeunload', () => {
+      window.removeEventListener('keydown', handleKeydown);
     });
   }
 }

@@ -1,15 +1,15 @@
-<script lang="ts">
-  import type { NavItem } from "@/types";
-  import type { HTMLAttributes } from "svelte/elements";
+<script lang='ts'>
+  import type { HTMLAttributes } from 'svelte/elements';
+  import type { NavItem } from '@/types';
 
-  import Icon from "@/components/icon.svelte";
+  import Icon from '@/components/icon.svelte';
   import {
     SidebarGroup,
     SidebarGroupContent,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-  } from "@/components/ui/sidebar";
+  } from '@/components/ui/sidebar';
 
   interface Props extends HTMLAttributes<HTMLElement> {
     items: NavItem[];
@@ -19,17 +19,27 @@
   const { items, class: className, ...props }: Props = $props();
 </script>
 
-<SidebarGroup {...props} class={`
+<SidebarGroup
+  {...props}
+  class={`
   group-data-[collapsible=icon]:p-0
-  ${className || ""}
-`}>
+  ${className || ''}
+`}
+>
   <SidebarGroupContent>
     <SidebarMenu>
       {#each items as item (item.title)}
         <SidebarMenuItem>
-          <SidebarMenuButton class="text-muted-foreground hover:text-foreground">
+          <SidebarMenuButton
+            class='text-muted-foreground hover:text-foreground'
+          >
             {#snippet child({ props })}
-              <a href={item.href} target="_blank" rel="noopener noreferrer" {...props}>
+              <a
+                href={item.href}
+                target='_blank'
+                rel='noopener noreferrer'
+                {...props}
+              >
                 {#if item.icon}
                   <Icon name={item.icon} />
                 {/if}

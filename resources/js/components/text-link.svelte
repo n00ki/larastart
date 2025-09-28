@@ -1,16 +1,16 @@
-<script lang="ts">
-  import type { ComponentProps, Snippet } from "svelte";
+<script lang='ts'>
+  import type { ComponentProps, Snippet } from 'svelte';
 
-  import { Link } from "@inertiajs/svelte";
+  import { Link } from '@inertiajs/svelte';
 
-  import { cn } from "@/lib/utils";
+  import { cn } from '@/lib/utils';
 
   interface Props extends ComponentProps<Link> {
     class?: string;
     children: Snippet;
   }
 
-  const { class: className = "", children, ...props }: Props = $props();
+  const { class: className = '', children, ...props }: Props = $props();
 </script>
 
 <Link

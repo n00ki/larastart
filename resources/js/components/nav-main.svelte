@@ -1,10 +1,10 @@
-<script lang="ts">
-  import type { NavItem } from "@/types";
+<script lang='ts'>
+  import type { NavItem } from '@/types';
 
-  import { Link, page } from "@inertiajs/svelte";
+  import { Link, page } from '@inertiajs/svelte';
 
-  import Icon from "@/components/icon.svelte";
-  import * as Sidebar from "@/components/ui/sidebar";
+  import Icon from '@/components/icon.svelte';
+  import * as Sidebar from '@/components/ui/sidebar';
 
   interface Props {
     items?: NavItem[];
@@ -13,12 +13,15 @@
   const { items = [] }: Props = $props();
 </script>
 
-<Sidebar.Group class="px-2 py-0">
+<Sidebar.Group class='px-2 py-0'>
   <Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
   <Sidebar.Menu>
     {#each items as item (item.title)}
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton isActive={$page.url.startsWith(item.href)} tooltipContent={item.title}>
+        <Sidebar.MenuButton
+          isActive={$page.url.startsWith(item.href)}
+          tooltipContent={item.title}
+        >
           {#snippet child({ props })}
             <Link href={item.href} prefetch {...props}>
               {#if item.icon}

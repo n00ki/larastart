@@ -1,22 +1,32 @@
-# Environment & Configuration
+# Environment & configuration
 .env
 .env.*
 !.env.example
 /auth.json
+Homestead.json
+Homestead.yaml
 
 # Dependencies
 /vendor
 /node_modules
 composer.phar
 
-# Build & Compiled Assets
+# Build & compiled assets
 /bootstrap/ssr
 /public/build
 /public/hot
 /public/storage
 dist/
 
-# Cache & Temporary Files
+# Lock files
+yarn.lock
+bun.lockb
+package-lock.json
+pnpm-lock.yaml
+bun.lock
+bun.lockb
+
+# Cache & temporary files
 /.phpunit.cache
 .phpunit.result.cache
 /storage/*.key
@@ -29,14 +39,28 @@ dist/
 *.temp
 .eslintcache
 
-# Browser tests
-/tests/Browser/Screenshots
-
 # Logs
 *.log
 npm-debug.log
 yarn-error.log
 
-# System Files
+# Browser tests
+/tests/Browser/Screenshots
+
+# IDE/editor settings
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+.phpactor.json
+
+# Auto-generated files
+_ide_helper*
+/resources/js/actions
+/resources/js/routes
+/resources/js/wayfinder
+
+# System files
 .DS_Store
 Thumbs.db

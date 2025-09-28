@@ -1,8 +1,8 @@
-import type { ClassValue } from "clsx";
+import type { ClassValue } from 'clsx';
 
-import { clsx } from "clsx";
-import { toast } from "svelte-sonner";
-import { twMerge } from "tailwind-merge";
+import { clsx } from 'clsx';
+import { toast } from 'svelte-sonner';
+import { twMerge } from 'tailwind-merge';
 
 /**
  * A utility function to merge Tailwind classes with clsx.
@@ -17,13 +17,15 @@ export function cn(...inputs: ClassValue[]) {
  * A utility type to remove the `child` prop from a type.
  * @template T The type to remove the `child` prop from.
  */
-export type WithoutChild<T> = T extends { child?: any } ? Omit<T, "child"> : T;
+export type WithoutChild<T> = T extends { child?: any } ? Omit<T, 'child'> : T;
 
 /**
  * A utility type to remove the `children` prop from a type.
  * @template T The type to remove the `children` prop from.
  */
-export type WithoutChildren<T> = T extends { children?: any } ? Omit<T, "children"> : T;
+export type WithoutChildren<T> = T extends { children?: any }
+  ? Omit<T, 'children'>
+  : T;
 
 /**
  * A utility type to remove the `children` and `child` props from a type.
@@ -36,25 +38,30 @@ export type WithoutChildrenOrChild<T> = WithoutChildren<WithoutChild<T>>;
  * @template T The type to add the `ref` prop to.
  * @template U The type of the `ref`.
  */
-export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & { ref?: U | null };
+export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & {
+  ref?: U | null;
+};
 
 /**
  * A utility function to display a flash message.
  * @param type The type of the flash message.
  * @param message The message to display.
  */
-export function displayFlashMessage(type: "success" | "error" | "warning" | "info", message: string) {
+export function displayFlashMessage(
+  type: 'success' | 'error' | 'warning' | 'info',
+  message: string,
+) {
   switch (type) {
-    case "success":
+    case 'success':
       toast.success(message);
       break;
-    case "error":
+    case 'error':
       toast.error(message);
       break;
-    case "warning":
+    case 'warning':
       toast.warning(message);
       break;
-    case "info":
+    case 'info':
       toast.info(message);
       break;
     default:

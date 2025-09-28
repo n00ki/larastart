@@ -1,13 +1,15 @@
-import type { Config } from "ziggy-js";
+import type { Config } from 'ziggy-js';
 
-import "@inertiajs/svelte";
+import '@inertiajs/svelte';
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type PageProps<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
   name: string;
   auth: Auth;
   ziggy: Config & { location: string };
   flash?: {
-    type: "success" | "error" | "warning" | "info";
+    type: 'success' | 'error' | 'warning' | 'info';
     message: string;
   };
   [key: string]: unknown;

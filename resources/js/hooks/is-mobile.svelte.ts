@@ -1,4 +1,4 @@
-import { MediaQuery } from "svelte/reactivity";
+import { MediaQuery } from 'svelte/reactivity';
 
 // Constants
 const DEFAULT_MOBILE_BREAKPOINT = 768;

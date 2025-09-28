@@ -1,9 +1,9 @@
-<script lang="ts">
-  import type { BreadcrumbItem } from "@/types";
+<script lang='ts'>
+  import type { BreadcrumbItem } from '@/types';
 
-  import { Link } from "@inertiajs/svelte";
+  import { Link } from '@inertiajs/svelte';
 
-  import * as Breadcrumb from "@/components/ui/breadcrumb";
+  import * as Breadcrumb from '@/components/ui/breadcrumb';
 
   interface Props {
     breadcrumbs: BreadcrumbItem[];
