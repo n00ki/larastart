@@ -4,23 +4,14 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use Carbon\CarbonImmutable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Sleep;
-use Override;
 
 final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    #[Override]
+    #[\Override]
     public function register(): void
     {
         //
@@ -31,81 +22,6 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->configureCommands();
-        $this->configureModels();
-        $this->configureHttp();
-        $this->configureDates();
-        $this->configureUrls();
-        $this->configureVite();
-        $this->configureUtils();
-
-    }
-
-    /**
-     * Configure the application's commands.
-     */
-    private function configureCommands(): void
-    {
-        DB::prohibitDestructiveCommands(
-            $this->app->isProduction(),
-        );
-    }
-
-    /**
-     * Configure the application's dates.
-     */
-    private function configureDates(): void
-    {
-        Date::use(CarbonImmutable::class);
-    }
-
-    /**
-     * Configure the application's models.
-     */
-    private function configureModels(): void
-    {
-        Model::unguard();
-
-        Model::shouldBeStrict();
-
-        Model::automaticallyEagerLoadRelationships();
-    }
-
-    /**
-     * Configure the application's HTTP.
-     */
-    private function configureHttp(): void
-    {
-        if (app()->runningUnitTests()) {
-            Http::preventStrayRequests();
-        }
-    }
-
-    /**
-     * Configure the application's URLs.
-     */
-    private function configureUrls(): void
-    {
-        if (app()->isProduction()) {
-            URL::forceScheme('https');
-        }
-    }
-
-    /**
-     * Configure the application's Vite instance.
-     */
-    private function configureVite(): void
-    {
-        Vite::useAggressivePrefetching();
-    }
-
-    /**
-     * Configure the application's utils.
-     */
-    private function configureUtils(): void
-    {
-        if (app()->runningUnitTests()) {
-            Sleep::fake();
-        }
+        //
     }
 }

@@ -15,7 +15,15 @@ declare(strict_types=1);
 
 pest()->extend(Tests\TestCase::class)
     ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature', 'Unit', 'Browser');
+    ->beforeEach(function () {
+        Str::createRandomStringsNormally();
+        Str::createUuidsNormally();
+        Http::preventStrayRequests();
+        Sleep::fake();
+
+        $this->freezeTime();
+    })
+    ->in('Unit', 'Feature', 'Browser');
 
 /*
 |--------------------------------------------------------------------------
