@@ -37,6 +37,21 @@ export default defineConfig([
         },
       ],
     },
+    ignores: [
+      '*.env',
+      '**/node_modules/',
+      '**/build/',
+      '**/vendor/',
+      '**/public/',
+      '**/bootstrap/ssr/',
+      'vite.config.ts',
+      'resources/js/components/ui/*',
+      'resources/views/mail/*',
+      'resources/js/actions/**',
+      'resources/js/routes/**',
+      'resources/js/wayfinder/**',
+      'docs/**',
+    ],
   },
   // TypeScript
   {
@@ -75,19 +90,3 @@ export default defineConfig([
     },
   },
 ]);
-
-// ignores: [
-//   '*.env',
-//   '**/node_modules/',
-//   '**/build/',
-//   '**/vendor/',
-//   '**/public/',
-//   '**/bootstrap/ssr/',
-//   'vite.config.ts',
-//   'resources/js/components/ui/*',
-//   'resources/views/mail/*',
-//   'resources/js/actions/**',
-//   'resources/js/routes/**',
-//   'resources/js/wayfinder/**',
-//   'docs/**',
-// ],
