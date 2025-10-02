@@ -8,10 +8,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-final class DeleteProfileAction
+final class DeleteUserAccountAction
 {
     /**
-     * Delete the user's profile and logout.
+     * Delete the user's account and logout.
      */
     public function handle(User $user, Request $request): void
     {

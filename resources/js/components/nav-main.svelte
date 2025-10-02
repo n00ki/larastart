@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import type { NavItem } from '@/types';
 
   import { Link, page } from '@inertiajs/svelte';
@@ -13,7 +13,7 @@
   const { items = [] }: Props = $props();
 </script>
 
-<Sidebar.Group class='px-2 py-0'>
+<Sidebar.Group class="px-2 py-0">
   <Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
   <Sidebar.Menu>
     {#each items as item (item.title)}

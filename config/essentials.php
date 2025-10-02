@@ -101,11 +101,11 @@ return [
     | tests. When enabled, the framework will prevent requests
     | from being sent during tests unless faked.
     |
-    | Enabled by default.
+    | Disabled here - we enable it manually only for unit tests in Pest.php.
     |
     */
 
-    NunoMaduro\Essentials\Configurables\PreventStrayRequests::class => true,
+    NunoMaduro\Essentials\Configurables\PreventStrayRequests::class => false,
 
     /*
     |--------------------------------------------------------------------------

@@ -1,15 +1,15 @@
-<script lang='ts'>
-  import type { HTMLAttributes } from 'svelte/elements';
+<script lang="ts">
   import type { Mode } from '@/hooks/use-theme.svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
   import { fade, fly } from 'svelte/transition';
 
-  import Icon from '@/components/icon.svelte';
+  import { useTheme } from '@/hooks/use-theme.svelte';
 
+  import Icon from '@/components/icon.svelte';
   import { Button } from '@/components/ui/button';
   import * as Tooltip from '@/components/ui/tooltip';
-  import { useTheme } from '@/hooks/use-theme.svelte';
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
     tooltipPosition?: 'left' | 'right' | 'top' | 'bottom';
@@ -54,10 +54,10 @@
       <Tooltip.Trigger onclick={() => theme.cycleTheme()}>
         {#snippet child({ props })}
           <Button
-            variant='outline'
-            size='icon'
+            variant="outline"
+            size="icon"
             aria-label={`Switch to ${nextMode.label} theme`}
-            class='size-9 rounded-md transition-none'
+            class="size-9 rounded-md transition-none"
             {...props}
           >
             {#key nextMode.value}
@@ -66,15 +66,15 @@
                 <Icon name={nextMode.icon} />
               </span>
             {/key}
-            <span class='sr-only'>Switch Theme</span>
+            <span class="sr-only">Switch Theme</span>
           </Button>
         {/snippet}
       </Tooltip.Trigger>
       <Tooltip.Content side={tooltipPosition}>
-        <span class='flex items-center gap-1.5 text-xs'>
+        <span class="flex items-center gap-1.5 text-xs">
           <p>switch to {nextMode.label.toLowerCase()} mode</p>
           <p
-            class='rounded-sm bg-muted px-1 py-0.5 font-semibold text-foreground'
+            class="rounded-sm bg-muted px-1 py-0.5 font-semibold text-foreground"
           >
             T
           </p>

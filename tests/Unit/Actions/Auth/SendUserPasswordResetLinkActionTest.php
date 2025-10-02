@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Actions\Auth\SendPasswordResetLinkAction;
+use App\Actions\Auth\SendUserPasswordResetLinkAction;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->action = new SendPasswordResetLinkAction;
+    $this->action = new SendUserPasswordResetLinkAction;
 });
 
 test('it returns success message', function () {

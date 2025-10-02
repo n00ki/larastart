@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace App\Actions\Settings;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
-final class UpdatePasswordAction
+final class UpdateUserProfileAction
 {
     /**
-     * Update the user's password.
+     * Update the user's profile information.
      *
      * @param array<string, mixed> $data
      */
     public function handle(User $user, array $data): void
     {
-        $user->update([
-            'password' => Hash::make($data['password']),
-        ]);
+        $user->fill($data);
+        $user->save();
     }
 }

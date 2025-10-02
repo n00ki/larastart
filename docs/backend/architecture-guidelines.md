@@ -3,12 +3,65 @@
 ## Controller Layer (`app/Http/Controllers`)
 
 ### Design Principles
+
 - Keep controllers thin - delegate to Requests and Actions
 - No abstract/base controllers (composition over inheritance)
 - Use dependency injection for Services
 - Return Inertia responses for Svelte components
+- Organize by domain in subdirectories (e.g., `Auth/`, `Settings/`)
+
+### Controller Naming Patterns
+
+**Two approaches based on use case:**
+
+#### 1. Resource Controllers (RESTful operations)
+
+Use for standard CRUD operations on a resource:
+
+- **Pattern**: `{Resource}Controller` (singular)
+- **Methods**: Standard RESTful methods (`index`, `create`, `store`, `show`, `edit`, `update`, `destroy`)
+- **Examples**: `TodoController`, `ProfileController`, `PasswordController`
+
+#### 2. Single-Action Controllers (Focused operations)
+
+Use for specific, focused operations that don't fit RESTful pattern:
+
+- **Pattern**: `{Action}Controller` (verb-based)
+- **Method**: Single `__invoke()` method OR focused methods (`create`, `store`)
+- **Examples**: `LoginController`, `LogoutController`, `RegisterController`
+
+### Controller Naming Examples
+
+✅ **Resource Controllers (Settings/CRUD):**
+
+```
+Settings/
+├── ProfileController       # edit(), update()
+├── PasswordController      # edit(), update()
+└── AccountController       # edit(), destroy()
+```
+
+✅ **Single-Action Controllers (Auth):**
+
+```
+Auth/
+├── LoginController              # create(), store()
+├── LogoutController             # __invoke()
+├── RegisterController           # create(), store()
+├── ForgotPasswordController     # create(), store()
+├── ResetPasswordController      # create(), store()
+└── ConfirmPasswordController    # show(), store()
+```
+
+❌ **Avoid:**
+
+- `AuthenticatedSessionController` - Too verbose
+- `PasswordResetLinkController` - Use `ForgotPasswordController`
+- `NewPasswordController` - Use `ResetPasswordController`
+- `UserManagementController` - Too broad, split into focused controllers
 
 ### Controller Pattern Example
+
 ```php
 <?php
 
@@ -16,13 +69,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Actions\CreateTodoAction;
+use App\Actions\CreateUserTodoAction;
 use App\Http\Requests\CreateTodoRequest;
 use Illuminate\Http\RedirectResponse;
 
 class TodoController extends Controller
 {
-    public function store(CreateTodoRequest $request, CreateTodoAction $action): RedirectResponse
+    public function store(CreateTodoRequest $request, CreateUserTodoAction $action): RedirectResponse
     {
         $action->handle($request->user(), $request->validated());
 
@@ -32,15 +85,61 @@ class TodoController extends Controller
 }
 ```
 
+### Single-Action Controller Example
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+final class LogoutController extends Controller
+{
+    public function __invoke(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+}
+```
+
 ## Request Validation (`app/Http/Requests`)
 
 ### FormRequest Standards
+
 - Use FormRequest for all validations
-- Name with action verbs: `Create`, `Update`, `Delete`
+- **Name based on user intent or action purpose** (e.g., `RegisterRequest`, `LoginRequest`, `DeleteAccountRequest`)
+- For CRUD operations, you can use action verbs with entity: `CreateTodoRequest`, `UpdateTodoRequest`
 - Include authorization logic when needed
 - Define custom error messages
+- Organize by domain in subdirectories (e.g., `Auth/`, `Settings/`)
+
+### Request Naming Examples
+
+✅ **Good:**
+
+- `RegisterRequest` - User-intent focused (better than `CreateUserRequest`)
+- `LoginRequest` - Clear purpose
+- `DeleteAccountRequest` - Specific action (better than `DeleteProfileRequest`)
+- `CreateTodoRequest` - Standard CRUD naming
+
+❌ **Avoid:**
+
+- `UserRequest` - Too generic
+- `TodoForm` - Wrong suffix
+- `CreateUserRequest` - Use `RegisterRequest` for registration flows
 
 ### Request Pattern Example
+
 ```php
 <?php
 
@@ -79,12 +178,34 @@ class CreateTodoRequest extends FormRequest
 ## Business Logic (`app/Actions`)
 
 ### Action Pattern
+
 - Use the Action pattern for all business logic
-- Name with action verbs (`CreateTodo`, `UpdateUser`)
+- **Name with Verb + Entity + Action suffix** (`CreateUserAction`, `UpdateUserProfileAction`, `DeleteUserAccountAction`)
+- Include the entity name for clarity (e.g., `User`, `Todo`, `Post`)
 - Return domain objects, not HTTP responses
 - Keep actions focused on a single responsibility
+- Organize by domain in subdirectories (e.g., `Auth/`, `Settings/`)
+
+### Action Naming Examples
+
+✅ **Good:**
+
+- `CreateUserAction` - Clear entity reference
+- `UpdateUserProfileAction` - Specific about what's being updated
+- `DeleteUserAccountAction` - Clear distinction from profile deletion
+- `SendUserPasswordResetLinkAction` - Descriptive and specific
+- `CreateUserTodoAction` - Includes both user and todo entities
+
+❌ **Avoid:**
+
+- `CreateAction` - Too generic
+- `UpdateProfile` - Missing entity and Action suffix
+- `DeleteUser` - Missing Action suffix
+- `ResetPassword` - Ambiguous (user? admin? what entity?)
+- `CreateTodo` - Missing Action suffix
 
 ### Action Pattern Example
+
 ```php
 <?php
 
@@ -95,7 +216,7 @@ namespace App\Actions;
 use App\Models\Todo;
 use App\Models\User;
 
-class CreateTodoAction
+class CreateUserTodoAction
 {
     public function handle(User $user, array $data): Todo
     {
@@ -112,6 +233,7 @@ class CreateTodoAction
 ## Models (`app/Models`)
 
 ### Model Standards
+
 - **Avoid `$fillable`** - use explicit assignment or `$guarded = []`
 - Use typed properties and return types
 - Implement proper relationships
@@ -119,6 +241,7 @@ class CreateTodoAction
 - Use the new `Model::casts()` method for dynamic casting
 
 ### Model Pattern Example
+
 ```php
 <?php
 
@@ -164,12 +287,14 @@ class Todo extends Model
 ## Jobs & Queues (`app/Jobs`)
 
 ### Job Standards
+
 - Use typed job classes with proper failure handling
 - Implement idempotent operations
 - Use job batching for related operations
 - Handle failures gracefully
 
 ### Job Pattern Example
+
 ```php
 <?php
 
@@ -219,12 +344,14 @@ class ProcessUserDataJob implements ShouldQueue
 ## Policies (`app/Policies`)
 
 ### Policy Standards
+
 - Use policies for all authorization logic
 - Keep policies focused and testable
 - Use proper type hints
 - Follow resource-based naming
 
 ### Policy Pattern Example
+
 ```php
 <?php
 
@@ -262,12 +389,14 @@ class TodoPolicy
 ## Migration Standards (`database/migrations`)
 
 ### Migration Patterns
+
 - Omit `down()` method in new migrations
 - Use descriptive column names
 - Add proper indexes for performance
 - Include foreign key constraints
 
 ### Migration Example
+
 ```php
 <?php
 
@@ -298,12 +427,14 @@ return new class extends Migration
 ## Service Layer (Optional)
 
 ### When to Use Services
+
 - Complex business logic that spans multiple models
 - External API integrations
 - Heavy computational operations
 - Third-party service integrations
 
 ### Service Pattern Example
+
 ```php
 <?php
 

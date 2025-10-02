@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\Auth\ResetPasswordAction;
+use App\Actions\Auth\ResetUserPasswordAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\RedirectResponse;
@@ -13,7 +13,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class NewPasswordController extends Controller
+final class ResetPasswordController extends Controller
 {
     /**
      * Show the password reset page.
@@ -31,7 +31,7 @@ final class NewPasswordController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(ResetPasswordRequest $request, ResetPasswordAction $action): RedirectResponse
+    public function store(ResetPasswordRequest $request, ResetUserPasswordAction $action): RedirectResponse
     {
         $action->handle($request->validated());
 

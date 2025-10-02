@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import type { Icon as IconType } from '@lucide/svelte';
 
   interface Props {

@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import type { Snippet } from 'svelte';
 
   import { page } from '@inertiajs/svelte';
@@ -16,7 +16,7 @@
 </script>
 
 {#if variant === 'header'}
-  <div class='flex min-h-screen w-full flex-col'>
+  <div class="flex min-h-screen w-full flex-col">
     {@render children()}
   </div>
 {:else}

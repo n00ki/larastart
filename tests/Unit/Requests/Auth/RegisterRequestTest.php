@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Requests\Auth\CreateUserRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->request = new CreateUserRequest;
+    $this->request = new RegisterRequest;
 });
 
 test('it authorizes all requests', function () {

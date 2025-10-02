@@ -1,14 +1,14 @@
-<script lang='ts'>
-  import type { HTMLAttributes } from 'svelte/elements';
+<script lang="ts">
   import type { Mode } from '@/hooks/use-theme.svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
 
   import { Monitor, Moon, Sun } from '@lucide/svelte';
 
-  import Icon from '@/components/icon.svelte';
-  import * as ToggleGroup from '@/components/ui/toggle-group';
-
   import { useTheme } from '@/hooks/use-theme.svelte';
   import { cn } from '@/lib/utils';
+
+  import Icon from '@/components/icon.svelte';
+  import * as ToggleGroup from '@/components/ui/toggle-group';
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
     class?: string;
@@ -26,7 +26,7 @@
 </script>
 
 <ToggleGroup.Root
-  type='single'
+  type="single"
   value={theme.current}
   onValueChange={(value) => value && theme.setTheme(value as Mode)}
   class={cn('inline-flex gap-1 rounded-lg bg-muted p-1', className)}
@@ -41,7 +41,7 @@
       )}
     >
       <Icon name={icon} />
-      <span class='ml-1.5 text-sm'>{label}</span>
+      <span class="ml-1.5 text-sm">{label}</span>
     </ToggleGroup.Item>
   {/each}
 </ToggleGroup.Root>

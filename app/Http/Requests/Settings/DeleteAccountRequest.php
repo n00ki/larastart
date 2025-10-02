@@ -7,7 +7,7 @@ namespace App\Http\Requests\Settings;
 use Illuminate\Foundation\Http\FormRequest;
 use Override;
 
-final class DeleteProfileRequest extends FormRequest
+final class DeleteAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

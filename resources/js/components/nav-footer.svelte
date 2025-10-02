@@ -1,6 +1,6 @@
-<script lang='ts'>
-  import type { HTMLAttributes } from 'svelte/elements';
+<script lang="ts">
   import type { NavItem } from '@/types';
+  import type { HTMLAttributes } from 'svelte/elements';
 
   import Icon from '@/components/icon.svelte';
   import {
@@ -31,13 +31,13 @@
       {#each items as item (item.title)}
         <SidebarMenuItem>
           <SidebarMenuButton
-            class='text-muted-foreground hover:text-foreground'
+            class="text-muted-foreground hover:text-foreground"
           >
             {#snippet child({ props })}
               <a
                 href={item.href}
-                target='_blank'
-                rel='noopener noreferrer'
+                target="_blank"
+                rel="noopener noreferrer"
                 {...props}
               >
                 {#if item.icon}

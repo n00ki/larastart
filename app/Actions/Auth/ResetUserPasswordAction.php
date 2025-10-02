@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
-final class ResetPasswordAction
+final class ResetUserPasswordAction
 {
     /**
      * Reset the user's password using the provided data.

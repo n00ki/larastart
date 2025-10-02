@@ -1,36 +1,29 @@
-import antfu from '@antfu/eslint-config'
-import prettier from 'eslint-config-prettier'
+import { fileURLToPath } from 'node:url';
+import { includeIgnoreFile } from '@eslint/compat';
+import js from '@eslint/js';
+import prettier from 'eslint-config-prettier';
+import svelte from 'eslint-plugin-svelte';
+import unicorn from 'eslint-plugin-unicorn';
+import { defineConfig } from 'eslint/config';
+import globals from 'globals';
+import ts from 'typescript-eslint';
 
-export default antfu(
-  {
-    type: 'app',
-    typescript: true,
-    svelte: true,
+const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
 
-    ignores: [
-      '*.env',
-      '**/node_modules/',
-      '**/build/',
-      '**/vendor/',
-      '**/public/',
-      '**/bootstrap/ssr/',
-      'vite.config.ts',
-      'resources/js/components/ui/*',
-      'resources/views/mail/*',
-      'resources/js/actions/**',
-      'resources/js/routes/**',
-      'resources/js/wayfinder/**',
-      'docs/**',
-    ],
-  },
-
-  // Avoid conflicts with prettier
+export default defineConfig([
+  includeIgnoreFile(gitignorePath),
+  js.configs.recommended,
+  ...ts.configs.recommended,
+  ...svelte.configs.recommended,
   prettier,
-
-  // Global rules and Laravel-specific globals
   {
+    plugins: {
+      unicorn,
+    },
     languageOptions: {
       globals: {
+        ...globals.browser,
+        ...globals.node,
         route: 'readonly',
         Laravel: 'readonly',
       },
@@ -43,41 +36,58 @@ export default antfu(
           ignore: ['^\\.[a-z]+rc\\.(js|ts|json)$', '^[A-Z]+\\.(md|txt)$'],
         },
       ],
-      'import/no-duplicates': 'warn',
     },
   },
-
   // TypeScript
   {
     files: ['**/*.ts'],
     rules: {
       // Allow explicit any
-      'ts/no-explicit-any': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       // Less strict rules for Laravel/Inertia patterns
-      'ts/no-unsafe-assignment': 'off',
-      'ts/no-unsafe-call': 'off',
-      'ts/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
-
   // Svelte
   {
     files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        extraFileExtensions: ['.svelte'],
+        parser: ts.parser,
+      },
+    },
     rules: {
-      'svelte/infinite-reactive-loop': 'error',
-      'svelte/no-target-blank': 'error',
-      'svelte/prefer-class-directive': 'error',
-      'svelte/prefer-style-directive': 'error',
-
-      // Overrides
-      'svelte/no-unknown-style-directive-property': 'off',
-      'prefer-const': 'off',
-
+      'svelte/no-navigation-without-resolve': [
+        'error',
+        {
+          ignoreLinks: true,
+        },
+      ],
       // Less strict rules for Laravel/Inertia patterns
-      'ts/no-explicit-any': 'off',
-      'ts/no-unsafe-assignment': 'off',
-      'ts/no-unsafe-call': 'off',
-      'ts/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
     },
   },
-)
+]);
+
+// ignores: [
+//   '*.env',
+//   '**/node_modules/',
+//   '**/build/',
+//   '**/vendor/',
+//   '**/public/',
+//   '**/bootstrap/ssr/',
+//   'vite.config.ts',
+//   'resources/js/components/ui/*',
+//   'resources/views/mail/*',
+//   'resources/js/actions/**',
+//   'resources/js/routes/**',
+//   'resources/js/wayfinder/**',
+//   'docs/**',
+// ],

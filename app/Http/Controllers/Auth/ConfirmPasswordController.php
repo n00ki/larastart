@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ConfirmablePasswordController extends Controller
+final class ConfirmPasswordController extends Controller
 {
     /**
      * Show the confirm password page.

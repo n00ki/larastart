@@ -18,8 +18,6 @@ pest()->extend(Tests\TestCase::class)
     ->beforeEach(function () {
         Str::createRandomStringsNormally();
         Str::createUuidsNormally();
-        Http::preventStrayRequests();
-        Sleep::fake();
 
         $this->freezeTime();
     })

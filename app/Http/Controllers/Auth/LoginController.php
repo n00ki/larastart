@@ -8,12 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class AuthenticatedSessionController extends Controller
+final class LoginController extends Controller
 {
     /**
      * Show the login page.
@@ -36,19 +35,5 @@ final class AuthenticatedSessionController extends Controller
 
         return redirect()->intended(route('dashboard', absolute: false))
             ->with('flash', ['type' => 'success', 'message' => __('auth.logged_in')]);
-    }
-
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/')
-            ->with('flash', ['type' => 'success', 'message' => __('auth.logged_out')]);
     }
 }

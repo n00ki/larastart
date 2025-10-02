@@ -11,15 +11,68 @@
 ```
 tests/
 ├── Browser/             # Browser tests (end-to-end)
-├── Feature/             # Feature tests
+├── Feature/             # Feature tests (domain/behavior-focused)
 └── Unit/
-    ├── Actions/         # Business logic
+    ├── Actions/         # Business logic (mirrors Actions structure)
     ├── Models/          # Model behavior
-    ├── Requests/        # Request validation
+    ├── Requests/        # Request validation (mirrors Requests structure)
     ├── Policies/        # Authorization logic
     ├── Jobs/            # Queue jobs
     └── Services/        # Service classes
 ```
+
+### Test Naming Conventions
+
+#### Unit Tests
+
+**Pattern**: `{ClassName}Test.php`
+
+- Must mirror the class being tested exactly
+- One test file per class with 1:1 mapping
+- Located in the same subdirectory structure as the source
+
+**Examples:**
+
+```
+app/Actions/Auth/CreateUserAction.php
+→ tests/Unit/Actions/Auth/CreateUserActionTest.php
+
+app/Actions/Settings/UpdateUserProfileAction.php
+→ tests/Unit/Actions/Settings/UpdateUserProfileActionTest.php
+
+app/Http/Requests/Auth/RegisterRequest.php
+→ tests/Unit/Requests/Auth/RegisterRequestTest.php
+```
+
+#### Feature Tests
+
+**Pattern**: `{Domain/Feature}Test.php`
+
+- Domain or behavior-focused, NOT controller-focused
+- Describes what users can do, not implementation details
+- Can cover multiple controllers if they serve the same domain
+
+**Examples:**
+✅ **Good (Domain-focused):**
+
+- `AuthenticationTest.php` - Covers login/logout functionality
+- `RegistrationTest.php` - Covers user registration
+- `AccountDeletionTest.php` - Covers account deletion
+- `ProfileUpdateTest.php` - Covers profile updates
+- `PasswordResetTest.php` - Covers password reset flow
+
+❌ **Avoid (Implementation-focused):**
+
+- `LoginControllerTest.php` - Testing implementation, not behavior
+- `UserControllerTest.php` - Too broad and implementation-focused
+- `SettingsTest.php` - Too generic
+
+**Why domain-focused?**
+
+- Tests remain stable when refactoring controllers
+- Focuses on user stories and business value
+- Easier to understand what functionality is covered
+- Multiple controllers serving same domain can share one test file
 
 ## Testing with Pest PHP
 

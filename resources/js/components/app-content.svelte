@@ -1,9 +1,9 @@
-<script lang='ts'>
+<script lang="ts">
   import type { Snippet } from 'svelte';
 
-  import { SidebarInset } from '@/components/ui/sidebar';
-
   import { cn } from '@/lib/utils';
+
+  import { SidebarInset } from '@/components/ui/sidebar';
 
   interface Props {
     variant?: 'header' | 'sidebar';
@@ -20,7 +20,7 @@
 
 {#if variant === 'sidebar'}
   <SidebarInset class={className}>
-    <div class='mx-auto w-full max-w-7xl'>
+    <div class="mx-auto w-full max-w-7xl">
       {@render children?.()}
     </div>
   </SidebarInset>

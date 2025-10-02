@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\Auth\ResetPasswordAction;
+use App\Actions\Auth\ResetUserPasswordAction;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Event;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 beforeEach(function () {
-    $this->action = new ResetPasswordAction;
+    $this->action = new ResetUserPasswordAction;
     $this->user = User::factory()->create([
         'remember_token' => Str::random(60),
     ]);

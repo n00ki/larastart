@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import type { NavItem } from '@/types';
 
   import { Link } from '@inertiajs/svelte';
@@ -34,13 +34,13 @@
   ];
 </script>
 
-<Sidebar.Root collapsible='icon' variant='inset'>
+<Sidebar.Root collapsible="icon" variant="inset">
   <Sidebar.Header>
     <Sidebar.Menu>
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton size='lg'>
+        <Sidebar.MenuButton size="lg">
           {#snippet child({ props })}
-            <Link href='/dashboard' prefetch {...props}>
+            <Link href="/dashboard" prefetch {...props}>
               <AppLogo />
             </Link>
           {/snippet}
@@ -54,7 +54,7 @@
   </Sidebar.Content>
 
   <Sidebar.Footer>
-    <NavFooter items={footerNavItems} class='mt-auto' />
+    <NavFooter items={footerNavItems} class="mt-auto" />
     <NavUser />
   </Sidebar.Footer>
 </Sidebar.Root>

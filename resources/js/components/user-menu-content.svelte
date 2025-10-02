@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import type { User } from '@/types';
 
   import { Link, router } from '@inertiajs/svelte';
@@ -24,16 +24,16 @@
   }
 </script>
 
-<DropdownMenu.Label class='p-0 font-normal'>
-  <div class='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
+<DropdownMenu.Label class="p-0 font-normal">
+  <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
     <UserInfo {user} showEmail={true} />
   </div>
 </DropdownMenu.Label>
 <DropdownMenu.Separator />
 <DropdownMenu.Group>
-  <DropdownMenu.Item class='w-full'>
+  <DropdownMenu.Item class="w-full">
     {#snippet child({ props })}
-      <Link class='block w-full' href={edit()} as='button' prefetch {...props}>
+      <Link class="block w-full" href={edit()} as="button" prefetch {...props}>
         <Icon name={Settings} />
         Settings
       </Link>
@@ -41,13 +41,13 @@
   </DropdownMenu.Item>
 </DropdownMenu.Group>
 <DropdownMenu.Separator />
-<DropdownMenu.Item class='w-full'>
+<DropdownMenu.Item class="w-full">
   {#snippet child({ props })}
     <Link
-      class='block w-full'
-      method='post'
+      class="block w-full"
+      method="post"
       href={logout()}
-      as='button'
+      as="button"
       onclick={handleLogout}
       {...props}
     >

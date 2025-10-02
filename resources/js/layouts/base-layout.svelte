@@ -1,12 +1,12 @@
-<script lang='ts'>
+<script lang="ts">
   import type { Snippet } from 'svelte';
 
   import { page } from '@inertiajs/svelte';
 
-  import { Toaster } from '@/components/ui/sonner';
   import { useTheme } from '@/hooks/use-theme.svelte';
-
   import { displayFlashMessage } from '@/lib/utils';
+
+  import { Toaster } from '@/components/ui/sonner';
 
   interface Props {
     children?: Snippet;
@@ -25,6 +25,6 @@
   });
 </script>
 
-<Toaster position='bottom-right' richColors {theme} />
+<Toaster position="bottom-right" richColors {theme} />
 
 {@render children?.()}

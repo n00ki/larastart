@@ -39,8 +39,7 @@ export class Theme {
    * Initializes the theme system with proper DOM handling and event listeners
    */
   initialize(): void {
-    if (typeof window === 'undefined')
-return;
+    if (typeof window === 'undefined') return;
 
     // Apply initial theme
     this.applyTheme(this.current);
@@ -61,15 +60,13 @@ return;
 
   // Private methods
   private getStoredTheme(): Mode | null {
-    if (typeof window === 'undefined')
-return null;
+    if (typeof window === 'undefined') return null;
     const stored = localStorage.getItem(this.STORAGE_KEY);
     return this.MODES.includes(stored as Mode) ? (stored as Mode) : null;
   }
 
   private persistTheme(value: Mode): void {
-    if (typeof window === 'undefined')
-return;
+    if (typeof window === 'undefined') return;
 
     // Persist to localStorage for client-side sessions
     localStorage.setItem(this.STORAGE_KEY, value);
@@ -79,16 +76,14 @@ return;
   }
 
   private setThemeCookie(name: string, value: string, days = 365): void {
-    if (typeof document === 'undefined')
-return;
+    if (typeof document === 'undefined') return;
 
     const maxAge = days * 24 * 60 * 60;
     document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
   }
 
   private applyTheme(value: Mode): void {
-    if (typeof window === 'undefined')
-return;
+    if (typeof window === 'undefined') return;
 
     if (value === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');

@@ -18,8 +18,7 @@ createInertiaApp({
     return pages[`./pages/${name}.svelte`];
   },
   setup({ el, App, props }) {
-    if (!el) 
-return;
+    if (!el) return;
     // Initialize theme management globally
     theme.initialize();
 

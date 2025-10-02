@@ -6,7 +6,7 @@ namespace App\Actions\Auth;
 
 use Illuminate\Support\Facades\Password;
 
-final class SendPasswordResetLinkAction
+final class SendUserPasswordResetLinkAction
 {
     /**
      * Send a password reset link to the provided email.

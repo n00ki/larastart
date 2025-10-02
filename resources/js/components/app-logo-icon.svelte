@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   interface Props {
     class?: string;
   }
@@ -8,9 +8,9 @@
 
 <img
   {...props}
-  src='https://res.cloudinary.com/nshemesh/image/upload/v1756715372/larastart/logo.png'
-  class='
+  src="https://res.cloudinary.com/nshemesh/image/upload/v1756715372/larastart/logo.png"
+  class="
     mx-auto size-16
     md:size-20
-  '
+  "
 />

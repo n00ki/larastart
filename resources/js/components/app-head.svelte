@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import { page } from '@inertiajs/svelte';
 
   interface Props {
@@ -7,8 +7,6 @@
     image?: string;
     url?: string;
     type?: 'website' | 'article' | 'profile';
-    site?: string;
-    creator?: string;
   }
 
   const {
@@ -28,24 +26,24 @@
 
 <svelte:head>
   <title>{fullTitle}</title>
-  <meta name='description' content={description} />
-  <link rel='canonical' href={canonicalUrl} />
-  <meta name='image' content={image} />
-  <meta name='robots' content='index, follow' />
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+  <meta name="image" content={image} />
+  <meta name="robots" content="index, follow" />
 
   <!-- Open Graph tags -->
-  <meta property='og:type' content={type} />
-  <meta property='og:title' content={fullTitle} />
-  <meta property='og:description' content={description} />
-  <meta property='og:image' content={imageUrl} />
-  <meta property='og:url' content={canonicalUrl} />
-  <meta property='og:site_name' content='LaraStart' />
-  <meta property='og:locale' content='en_US' />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={imageUrl} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:site_name" content="LaraStart" />
+  <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card tags -->
-  <meta name='twitter:card' content='summary_large_image' />
-  <meta property='twitter:url' content={canonicalUrl} />
-  <meta name='twitter:title' content={fullTitle} />
-  <meta name='twitter:description' content={description} />
-  <meta name='twitter:image' content={imageUrl} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={canonicalUrl} />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={imageUrl} />
 </svelte:head>

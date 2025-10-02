@@ -1,10 +1,10 @@
-<script lang='ts'>
+<script lang="ts">
   import type { Snippet } from 'svelte';
 
-  import ThemeSwitch from '@/components/theme-switch.svelte';
   import AuthSimpleLayout from '@/layouts/auth/auth-simple-layout.svelte';
-
   import BaseLayout from '@/layouts/base-layout.svelte';
+
+  import ThemeSwitch from '@/components/theme-switch.svelte';
 
   interface Props {
     title: string;
@@ -19,7 +19,7 @@
   <AuthSimpleLayout {title} {description}>
     {@render children?.()}
 
-    <div class='absolute top-5 right-5'>
+    <div class="absolute top-5 right-5">
       <ThemeSwitch />
     </div>
   </AuthSimpleLayout>

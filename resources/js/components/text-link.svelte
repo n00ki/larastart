@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
   import type { ComponentProps, Snippet } from 'svelte';
 
   import { Link } from '@inertiajs/svelte';

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Actions\Settings\UpdateProfileAction;
+use App\Actions\Settings\UpdateUserProfileAction;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->action = new UpdateProfileAction;
+    $this->action = new UpdateUserProfileAction;
     $this->user = User::factory()->create([
         'name' => 'Original Name',
         'email' => 'original@example.com',

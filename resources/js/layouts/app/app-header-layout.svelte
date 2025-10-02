@@ -1,6 +1,6 @@
-<script lang='ts'>
-  import type { Snippet } from 'svelte';
+<script lang="ts">
   import type { BreadcrumbItem } from '@/types';
+  import type { Snippet } from 'svelte';
 
   import AppContent from '@/components/app-content.svelte';
   import AppHeader from '@/components/app-header.svelte';
@@ -14,9 +14,9 @@
   const { breadcrumbs = [], children }: Props = $props();
 </script>
 
-<AppShell variant='header'>
+<AppShell variant="header">
   <AppHeader {breadcrumbs} />
-  <AppContent variant='header'>
+  <AppContent variant="header">
     {@render children?.()}
   </AppContent>
 </AppShell>
