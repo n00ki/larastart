@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['dark' => ($theme ?? 'system') == 'dark'])>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="{{ $theme ?? 'system' }}"
+  @class(['dark' => ($theme ?? 'system') == 'dark'])>
 
 <head>
   <meta charset="utf-8">
@@ -8,28 +9,29 @@
   {{-- Inline script to detect theme preference and prevent flash/hydration mismatches --}}
   <script>
     (function() {
-      const theme = '{{ $theme ?? 'system' }}';
+      var el = document.documentElement;
+      var serverTheme = el.getAttribute('data-theme') || 'system';
+      var key = '{{ config('app.theme_key', 'theme') }}';
 
-      // Apply theme immediately to prevent flash
-      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      }
-
-      // Sync server-side theme with client-side storage to prevent hydration mismatches
+      // read stored value without writing
+      var stored = null;
       try {
-        // For first-time visitors (no cookie), ensure localStorage matches server default
-        if ('{{ $theme }}' === 'system' || !'{{ $theme }}') {
-          // Only set if localStorage is empty to avoid overriding user preferences
-          if (!localStorage.getItem('theme')) {
-            localStorage.setItem('theme', 'system');
-          }
-        } else {
-          // Sync existing server-side theme preference with client-side storage
-          localStorage.setItem('theme', theme);
-        }
-      } catch (e) {
-        // Ignore if localStorage is not available
+        stored = window.localStorage ? localStorage.getItem(key) : null;
+      } catch (_) {
+        stored = null;
       }
+      if (!stored) {
+        var cookie = '; ' + document.cookie;
+        var parts = cookie.split('; ' + key + '=');
+        if (parts.length === 2) stored = parts.pop().split(';').shift();
+      }
+
+      var prefersDark = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-color-scheme: dark)')
+        .matches;
+      var shouldDark = (stored === 'dark') || ((!stored || stored === 'system') && prefersDark) || (stored === null &&
+        serverTheme === 'dark');
+      el.classList.toggle('dark', shouldDark);
+      el.style.colorScheme = shouldDark ? 'dark' : 'light';
     })();
   </script>
 

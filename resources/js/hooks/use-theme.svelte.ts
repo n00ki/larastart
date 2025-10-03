@@ -7,6 +7,7 @@ export type Mode = 'light' | 'dark' | 'system';
 export class Theme {
   // State
   current = $state<Mode>('system');
+  private initialized = false;
 
   // Configuration
   private readonly STORAGE_KEY = 'theme';
@@ -39,7 +40,8 @@ export class Theme {
    * Initializes the theme system with proper DOM handling and event listeners
    */
   initialize(): void {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || this.initialized) return;
+    this.initialized = true;
 
     // Apply initial theme
     this.applyTheme(this.current);
@@ -79,19 +81,35 @@ export class Theme {
     if (typeof document === 'undefined') return;
 
     const maxAge = days * 24 * 60 * 60;
-    document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
+    const secure =
+      typeof location !== 'undefined' && location.protocol === 'https:'
+        ? ';Secure'
+        : '';
+    document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax${secure}`;
   }
 
   private applyTheme(value: Mode): void {
     if (typeof window === 'undefined') return;
 
+    const el = document.documentElement;
     if (value === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const systemTheme = mediaQuery.matches ? 'dark' : 'light';
-      document.documentElement.classList.toggle('dark', systemTheme === 'dark');
+      el.classList.toggle('dark', systemTheme === 'dark');
+      el.style.colorScheme = systemTheme;
     } else {
-      document.documentElement.classList.toggle('dark', value === 'dark');
+      el.classList.toggle('dark', value === 'dark');
+      el.style.colorScheme = value;
     }
+  }
+
+  getAppliedMode(): 'light' | 'dark' {
+    if (typeof window !== 'undefined' && this.current === 'system') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+    }
+    return this.current === 'dark' ? 'dark' : 'light';
   }
 
   private setupSystemThemeListener(): void {

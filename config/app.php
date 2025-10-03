@@ -125,4 +125,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Theme Key
+    |--------------------------------------------------------------------------
+    |
+    | Centralized key used for storing the theme in cookies and localStorage.
+    | Keep this in sync with the frontend (VITE_APP_THEME_KEY) for SSR parity.
+    |
+    */
+
+    'theme_key' => env('APP_THEME_KEY', 'theme'),
+
 ];
