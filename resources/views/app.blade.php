@@ -28,10 +28,10 @@
 
       var prefersDark = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-color-scheme: dark)')
         .matches;
-      var shouldDark = (stored === 'dark') || ((!stored || stored === 'system') && prefersDark) || (stored === null &&
-        serverTheme === 'dark');
-      el.classList.toggle('dark', shouldDark);
-      el.style.colorScheme = shouldDark ? 'dark' : 'light';
+      var appliedMode = stored || serverTheme || 'system';
+      var isDark = (appliedMode === 'dark') || (appliedMode === 'system' && prefersDark);
+      el.classList.toggle('dark', isDark);
+      el.style.colorScheme = isDark ? 'dark' : 'light';
     })();
   </script>
 

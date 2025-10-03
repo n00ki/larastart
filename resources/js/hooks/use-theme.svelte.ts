@@ -10,7 +10,7 @@ export class Theme {
   private initialized = false;
 
   // Configuration
-  private readonly STORAGE_KEY = 'theme';
+  private readonly STORAGE_KEY = import.meta.env.VITE_APP_THEME_KEY || 'theme';
   private readonly MODES: Mode[] = ['light', 'dark', 'system'];
 
   constructor() {
