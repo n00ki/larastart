@@ -34,11 +34,11 @@ tests/
 **Examples:**
 
 ```
-app/Actions/Auth/CreateUserAction.php
-→ tests/Unit/Actions/Auth/CreateUserActionTest.php
+app/Actions/User/CreateUser.php
+→ tests/Unit/Actions/User/CreateUserTest.php
 
-app/Actions/Settings/UpdateUserProfileAction.php
-→ tests/Unit/Actions/Settings/UpdateUserProfileActionTest.php
+app/Actions/User/UpdateUserProfile.php
+→ tests/Unit/Actions/User/UpdateUserProfileTest.php
 
 app/Http/Requests/Auth/RegisterRequest.php
 → tests/Unit/Requests/Auth/RegisterRequestTest.php

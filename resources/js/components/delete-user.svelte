@@ -8,7 +8,7 @@
   import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
 
-  import { destroy } from '@/actions/App/Http/Controllers/Settings/AccountController';
+  import { destroy } from '@/actions/App/Http/Controllers/User/AccountController';
 
   let open = $state(false);
   let passwordInput = $state<HTMLInputElement | null>(null);

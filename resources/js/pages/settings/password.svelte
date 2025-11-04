@@ -14,7 +14,7 @@
   import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
 
-  import { update } from '@/actions/App/Http/Controllers/Settings/PasswordController';
+  import { update } from '@/actions/App/Http/Controllers/User/PasswordController';
   import { edit } from '@/routes/password';
 
   const breadcrumbItems: BreadcrumbItem[] = [

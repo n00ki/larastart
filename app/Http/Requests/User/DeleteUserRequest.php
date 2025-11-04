@@ -2,25 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Settings;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Override;
 
-final class DeleteAccountRequest extends FormRequest
+final class DeleteUserRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, array<int, string>>
      */
     public function rules(): array
     {
@@ -30,8 +25,6 @@ final class DeleteAccountRequest extends FormRequest
     }
 
     /**
-     * Get custom error messages for validator errors.
-     *
      * @return array<string, string>
      */
     #[Override]

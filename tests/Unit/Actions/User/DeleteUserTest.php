@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Actions\Settings\DeleteUserAccountAction;
+use App\Actions\User\DeleteUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 beforeEach(function () {
-    $this->action = new DeleteUserAccountAction;
+    $this->action = new DeleteUser;
     $this->user = User::factory()->create();
 });
 

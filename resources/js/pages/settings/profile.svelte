@@ -15,7 +15,7 @@
   import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
 
-  import { update } from '@/actions/App/Http/Controllers/Settings/ProfileController';
+  import { update } from '@/actions/App/Http/Controllers/User/ProfileController';
   import { edit } from '@/routes/profile';
 
   interface Props {

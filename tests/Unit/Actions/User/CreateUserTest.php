@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Actions\Auth\CreateUserAction;
+use App\Actions\User\CreateUser;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 
 beforeEach(function () {
-    $this->action = new CreateUserAction;
+    $this->action = new CreateUser;
 });
 
 test('it creates a user with hashed password', function () {
@@ -18,10 +18,9 @@ test('it creates a user with hashed password', function () {
     $data = [
         'name' => 'John Doe',
         'email' => 'john@example.com',
-        'password' => 'password123',
     ];
 
-    $user = $this->action->handle($data);
+    $user = $this->action->handle($data, 'password123');
 
     expect($user)->toBeInstanceOf(User::class)
         ->and($user->name)->toBe('John Doe')
@@ -40,10 +39,9 @@ test('it fires registered event', function () {
     $data = [
         'name' => 'Jane Doe',
         'email' => 'jane@example.com',
-        'password' => 'password123',
     ];
 
-    $user = $this->action->handle($data);
+    $user = $this->action->handle($data, 'password123');
 
     Event::assertDispatched(Registered::class, function ($event) use ($user) {
         return $event->user->id === $user->id;
@@ -54,10 +52,9 @@ test('it returns the created user', function () {
     $data = [
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'password' => 'password123',
     ];
 
-    $user = $this->action->handle($data);
+    $user = $this->action->handle($data, 'password123');
 
     expect($user)->toBeInstanceOf(User::class)
         ->and($user->exists)->toBeTrue()

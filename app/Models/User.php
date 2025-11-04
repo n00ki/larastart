@@ -46,15 +46,11 @@ final class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $guarded = [];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
      * @var list<string>
      */
     protected $hidden = [
@@ -63,15 +59,19 @@ final class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
      * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
+            'id' => 'integer',
+            'name' => 'string',
+            'email' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'remember_token' => 'string',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
         ];
     }
 }

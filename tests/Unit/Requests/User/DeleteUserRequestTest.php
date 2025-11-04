@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Http\Requests\Settings\DeleteAccountRequest;
+use App\Http\Requests\User\DeleteUserRequest;
 use Illuminate\Support\Facades\Validator;
 
 beforeEach(function () {
-    $this->request = new DeleteAccountRequest;
+    $this->request = new DeleteUserRequest;
 });
 
 test('it authorizes all requests', function () {

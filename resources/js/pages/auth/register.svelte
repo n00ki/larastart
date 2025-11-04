@@ -1,16 +1,15 @@
 <script lang="ts">
   import { Form } from '@inertiajs/svelte';
-  import { LoaderCircle } from '@lucide/svelte';
 
   import AuthLayout from '@/layouts/auth-layout.svelte';
 
   import AppHead from '@/components/app-head.svelte';
-  import Icon from '@/components/icon.svelte';
   import InputError from '@/components/input-error.svelte';
   import TextLink from '@/components/text-link.svelte';
   import { Button } from '@/components/ui/button';
   import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
+  import { Spinner } from '@/components/ui/spinner';
 
   import { store } from '@/actions/App/Http/Controllers/Auth/RegisterController';
   import { login } from '@/routes';
@@ -94,7 +93,7 @@
           disabled={processing}
         >
           {#if processing}
-            <Icon name={LoaderCircle} class="animate-spin" />
+            <Spinner />
           {/if}
           Create account
         </Button>

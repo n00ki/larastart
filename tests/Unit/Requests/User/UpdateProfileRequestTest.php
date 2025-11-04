@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Http\Requests\User\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +16,7 @@ beforeEach(function () {
 });
 
 test('it validates required fields', function () {
-    $request = new ProfileUpdateRequest;
+    $request = new UpdateProfileRequest;
     $request->setUserResolver(fn () => $this->user);
 
     $validator = Validator::make([], $request->rules());
@@ -27,7 +27,7 @@ test('it validates required fields', function () {
 });
 
 test('it validates name requirements', function () {
-    $request = new ProfileUpdateRequest;
+    $request = new UpdateProfileRequest;
     $request->setUserResolver(fn () => $this->user);
     $rules = $request->rules();
 
@@ -45,7 +45,7 @@ test('it validates name requirements', function () {
 });
 
 test('it validates email requirements', function () {
-    $request = new ProfileUpdateRequest;
+    $request = new UpdateProfileRequest;
     $request->setUserResolver(fn () => $this->user);
     $rules = $request->rules();
 
@@ -70,7 +70,7 @@ test('it validates email uniqueness except for current user', function () {
     // Create another user with different email
     User::factory()->create(['email' => 'other@example.com']);
 
-    $request = new ProfileUpdateRequest;
+    $request = new UpdateProfileRequest;
     $request->setUserResolver(fn () => $this->user);
     $rules = $request->rules();
 
@@ -84,7 +84,7 @@ test('it validates email uniqueness except for current user', function () {
 });
 
 test('it allows updating to same email', function () {
-    $request = new ProfileUpdateRequest;
+    $request = new UpdateProfileRequest;
     $request->setUserResolver(fn () => $this->user);
     $rules = $request->rules();
 

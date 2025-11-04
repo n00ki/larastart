@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Settings;
+namespace App\Actions\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-final class UpdateUserPasswordAction
+final readonly class UpdateUserPassword
 {
     /**
      * Update the user's password.

@@ -8,7 +8,7 @@
 - No abstract/base controllers (composition over inheritance)
 - Use dependency injection for Services
 - Return Inertia responses for Svelte components
-- Organize by domain in subdirectories (e.g., `Auth/`, `Settings/`)
+- Organize by domain in subdirectories (e.g., `Auth/`, `User/`)
 
 ### Controller Naming Patterns
 
@@ -32,10 +32,10 @@ Use for specific, focused operations that don't fit RESTful pattern:
 
 ### Controller Naming Examples
 
-✅ **Resource Controllers (Settings/CRUD):**
+✅ **Resource Controllers (User settings/CRUD):**
 
 ```
-Settings/
+User/
 ├── ProfileController       # edit(), update()
 ├── PasswordController      # edit(), update()
 └── AccountController       # edit(), destroy()
@@ -117,11 +117,11 @@ final class LogoutController extends Controller
 ### FormRequest Standards
 
 - Use FormRequest for all validations
-- **Name based on user intent or action purpose** (e.g., `RegisterRequest`, `LoginRequest`, `DeleteAccountRequest`)
+- **Name based on user intent or action purpose** (e.g., `RegisterRequest`, `LoginRequest`, `DeleteUserRequest`)
 - For CRUD operations, you can use action verbs with entity: `CreateTodoRequest`, `UpdateTodoRequest`
 - Include authorization logic when needed
 - Define custom error messages
-- Organize by domain in subdirectories (e.g., `Auth/`, `Settings/`)
+- Organize by domain in subdirectories (e.g., `Auth/`, `User/`)
 
 ### Request Naming Examples
 
@@ -129,7 +129,7 @@ final class LogoutController extends Controller
 
 - `RegisterRequest` - User-intent focused (better than `CreateUserRequest`)
 - `LoginRequest` - Clear purpose
-- `DeleteAccountRequest` - Specific action (better than `DeleteProfileRequest`)
+- `DeleteUserRequest` - Specific action (better than `DeleteProfileRequest`)
 - `CreateTodoRequest` - Standard CRUD naming
 
 ❌ **Avoid:**
@@ -180,29 +180,28 @@ class CreateTodoRequest extends FormRequest
 ### Action Pattern
 
 - Use the Action pattern for all business logic
-- **Name with Verb + Entity + Action suffix** (`CreateUserAction`, `UpdateUserProfileAction`, `DeleteUserAccountAction`)
+- **Name with Verb + Entity** (`CreateUser`, `UpdateUserProfile`, `DeleteUser`)
 - Include the entity name for clarity (e.g., `User`, `Todo`, `Post`)
 - Return domain objects, not HTTP responses
 - Keep actions focused on a single responsibility
-- Organize by domain in subdirectories (e.g., `Auth/`, `Settings/`)
+- Organize by domain in subdirectories (e.g., `Auth/`, `User/`)
 
 ### Action Naming Examples
 
 ✅ **Good:**
 
-- `CreateUserAction` - Clear entity reference
-- `UpdateUserProfileAction` - Specific about what's being updated
-- `DeleteUserAccountAction` - Clear distinction from profile deletion
-- `SendUserPasswordResetLinkAction` - Descriptive and specific
-- `CreateUserTodoAction` - Includes both user and todo entities
+- `CreateUser` - Clear entity reference
+- `UpdateUserProfile` - Specific about what's being updated
+- `DeleteUser` - Clear and scoped
+- `SendPasswordResetLink` - Descriptive and specific
+- `CreateUserTodo` - Includes both user and todo entities
 
 ❌ **Avoid:**
 
 - `CreateAction` - Too generic
-- `UpdateProfile` - Missing entity and Action suffix
-- `DeleteUser` - Missing Action suffix
-- `ResetPassword` - Ambiguous (user? admin? what entity?)
-- `CreateTodo` - Missing Action suffix
+- `UpdateProfile` - Missing entity
+- `UserAction` - Too generic
+- `DoStuff` - Non-descriptive
 
 ### Action Pattern Example
 

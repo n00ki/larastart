@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Actions\Auth\ResetUserPasswordAction;
-use App\Http\Controllers\Controller;
+use App\Actions\Auth\ResetPassword;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ResetPasswordController extends Controller
+final class ResetPasswordController
 {
     /**
      * Show the password reset page.
@@ -28,12 +26,16 @@ final class ResetPasswordController extends Controller
 
     /**
      * Handle an incoming new password request.
-     *
-     * @throws ValidationException
      */
-    public function store(ResetPasswordRequest $request, ResetUserPasswordAction $action): RedirectResponse
+    public function store(ResetPasswordRequest $request, ResetPassword $action): RedirectResponse
     {
-        $action->handle($request->validated());
+        /** @var array<string, mixed> $data */
+        $data = $request->only('email', 'password', 'password_confirmation', 'token');
+
+        $action->handle(
+            $data,
+            $request->string('password')->value(),
+        );
 
         return redirect()->route('login')
             ->with('flash', ['type' => 'success', 'message' => __('passwords.reset')]);

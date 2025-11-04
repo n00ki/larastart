@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Actions\Auth\SendUserPasswordResetLinkAction;
+use App\Actions\Auth\SendPasswordResetLink;
 use App\Models\User;
 
 beforeEach(function () {
-    $this->action = new SendUserPasswordResetLinkAction;
+    $this->action = new SendPasswordResetLink;
 });
 
 test('it returns success message', function () {
@@ -18,7 +18,7 @@ test('it returns success message', function () {
 
     $message = $this->action->handle($data);
 
-    expect($message)->toBe('A password reset link has been sent to your email if the account exists.');
+    expect($message)->toBe(__('passwords.sent'));
 });
 
 test('it returns same message for non-existent email', function () {
@@ -28,7 +28,7 @@ test('it returns same message for non-existent email', function () {
 
     $message = $this->action->handle($data);
 
-    expect($message)->toBe('A password reset link has been sent to your email if the account exists.');
+    expect($message)->toBe(__('passwords.sent'));
 });
 
 test('it handles data array correctly', function () {
@@ -39,5 +39,5 @@ test('it handles data array correctly', function () {
     $message = $this->action->handle($data);
 
     expect($message)->toBeString()
-        ->and($message)->toBe('A password reset link has been sent to your email if the account exists.');
+        ->and($message)->toBe(__('passwords.sent'));
 });

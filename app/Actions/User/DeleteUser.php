@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Settings;
+namespace App\Actions\User;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-final class DeleteUserAccountAction
+final readonly class DeleteUser
 {
     /**
-     * Delete the user's account and logout.
+     * Logout and delete the user's account.
      */
     public function handle(User $user, Request $request): void
     {

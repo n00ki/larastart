@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Auth;
+namespace App\Actions\User;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
+use SensitiveParameter;
 
-final class CreateUserAction
+final readonly class CreateUser
 {
     /**
      * Create a new user with the provided data.
      *
      * @param array<string, mixed> $data
      */
-    public function handle(array $data): User
+    public function handle(array $data, #[SensitiveParameter] string $password): User
     {
         $user = User::query()->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            ...$data,
+            'password' => Hash::make($password),
         ]);
 
         event(new Registered($user));

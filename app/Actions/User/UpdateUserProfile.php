@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Actions\Settings;
+namespace App\Actions\User;
 
 use App\Models\User;
 
-final class UpdateUserProfileAction
+final readonly class UpdateUserProfile
 {
     /**
      * Update the user's profile information.
@@ -15,7 +15,6 @@ final class UpdateUserProfileAction
      */
     public function handle(User $user, array $data): void
     {
-        $user->fill($data);
-        $user->save();
+        $user->update($data);
     }
 }

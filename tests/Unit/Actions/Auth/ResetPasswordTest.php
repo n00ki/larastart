@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Actions\Auth\ResetUserPasswordAction;
+use App\Actions\Auth\ResetPassword;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Event;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 beforeEach(function () {
-    $this->action = new ResetUserPasswordAction;
+    $this->action = new ResetPassword;
     $this->user = User::factory()->create([
         'remember_token' => Str::random(60),
     ]);
@@ -22,6 +22,7 @@ test('it resets password successfully', function () {
 
     $token = Password::createToken($this->user);
     $newPassword = 'new-password-123';
+    $originalToken = $this->user->remember_token;
 
     $data = [
         'email' => $this->user->email,
@@ -30,12 +31,12 @@ test('it resets password successfully', function () {
         'token' => $token,
     ];
 
-    $this->action->handle($data);
+    $this->action->handle($data, $newPassword);
 
     $this->user->refresh();
 
     expect(Hash::check($newPassword, $this->user->password))->toBeTrue()
-        ->and($this->user->remember_token)->toBeNull();
+        ->and($this->user->remember_token)->not->toBe($originalToken);
 });
 
 test('it fires password reset event', function () {
@@ -50,7 +51,7 @@ test('it fires password reset event', function () {
         'token' => $token,
     ];
 
-    $this->action->handle($data);
+    $this->action->handle($data, 'new-password-123');
 
     Event::assertDispatched(PasswordReset::class, function ($event) {
         return $event->user->id === $this->user->id;
@@ -65,7 +66,7 @@ test('it throws exception for invalid token', function () {
         'token' => 'invalid-token',
     ];
 
-    expect(fn () => $this->action->handle($data))
+    expect(fn () => $this->action->handle($data, 'new-password-123'))
         ->toThrow(Illuminate\Validation\ValidationException::class);
 });
 
@@ -79,6 +80,6 @@ test('it throws exception for non-existent user', function () {
         'token' => $token,
     ];
 
-    expect(fn () => $this->action->handle($data))
+    expect(fn () => $this->action->handle($data, 'new-password-123'))
         ->toThrow(Illuminate\Validation\ValidationException::class);
 });

@@ -1,8 +1,8 @@
-import Settings from './Settings'
+import User from './User'
 import Auth from './Auth'
 
 const Controllers = {
-    Settings: Object.assign(Settings, Settings),
+    User: Object.assign(User, User),
     Auth: Object.assign(Auth, Auth),
 }
 

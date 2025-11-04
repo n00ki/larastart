@@ -2,22 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\User;
 
-use App\Actions\Settings\UpdateUserProfileAction;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Actions\User\UpdateUserProfile;
+use App\Http\Requests\User\UpdateProfileRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ProfileController extends Controller
+final readonly class ProfileController
 {
     /**
      * Show the user's profile settings page.
      */
-    public function edit(Request $request): Response
+    public function edit(): Response
     {
         return Inertia::render('settings/profile');
     }
@@ -25,7 +23,7 @@ final class ProfileController extends Controller
     /**
      * Update the user's profile settings.
      */
-    public function update(ProfileUpdateRequest $request, UpdateUserProfileAction $action): RedirectResponse
+    public function update(UpdateProfileRequest $request, UpdateUserProfile $action): RedirectResponse
     {
         $action->handle($request->user(), $request->validated());
 

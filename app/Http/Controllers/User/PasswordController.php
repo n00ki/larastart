@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\User;
 
-use App\Actions\Settings\UpdateUserPasswordAction;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\UpdatePasswordRequest;
+use App\Actions\User\UpdateUserPassword;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class PasswordController extends Controller
+final readonly class PasswordController
 {
     /**
      * Show the user's password settings page.
@@ -24,7 +23,7 @@ final class PasswordController extends Controller
     /**
      * Update the user's password.
      */
-    public function update(UpdatePasswordRequest $request, UpdateUserPasswordAction $action): RedirectResponse
+    public function update(UpdatePasswordRequest $request, UpdateUserPassword $action): RedirectResponse
     {
         $action->handle($request->user(), $request->validated());
 

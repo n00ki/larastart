@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Actions\Settings\UpdateUserPasswordAction;
+use App\Actions\User\UpdateUserPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 beforeEach(function () {
-    $this->action = new UpdateUserPasswordAction;
+    $this->action = new UpdateUserPassword;
     $this->user = User::factory()->create([
         'password' => Hash::make('old-password'),
     ]);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Requests\Settings\UpdatePasswordRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Validator;
 
 beforeEach(function () {

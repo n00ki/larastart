@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers\User;
 
-use App\Actions\Settings\DeleteUserAccountAction;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\DeleteAccountRequest;
+use App\Actions\User\DeleteUser;
+use App\Http\Requests\User\DeleteUserRequest;
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class AccountController extends Controller
+final readonly class AccountController
 {
     /**
      * Show the user's account settings page.
@@ -24,9 +25,9 @@ final class AccountController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(DeleteAccountRequest $request, DeleteUserAccountAction $action): RedirectResponse
+    public function destroy(DeleteUserRequest $request, #[CurrentUser] User $user, DeleteUser $action): RedirectResponse
     {
-        $action->handle($request->user(), $request);
+        $action->handle($user, $request);
 
         return redirect('/')
             ->with('flash', ['type' => 'success', 'message' => __('settings.account_deleted')]);
