@@ -10,7 +10,6 @@ permissions:
   contents: write
 
 env:
-  NODE_VERSION: 'lts/*'
   BUN_VERSION: 'latest'
 
 jobs:
@@ -34,11 +33,6 @@ jobs:
         run: |
           composer install --no-interaction --prefer-dist --optimize-autoloader
           composer dump-autoload --optimize
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
