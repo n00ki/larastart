@@ -7,7 +7,6 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Override;
-use Tighten\Ziggy\Ziggy;
 
 final class HandleInertiaRequests extends Middleware
 {
@@ -47,10 +46,6 @@ final class HandleInertiaRequests extends Middleware
             'flash' => fn () => $request->session()->get('flash'),
             'auth' => [
                 'user' => $request->user(),
-            ],
-            'ziggy' => fn (): array => [
-                ...(new Ziggy)->toArray(),
-                'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'theme' => $request->cookie('theme', 'system'),

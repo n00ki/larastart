@@ -15,8 +15,7 @@
     "laravel/framework": "^12.37.0",
     "laravel/tinker": "^2.10.1",
     "laravel/wayfinder": "^0.1.12",
-    "nunomaduro/essentials": "^1.0.1",
-    "tightenco/ziggy": "^2.6.0"
+    "nunomaduro/essentials": "^1.0.1"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^3.6.0",

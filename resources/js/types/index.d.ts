@@ -1,5 +1,3 @@
-import type { Config } from 'ziggy-js';
-
 import '@inertiajs/svelte';
 
 export type PageProps<
@@ -7,7 +5,6 @@ export type PageProps<
 > = T & {
   name: string;
   auth: Auth;
-  ziggy: Config & { location: string };
   flash?: {
     type: 'success' | 'error' | 'warning' | 'info';
     message: string;

@@ -35,11 +35,7 @@
 
   const { children }: Props = $props();
 
-  const currentPath = $derived(
-    $page.props.ziggy?.location
-      ? new URL($page.props.ziggy.location).pathname
-      : '',
-  );
+  const currentPath = $derived(new URL($page.url).pathname);
 </script>
 
 <div class="px-4 py-6">

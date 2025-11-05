@@ -65,8 +65,7 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.3",
     "vaul-svelte": "^0.3.2",
-    "vite": "^7.1.12",
-    "ziggy-js": "^2.6.0"
+    "vite": "^7.1.12"
   },
   "trustedDependencies": [
     "@tailwindcss/oxide"

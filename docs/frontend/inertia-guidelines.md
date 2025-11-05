@@ -17,9 +17,9 @@
 
 ```svelte
 <script lang="ts">
-  import { Link } from "@inertiajs/svelte";
+  import { Link } from '@inertiajs/svelte';
 
-  import { show } from "@/actions/App/Http/Controllers/TodoController";
+  import { show } from '@/actions/App/Http/Controllers/TodoController';
 
   interface Props {
     todo: Todo;
@@ -29,45 +29,27 @@
 </script>
 
 <!-- Basic Link with Wayfinder integration -->
-<Link
-  href={show(todo.id)}
-  class="text-primary hover:underline"
->
+<Link href={show(todo.id)} class="text-primary hover:underline">
   {todo.title}
 </Link>
 
 <!-- Link with partial reload -->
-<Link
-  href={show(todo.id)}
-  only={["todo", "comments"]}
-  preserveScroll
->
+<Link href={show(todo.id)} only={['todo', 'comments']} preserveScroll>
   View Todo
 </Link>
 
 <!-- Link with different HTTP methods -->
-<Link
-  href={show(todo.id)}
-  method="delete"
-  data={{ _token: 'csrf-token' }}
->
+<Link href={show(todo.id)} method="delete" data={{ _token: 'csrf-token' }}>
   Delete Todo
 </Link>
 
 <!-- Link with custom headers -->
-<Link
-  href={show(todo.id)}
-  headers={{ 'X-Custom': 'header-value' }}
->
+<Link href={show(todo.id)} headers={{ 'X-Custom': 'header-value' }}>
   Custom Request
 </Link>
 
 <!-- Link with prefetching -->
-<Link
-  href={show(todo.id)}
-  prefetch="hover"
-  cacheFor="30s"
->
+<Link href={show(todo.id)} prefetch="hover" cacheFor="30s">
   Quick Access Todo
 </Link>
 ```
@@ -76,19 +58,19 @@
 
 ```svelte
 <script lang="ts">
-  import { router } from "@inertiajs/svelte";
+  import { router } from '@inertiajs/svelte';
 
-  import { index, show } from "@/actions/App/Http/Controllers/TodoController";
-  import { dashboard } from "@/routes";
+  import { index, show } from '@/actions/App/Http/Controllers/TodoController';
+  import { dashboard } from '@/routes';
 
   // Using Wayfinder for type-safe navigation with query parameters
   const navigateToTodos = () => {
     router.get(
-      index({ query: { status: "completed" } }),
+      index({ query: { status: 'completed' } }),
       {},
       {
         preserveState: true,
-        only: ["todos"], // Only fetch the 'todos' prop
+        only: ['todos'], // Only fetch the 'todos' prop
       },
     );
   };
@@ -107,7 +89,7 @@
   const getTodoUrl = (id: number) => {
     return show(id, {
       query: {
-        include: "comments",
+        include: 'comments',
         per_page: 10,
       },
     }); // "/todos/1?include=comments&per_page=10"
@@ -116,31 +98,31 @@
   // Advanced router options
   const navigateWithOptions = () => {
     router.visit(show(1), {
-      method: "get",
+      method: 'get',
       preserveState: true,
       preserveScroll: true,
-      only: ["todo"],
+      only: ['todo'],
       showProgress: false,
       async: true,
       onBefore: (visit) => {
-        console.log("Navigation starting:", visit);
+        console.log('Navigation starting:', visit);
         return true; // Return false to cancel
       },
       onStart: (visit) => {
-        console.log("Request started:", visit);
+        console.log('Request started:', visit);
       },
       onProgress: (progress) => {
-        console.log("Upload progress:", progress);
+        console.log('Upload progress:', progress);
       },
       onSuccess: (page) => {
-        console.log("Navigation successful:", page);
+        console.log('Navigation successful:', page);
       },
       onError: (errors) => {
-        console.error("Navigation failed:", errors);
+        console.error('Navigation failed:', errors);
       },
       onFinish: (visit) => {
-        console.log("Navigation finished:", visit);
-      }
+        console.log('Navigation finished:', visit);
+      },
     });
   };
 
@@ -184,7 +166,6 @@ The base PageProps type provides standard props available to all Inertia pages:
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
   name: string;
   auth: Auth;
-  ziggy: Config & { location: string };
   flash: {
     message: string;
   };
@@ -216,15 +197,14 @@ Define component-specific props separately from PageProps:
 
 ```svelte
 <script lang="ts">
-  import { page } from "@inertiajs/svelte";
+  import { page } from '@inertiajs/svelte';
 
   // Component props are typed separately
   interface Props {
-    mustVerifyEmail: boolean;
     status?: string;
   }
 
-  const { mustVerifyEmail, status }: Props = $props();
+  const { status }: Props = $props();
 
   // Server data accessed via page store with reactive derivation
   const user = $derived($page.props.auth.user);
@@ -234,11 +214,13 @@ Define component-specific props separately from PageProps:
 ### When to Import Types
 
 **❌ Don't import type when accessing page props:**
+
 ```svelte
 <script lang="ts">
   // ❌ Unnecessary import
-  import type { User } from "@/types";
-  import { page } from "@inertiajs/svelte";
+  import type { User } from '@/types';
+
+  import { page } from '@inertiajs/svelte';
 
   // ❌ Unnecessary type assertion
   const user = $page.props.auth.user as User;
@@ -246,10 +228,11 @@ Define component-specific props separately from PageProps:
 ```
 
 **✅ Do import type for component props:**
+
 ```svelte
 <script lang="ts">
   // ✅ Import needed for prop typing
-  import type { User } from "@/types";
+  import type { User } from '@/types';
 
   interface Props {
     user: User; // Type import required here
@@ -292,7 +275,6 @@ export interface BreadcrumbItem {
 ```typescript
 // resources/js/types/global.d.ts
 declare global {
-  const route: typeof routeFn;
   interface Window {
     axios: AxiosInstance;
   }
@@ -369,17 +351,17 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
 
 ```svelte
 <script lang="ts">
-  import type { Todo } from "@/types";
+  import type { Todo } from '@/types';
 
-  import { Form } from "@inertiajs/svelte";
+  import { Form } from '@inertiajs/svelte';
 
-  import InputError from "@/components/input-error.svelte";
-  import { Button } from "@/components/ui/button";
-  import { Input } from "@/components/ui/input";
-  import { Label } from "@/components/ui/label";
+  import InputError from '@/components/input-error.svelte';
+  import { Button } from '@/components/ui/button';
+  import { Input } from '@/components/ui/input';
+  import { Label } from '@/components/ui/label';
 
   // Import Wayfinder-generated controller methods
-  import { store, update } from "@/actions/App/Http/Controllers/TodoController";
+  import { store, update } from '@/actions/App/Http/Controllers/TodoController';
 
   interface Props {
     todo?: Todo;
@@ -392,7 +374,7 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
 <!-- Direct Wayfinder integration with Form component -->
 <Form
   action={isEditing ? update(todo.id) : store()}
-  resetOnSuccess={["title", "description"]}
+  resetOnSuccess={['title', 'description']}
   preserveScroll
   onSuccess={() => {
     console.log(isEditing ? 'Todo updated' : 'Todo created');
@@ -406,7 +388,7 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
           id="title"
           name="title"
           type="text"
-          value={todo?.title || ""}
+          value={todo?.title || ''}
           placeholder="My new todo"
           required
         />
@@ -419,7 +401,7 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
           id="description"
           name="description"
           type="text"
-          value={todo?.description || ""}
+          value={todo?.description || ''}
           placeholder="Description"
         />
         <InputError message={errors.description} />
@@ -428,9 +410,12 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
       <div class="flex gap-2">
         <Button type="submit" disabled={processing}>
           {processing
-            ? (isEditing ? "Updating..." : "Creating...")
-            : (isEditing ? "Update Todo" : "Create Todo")
-          }
+            ? isEditing
+              ? 'Updating...'
+              : 'Creating...'
+            : isEditing
+              ? 'Update Todo'
+              : 'Create Todo'}
         </Button>
 
         <Button type="button" variant="secondary" onclick={resetAndClearErrors}>
@@ -448,12 +433,12 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
 
 ```svelte
 <script lang="ts">
-  import { router } from "@inertiajs/svelte";
+  import { router } from '@inertiajs/svelte';
 
   // Only reload specific props
   const refreshTodos = () => {
     router.reload({
-      only: ["todos"],
+      only: ['todos'],
       preserveScroll: true,
     });
   };
@@ -461,7 +446,7 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
   // Reload everything except certain props
   const refreshPage = () => {
     router.reload({
-      except: ["user", "navigation"],
+      except: ['user', 'navigation'],
     });
   };
 </script>
@@ -471,9 +456,9 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
 
 ```svelte
 <script lang="ts">
-  import { router } from "@inertiajs/svelte";
+  import { router } from '@inertiajs/svelte';
 
-  import { update } from "@/actions/App/Http/Controllers/TodoController";
+  import { update } from '@/actions/App/Http/Controllers/TodoController';
 
   const toggleTodo = async (todo: Todo) => {
     // Non-blocking async request
@@ -485,7 +470,7 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
         preserveScroll: true,
         showProgress: false, // Disable loading indicator
         onSuccess: () => {
-          console.log("Todo updated silently");
+          console.log('Todo updated silently');
         },
       },
     );
@@ -495,7 +480,7 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
   const updateWithProgress = async (todo: Todo) => {
     await router.patch(
       update(todo.id),
-      { title: "Updated title" },
+      { title: 'Updated title' },
       {
         async: true,
         showProgress: true, // Keep loading indicator
@@ -508,12 +493,12 @@ show(1, { mergeQuery: { filter: null } }); // Removes 'filter' from URL
   let batchUpdatePromise = $state();
 
   const batchUpdate = (todos: Todo[]) => {
-    const updates = todos.map(todo =>
+    const updates = todos.map((todo) =>
       router.patch(
         update(todo.id),
         { completed: true },
-        { async: true, showProgress: false }
-      )
+        { async: true, showProgress: false },
+      ),
     );
 
     batchUpdatePromise = Promise.all(updates);
@@ -567,11 +552,11 @@ return inertia('todos/index', [
 
 ```svelte
 <script lang="ts">
-  import { Deferred } from "@inertiajs/svelte";
+  import { Deferred } from '@inertiajs/svelte';
 
   // Props passed from server
   let { todos, comments } = $props(); // Available immediately
-  let { permissions } = $props();     // Deferred prop
+  let { permissions } = $props(); // Deferred prop
 </script>
 
 <!-- Wait for single deferred prop -->
@@ -587,11 +572,11 @@ return inertia('todos/index', [
 </Deferred>
 
 <!-- Wait for multiple deferred props -->
-<Deferred data={["teams", "projects"]}>
+<Deferred data={['teams', 'projects']}>
   {#snippet fallback()}
     <div class="space-y-4">
-      <div class="h-4 bg-muted animate-pulse rounded"></div>
-      <div class="h-4 bg-muted animate-pulse rounded"></div>
+      <div class="h-4 animate-pulse rounded bg-muted"></div>
+      <div class="h-4 animate-pulse rounded bg-muted"></div>
     </div>
   {/snippet}
 
@@ -604,16 +589,20 @@ return inertia('todos/index', [
 
 ```svelte
 <script lang="ts">
-  import { usePoll } from "@inertiajs/svelte";
+  import { usePoll } from '@inertiajs/svelte';
 
   // Basic automatic polling every 2 seconds
   usePoll(2000);
 
   // Polling with manual control
-  const { start, stop } = usePoll(2000, {}, {
-    autoStart: false, // Don't start immediately
-    keepAlive: true,  // Continue polling when tab is in background
-  });
+  const { start, stop } = usePoll(
+    2000,
+    {},
+    {
+      autoStart: false, // Don't start immediately
+      keepAlive: true, // Continue polling when tab is in background
+    },
+  );
 
   // Polling with callbacks
   usePoll(5000, {
@@ -637,8 +626,9 @@ return inertia('todos/index', [
 
 ```svelte
 <script lang="ts">
-  import { Link, usePrefetch } from "@inertiajs/svelte";
-  import { show } from "@/actions/App/Http/Controllers/TodoController";
+  import { Link, usePrefetch } from '@inertiajs/svelte';
+
+  import { show } from '@/actions/App/Http/Controllers/TodoController';
 </script>
 
 <!-- Basic hover prefetching -->
@@ -651,36 +641,36 @@ return inertia('todos/index', [
 <Link href={show(3)} prefetch="click">Action Todo</Link>
 
 <!-- Multiple prefetch strategies -->
-<Link href={show(4)} prefetch={["mount", "hover"]}>Critical Todo</Link>
+<Link href={show(4)} prefetch={['mount', 'hover']}>Critical Todo</Link>
 
 <!-- Custom cache duration -->
 <Link href={show(5)} prefetch cacheFor="1m">Cached Todo</Link>
 
 <!-- Stale-while-revalidate caching -->
-<Link href={show(6)} prefetch cacheFor={["30s", "1m"]}>SWR Todo</Link>
+<Link href={show(6)} prefetch cacheFor={['30s', '1m']}>SWR Todo</Link>
 ```
 
 #### Programmatic Prefetching with usePrefetch
 
-
 ```svelte
 <script lang="ts">
-  import { usePrefetch, router } from "@inertiajs/svelte";
-  import { show } from "@/actions/App/Http/Controllers/TodoController";
+  import { router, usePrefetch } from '@inertiajs/svelte';
+
+  import { show } from '@/actions/App/Http/Controllers/TodoController';
 
   // Using the usePrefetch helper
   const { lastUpdatedAt, isPrefetching, isPrefetched, flush } = usePrefetch(
     show(1),
-    { method: "get", data: { include: "comments" } },
-    { cacheFor: "1m" }
+    { method: 'get', data: { include: 'comments' } },
+    { cacheFor: '1m' },
   );
 
   // Direct router prefetching
   const prefetchTodo = (id: number) => {
     router.prefetch(
       show(id),
-      { method: "get", data: { include: "comments" } },
-      { cacheFor: "1m" }
+      { method: 'get', data: { include: 'comments' } },
+      { cacheFor: '1m' },
     );
   };
 
@@ -703,7 +693,7 @@ return inertia('todos/index', [
 
 ```svelte
 <script lang="ts">
-  import { WhenVisible } from "@inertiajs/svelte";
+  import { WhenVisible } from '@inertiajs/svelte';
 
   let { products } = $props(); // Deferred prop
 </script>
@@ -711,7 +701,7 @@ return inertia('todos/index', [
 <!-- Basic visibility-based loading -->
 <WhenVisible data="products">
   {#snippet fallback()}
-    <div class="h-64 bg-muted animate-pulse rounded"></div>
+    <div class="h-64 animate-pulse rounded bg-muted"></div>
   {/snippet}
 
   {#each products as product}
@@ -742,13 +732,13 @@ return inertia('todos/index', [
 
 ```svelte
 <script lang="ts">
-  import { router } from "@inertiajs/svelte";
+  import { router } from '@inertiajs/svelte';
 
   const navigateWithStatePreservation = () => {
-    router.visit("/todos", {
+    router.visit('/todos', {
       preserveState: true, // Keep current component state
       preserveScroll: true, // Keep scroll position
-      only: ["todos"], // Only reload specific props
+      only: ['todos'], // Only reload specific props
     });
   };
 </script>

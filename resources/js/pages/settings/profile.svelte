@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { BreadcrumbItem } from '@/types';
 
-  import { Form, Link, page } from '@inertiajs/svelte';
+  import { Form, page } from '@inertiajs/svelte';
   import { fade } from 'svelte/transition';
 
   import AppLayout from '@/layouts/app-layout.svelte';
@@ -17,13 +17,6 @@
 
   import { update } from '@/actions/App/Http/Controllers/User/ProfileController';
   import { edit } from '@/routes/profile';
-
-  interface Props {
-    mustVerifyEmail: boolean;
-    status?: string;
-  }
-
-  const { mustVerifyEmail, status }: Props = $props();
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -87,35 +80,6 @@
             />
             <InputError class="mt-2" message={errors.email} />
           </div>
-
-          {#if mustVerifyEmail && !user.email_verified_at}
-            <div>
-              <p class="-mt-4 text-sm text-muted-foreground">
-                Your email address is unverified.
-                <Link
-                  href={route('verification.send')}
-                  method="post"
-                  as="button"
-                  class="
-                    text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300
-                    ease-out
-                    hover:!decoration-current
-                    dark:decoration-neutral-500
-                  "
-                >
-                  Click here to resend the verification email.
-                </Link>
-              </p>
-
-              {#if status === 'verification-link-sent'}
-                <div
-                  class="mt-2 text-sm font-medium text-green-600 dark:text-green-400"
-                >
-                  A new verification link has been sent to your email address.
-                </div>
-              {/if}
-            </div>
-          {/if}
 
           <div class="flex items-center gap-4">
             <Button type="submit" disabled={processing}>Save</Button>
