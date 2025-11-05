@@ -87,7 +87,7 @@ composer test
 app/
 ├── Actions/                   # Business logic (Action pattern)
 │   ├── Auth/                  # Authentication actions
-│   └── Settings/              # User settings actions
+│   └── User/                  # User domain actions (profile, password, account)
 ├── Enums/                     # Enum classes
 ├── Http/
 │   ├── Controllers/           # Thin controllers (delegate to Actions)

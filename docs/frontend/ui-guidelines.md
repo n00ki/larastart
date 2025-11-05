@@ -3,6 +3,7 @@
 ## TailwindCSS v4 Standards
 
 ### Core Principles
+
 - Use TailwindCSS v4 exclusively for utility-first styling approach
 - Use `shadcn-svelte` components from `@/components/ui` as the primary building blocks for the UI
 <!-- - Use the `@/components/icon.svelte` component for all icons -->
@@ -10,6 +11,7 @@
 - Use the global CSS variables defined in `resources/css/app.css`
 
 ### TailwindCSS v4 New Features
+
 Leverage TailwindCSS v4's enhanced features:
 
 - **Text shadows**: Use `text-shadow-*` utilities for enhanced typography
@@ -22,6 +24,7 @@ Leverage TailwindCSS v4's enhanced features:
 - **Size utilities**: Use the new `size-*` utility instead of `w-*` and `h-*` combinations when appropriate
 
 ### Color System
+
 Use the global CSS variables for all colors (avoid hardcoded color values):
 
 ```svelte
@@ -41,18 +44,19 @@ Use the global CSS variables for all colors (avoid hardcoded color values):
 ## shadcn-svelte Integration
 
 ### Component Usage
+
 Use shadcn-svelte components as building blocks:
 
 ```svelte
 <script lang="ts">
-  import { Button } from "@/components/ui/button";
-  import * as Card from "@/components/ui/card";
-  import { Input } from "@/components/ui/input";
-  import { Label } from "@/components/ui/label";
-  import { Badge } from "@/components/ui/badge";
+  import { Badge } from '@/components/ui/badge';
+  import { Button } from '@/components/ui/button';
+  import * as Card from '@/components/ui/card';
+  import { Input } from '@/components/ui/input';
+  import { Label } from '@/components/ui/label';
 </script>
 
-<Card.Root class="w-full max-w-md mx-auto">
+<Card.Root class="mx-auto w-full max-w-md">
   <Card.Header>
     <Card.Title>Todo Item</Card.Title>
     <Card.Description>Manage your task</Card.Description>
@@ -78,13 +82,14 @@ Use shadcn-svelte components as building blocks:
 ```
 
 ### Component Variants
+
 Understand and use component variants effectively:
 
 ```svelte
 <script lang="ts">
-  import { Button } from "@/components/ui/button";
-  import * as Alert from "@/components/ui/alert";
-  import { Badge } from "@/components/ui/badge";
+  import * as Alert from '@/components/ui/alert';
+  import { Badge } from '@/components/ui/badge';
+  import { Button } from '@/components/ui/button';
 </script>
 
 <!-- Button variants -->
@@ -98,7 +103,7 @@ Understand and use component variants effectively:
 </div>
 
 <!-- Button sizes -->
-<div class="flex gap-2 items-center">
+<div class="flex items-center gap-2">
   <Button size="sm">Small</Button>
   <Button size="default">Default</Button>
   <Button size="lg">Large</Button>
@@ -132,12 +137,14 @@ Understand and use component variants effectively:
 ## Icon System
 
 ### Icon Component Usage
+
 All icons should use the `@/components/icon.svelte` custom component with icons from `@lucide/svelte`:
 
 ```svelte
 <script lang="ts">
-  import Icon from "@/components/icon.svelte";
-  import { Menu, Plus, Trash2 } from "@lucide/svelte";
+  import { Menu, Plus, Trash2 } from '@lucide/svelte';
+
+  import Icon from '@/components/icon.svelte';
 </script>
 
 <!-- Using the custom Icon component -->
@@ -152,10 +159,12 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
 ```
 
 ### Icon with Buttons
+
 ```svelte
 <script lang="ts">
-  import { Button } from "@/components/ui/button";
-  import { Plus, Download, Settings } from "@lucide/svelte";
+  import { Download, Plus, Settings } from '@lucide/svelte';
+
+  import { Button } from '@/components/ui/button';
 </script>
 
 <!-- Icon only buttons -->
@@ -183,14 +192,15 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
 ## Responsive Design Patterns
 
 ### Container Queries (TailwindCSS v4)
+
 ```svelte
 <!-- Using container queries for adaptive components -->
 <div class="@container">
   <div class="@md:flex @md:gap-4">
     <div class="@md:flex-1">
-      <h2 class="@lg:text-2xl text-xl">Responsive Title</h2>
+      <h2 class="text-xl @lg:text-2xl">Responsive Title</h2>
     </div>
-    <div class="@md:flex-shrink-0">
+    <div class="@md:shrink-0">
       <Button size="sm" class="@lg:size-default">Action</Button>
     </div>
   </div>
@@ -200,11 +210,12 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
 ## Layout Patterns
 
 ### Card Layouts
+
 ```svelte
 <script lang="ts">
-  import * as Card from "@/components/ui/card";
-  import { Button } from "@/components/ui/button";
-  import { Badge } from "@/components/ui/badge";
+  import { Badge } from '@/components/ui/badge';
+  import { Button } from '@/components/ui/button';
+  import * as Card from '@/components/ui/card';
 </script>
 
 <!-- Standard card layout -->
@@ -220,9 +231,7 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
   </Card.Header>
 
   <Card.Content>
-    <p class="text-muted-foreground">
-      Todo description goes here...
-    </p>
+    <p class="text-muted-foreground">Todo description goes here...</p>
   </Card.Content>
 
   <Card.Footer class="flex justify-between">
@@ -236,16 +245,17 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
 ```
 
 ### Form Layouts
+
 ```svelte
 <script lang="ts">
-  import * as Card from "@/components/ui/card";
-  import { Label } from "@/components/ui/label";
-  import { Input } from "@/components/ui/input";
-  import { Button } from "@/components/ui/button";
-  import * as Select from "@/components/ui/select";
+  import { Button } from '@/components/ui/button';
+  import * as Card from '@/components/ui/card';
+  import { Input } from '@/components/ui/input';
+  import { Label } from '@/components/ui/label';
+  import * as Select from '@/components/ui/select';
 </script>
 
-<Card.Root class="max-w-md mx-auto">
+<Card.Root class="mx-auto max-w-md">
   <Card.Header>
     <Card.Title>Create New Todo</Card.Title>
   </Card.Header>
@@ -283,6 +293,7 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
 ## UI Principles
 
 ### Design Consistency
+
 - Keep interfaces clean and uncluttered
 - Implement clear loading, success, and error states for all user interactions
 - Use clear and consistent messaging for errors
@@ -290,6 +301,7 @@ All icons should use the `@/components/icon.svelte` custom component with icons 
 - Use proper semantic HTML elements where possible
 
 ### State Indication
+
 ```svelte
 <script lang="ts">
   let loading = $state(false);
