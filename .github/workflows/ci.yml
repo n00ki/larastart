@@ -45,29 +45,41 @@ jobs:
           path: |
             ~/.bun/install/cache
             ./.bun
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'bun.lockb') }}
           restore-keys: ${{ runner.os }}-bun-
 
       - name: Install dependencies
         run: |
-          if [ -f bun.lock ]; then
+          if [ -f bun.lock ] || [ -f bun.lockb ]; then
             bun install --frozen-lockfile
           else
-            echo "⚠️ No bun.lock found — installing without frozen lockfile"
+            echo "⚠️ No bun lockfile found — installing without frozen lockfile"
             bun install
           fi
 
+      - name: Get Playwright version
+        id: playwright-version
+        run: |
+          VERSION=$(jq -r '.version' node_modules/@playwright/test/package.json 2>/dev/null || bun x playwright --version | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
+
       - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: bun x playwright install --with-deps
+
+      - name: Install Playwright System Dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: bun x playwright install-deps
 
       - name: Build Assets
         run: bun run build
-
-      - name: Copy Environment File
-        run: cp .env.example .env
-
-      - name: Generate Application Key
-        run: php artisan key:generate
 
       - name: Prepare Cache Directories
         run: |
@@ -88,5 +100,5 @@ jobs:
           key: ${{ runner.os }}-phpstan-${{ hashFiles('composer.lock') }}
           restore-keys: ${{ runner.os }}-phpstan-
 
-      - name: Tests
+      - name: Format, Lint & Test
         run: composer test
