@@ -9,6 +9,7 @@
 
   import Icon from '@/components/icon.svelte';
   import { Button } from '@/components/ui/button';
+  import * as Kbd from '@/components/ui/kbd';
   import * as Tooltip from '@/components/ui/tooltip';
 
   interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -73,11 +74,7 @@
       <Tooltip.Content side={tooltipPosition}>
         <span class="flex items-center gap-1.5 text-xs">
           <p>switch to {nextMode.label.toLowerCase()} mode</p>
-          <p
-            class="rounded-sm bg-muted px-1 py-0.5 font-semibold text-foreground"
-          >
-            T
-          </p>
+          <Kbd.Root>T</Kbd.Root>
         </span>
       </Tooltip.Content>
     </Tooltip.Root>
