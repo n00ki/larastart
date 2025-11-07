@@ -37,7 +37,7 @@ final class ResetPasswordController
             $request->string('password')->value(),
         );
 
-        return redirect()->route('login')
+        return to_route('login')
             ->with('flash', ['type' => 'success', 'message' => __('passwords.reset')]);
     }
 }

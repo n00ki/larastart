@@ -8,7 +8,7 @@ use App\Http\Controllers\User\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function (): void {
     Route::redirect('settings', '/settings/profile');
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -20,7 +20,5 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/account', [AccountController::class, 'edit'])->name('account.edit');
     Route::delete('settings/account', [AccountController::class, 'destroy'])->name('account.destroy');
 
-    Route::get('settings/appearance', function () {
-        return Inertia::render('settings/appearance');
-    })->name('appearance');
+    Route::get('settings/appearance', fn () => Inertia::render('settings/appearance'))->name('appearance');
 });
