@@ -58,7 +58,7 @@ bun install
 bun run build
 
 # Type checking
-bun run type-check
+bun run check
 
 # ESLint formatting and linting
 bun run lint                # Check ESLint rules
@@ -78,7 +78,7 @@ Before marking any task complete:
 
 - [ ] **Update any documentation** that may be affected by the changes
 - [ ] **Run `composer lint:fix`** and fix all issues
-- [ ] **Run `composer run test`** and ensure all tests pass
+- [ ] **Run `composer test`** and ensure all tests pass
 
 ## Code Quality Standards
 

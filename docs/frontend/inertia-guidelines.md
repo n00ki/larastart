@@ -163,7 +163,9 @@ The base PageProps type provides standard props available to all Inertia pages:
 
 ```typescript
 // resources/js/types/index.d.ts
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type PageProps<
+  T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
   name: string;
   auth: Auth;
   flash: {
@@ -177,7 +179,6 @@ export interface Auth {
 }
 
 // define other types and interfaces here...
-
 ```
 
 ### Accessing PageProps via Page Store
@@ -185,7 +186,7 @@ export interface Auth {
 Access server-side data through the Inertia page store instead of component props:
 
 ```typescript
-import { page } from "@inertiajs/svelte";
+import { page } from '@inertiajs/svelte';
 
 // Access page store with reactive derivation
 const user = $derived($page.props.auth.user);
@@ -280,7 +281,7 @@ declare global {
   }
 }
 
-declare module "@inertiajs/core" {
+declare module '@inertiajs/core' {
   interface PageProps extends InertiaPageProps, AppPageProps {}
 }
 ```
@@ -302,7 +303,12 @@ php artisan wayfinder:generate --skip-routes
 
 ```typescript
 // Import Wayfinder-generated controller methods
-import { index, show, store, update } from "@/actions/App/Http/Controllers/TodoController";
+import {
+  index,
+  show,
+  store,
+  update,
+} from '@/actions/App/Http/Controllers/TodoController';
 
 // Get URL and method
 store(); // { url: "/todos", method: "post" }
@@ -329,14 +335,14 @@ update([1, 2]); // For routes like /todos/{todo}/comments/{comment}
 update({ todo: 1, comment: 2 });
 
 // Named parameter bindings
-show({ slug: "my-todo" }); // For routes like /todos/{todo:slug}
+show({ slug: 'my-todo' }); // For routes like /todos/{todo:slug}
 ```
 
 ### Query Parameters
 
 ```typescript
 // Add query parameters
-show(1, { query: { include: "comments" } }); // "/todos/1?include=comments"
+show(1, { query: { include: 'comments' } }); // "/todos/1?include=comments"
 
 // Merge with existing URL parameters
 show(1, { mergeQuery: { page: 2 } }); // Merges with current URL query

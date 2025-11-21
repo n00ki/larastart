@@ -3,12 +3,14 @@
 ## Authentication & Authorization
 
 ### Laravel Authentication
+
 - Use Laravel's built-in authentication system
 - Implement proper CSRF protection (enabled by default)
 - Use policies for all authorization logic
 - Validate all user inputs through FormRequests
 
 ### Policy-Based Authorization
+
 ```php
 <?php
 
@@ -47,6 +49,7 @@ class TodoPolicy
 ```
 
 ### Controller Authorization
+
 ```php
 <?php
 
@@ -55,7 +58,7 @@ class TodoController extends Controller
     public function show(Todo $todo): Response
     {
         $this->authorize('view', $todo);
-        
+
         return inertia('todos/show', [
             'todo' => $todo->load('user'),
         ]);
@@ -64,9 +67,9 @@ class TodoController extends Controller
     public function update(UpdateTodoRequest $request, Todo $todo): RedirectResponse
     {
         $this->authorize('update', $todo);
-        
+
         $todo->update($request->validated());
-        
+
         return redirect()->route('todos.show', $todo);
     }
 }
@@ -75,6 +78,7 @@ class TodoController extends Controller
 ## Data Protection
 
 ### Input Validation
+
 Always validate user input through FormRequests:
 
 ```php
@@ -114,6 +118,7 @@ class CreateTodoRequest extends FormRequest
 ```
 
 ### SQL Injection Prevention
+
 - Use Eloquent ORM exclusively (never raw queries without parameterization)
 - Always use parameterized queries for any raw SQL
 
@@ -131,6 +136,7 @@ DB::select("SELECT * FROM users WHERE email = '{$email}'");
 ### Data Exposure Prevention
 
 #### Inertia.js Props Security
+
 Never expose sensitive data in Inertia props:
 
 ```php
@@ -153,6 +159,7 @@ return inertia('users/profile', [
 ```
 
 #### Model Hidden Attributes
+
 ```php
 <?php
 
@@ -183,6 +190,7 @@ class User extends Authenticatable
 ## Rate Limiting
 
 ### API Rate Limiting
+
 ```php
 <?php
 
@@ -201,6 +209,7 @@ Route::middleware(['auth', 'throttle:5,1'])->group(function () {
 ```
 
 ### Custom Rate Limiting
+
 ```php
 <?php
 
@@ -222,6 +231,7 @@ public function boot(): void
 ## HTTPS & Transport Security
 
 ### Production Requirements
+
 - **Always use HTTPS** in production
 - Configure proper SSL/TLS certificates
 - Use Laravel's force HTTPS helpers
@@ -239,6 +249,7 @@ public function boot(): void
 ```
 
 ### Security Headers
+
 ```php
 <?php
 
@@ -253,12 +264,12 @@ class SecurityHeaders
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        
+
         $response->headers->set('X-Frame-Options', 'DENY');
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-        
+
         return $response;
     }
 }
@@ -267,6 +278,7 @@ class SecurityHeaders
 ## Session & Cookie Security
 
 ### Session Configuration
+
 ```php
 <?php
 
@@ -293,6 +305,7 @@ return [
 ## Encryption & Key Management
 
 ### Laravel 12 Key Rotation
+
 Leverage Laravel 12's graceful encryption key rotation:
 
 ```php
@@ -306,6 +319,7 @@ php artisan key:generate --show
 ```
 
 ### Sensitive Data Encryption
+
 ```php
 <?php
 
@@ -323,44 +337,18 @@ $decryptedData = Crypt::decrypt($user->encrypted_notes);
 
 ## Inertia.js Security
 
-### History Encryption
-Use Inertia 2.0's history encryption for sensitive data:
+### Sensitive Data in Props
 
-```php
-<?php
-
-// In controller - mark sensitive data for encryption
-return inertia('sensitive-page', [
-    'publicData' => $publicData,
-    'sensitiveData' => $sensitiveData,
-])->withEncryption(['sensitiveData']);
-```
+Avoid passing sensitive data in Inertia props. Prefer deferred/lazy props and server-side checks; enforce HTTPS.
 
 ### CSRF Protection
-Inertia automatically handles CSRF tokens, but ensure proper configuration:
 
-```php
-<?php
-
-// resources/js/app.ts
-import { createInertiaApp } from '@inertiajs/svelte'
-
-createInertiaApp({
-    resolve: name => {
-        const pages = import.meta.glob('./pages/**/*.svelte', { eager: true })
-        return pages[`./pages/${name}.svelte`]
-    },
-    setup({ el, App, props }) {
-        new App({ target: el, props })
-    },
-    // Ensure CSRF token is included
-    transform: (props) => props,
-})
-```
+CSRF protection is enabled by default via Laravel middleware and Inertia adapters; no client configuration is required.
 
 ## Error Handling & Logging
 
 ### Secure Error Handling
+
 ```php
 <?php
 
@@ -387,6 +375,7 @@ public function render($request, Throwable $exception)
 ```
 
 ### Audit Logging
+
 ```php
 <?php
 
@@ -398,7 +387,7 @@ class AuditLog
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        
+
         // Log sensitive operations
         if ($this->isSensitiveOperation($request)) {
             logger()->info('Sensitive operation performed', [
@@ -408,10 +397,10 @@ class AuditLog
                 'user_agent' => $request->userAgent(),
             ]);
         }
-        
+
         return $response;
     }
-    
+
     private function isSensitiveOperation(Request $request): bool
     {
         return in_array($request->method(), ['POST', 'PUT', 'PATCH', 'DELETE']);
