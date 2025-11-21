@@ -1,6 +1,6 @@
 # LaraStart
 
-**The ultimate \***mise en place**\* for your next Laravel + Svelte project 🚀**
+**The ultimate _mise en place_ for your next Laravel + Svelte project 🚀**
 
 <div align="center">
   <img src="https://res.cloudinary.com/nshemesh/image/upload/v1756713825/larastart/meta.png" alt="LaraStart" width="600">
@@ -35,7 +35,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/laravel-svelte-starter.git my-app
+git clone https://github.com/n00ki/larastart.git my-app
 cd my-app
 
 # Install PHP dependencies
@@ -101,9 +101,9 @@ app/
 
 resources/
 ├── css/
-│   └── app.css               # TailwindCSS configuration
+│   └── app.css               # Global CSS
 └── js/
-    ├── actions/              # Wayfinder-generated route helpers
+    ├── actions/              # Wayfinder-generated actions
     ├── components/           # Svelte components
     │   └── ui/               # shadcn-svelte UI components
     ├── hooks/                # Svelte hooks and utilities
@@ -156,9 +156,15 @@ Comprehensive development guidelines and best practices are available in the `/d
 
 - **[Documentation Index](/docs/README.md)** - Complete overview of all documentation
 - **[Development Workflow](/docs/development-workflow.md)** - Commands, tools, and development processes
-- **[Backend Guidelines](/docs/backend-guidelines.md)** - PHP, Laravel, database, security, and architecture patterns
-- **[Frontend Guidelines](/docs/frontend-guidelines.md)** - Svelte 5, Inertia.js, UI components, and styling
-- **[Testing Guidelines](/docs/testing-guidelines.md)** - Testing patterns and requirements
+- **[PHP & Laravel Guidelines](/docs/backend/php-laravel-guidelines.md)**
+- **[Architecture Guidelines](/docs/backend/architecture-guidelines.md)**
+- **[Database Guidelines](/docs/backend/database-guidelines.md)**
+- **[Security Guidelines](/docs/backend/security-guidelines.md)**
+- **[Error Handling Guidelines](/docs/backend/error-handling-guidelines.md)**
+- **[Svelte Guidelines](/docs/frontend/svelte-guidelines.md)**
+- **[Inertia Guidelines](/docs/frontend/inertia-guidelines.md)**
+- **[UI Guidelines](/docs/frontend/ui-guidelines.md)**
+- **[Testing Guidelines](/docs/testing/testing-guidelines.md)** - Testing patterns and requirements
 
 ## Contributing
 
