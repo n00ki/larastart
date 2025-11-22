@@ -18,7 +18,7 @@
 </script>
 
 <div
-  class="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10"
+  class="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10"
 >
   <div class="flex w-full max-w-md flex-col gap-6">
     <Link href={home()} class="flex items-center gap-2 self-center font-medium">
@@ -28,17 +28,19 @@
     </Link>
 
     <div class="flex flex-col gap-6">
-      <Card.Root class="rounded-xl">
-        <Card.Header class="px-10 pt-8 pb-0 text-center">
-          <Card.Title class="text-xl">{title}</Card.Title>
-          <Card.Description>
-            {description}
-          </Card.Description>
-        </Card.Header>
-        <Card.Content class="px-10 py-8">
-          {@render children?.()}
-        </Card.Content>
-      </Card.Root>
+      <div class="rounded-2xl border bg-accent/30 p-1.5 outline-none">
+        <Card.Root>
+          <Card.Header class="px-10 pt-8 pb-0 text-center">
+            <Card.Title class="text-xl">{title}</Card.Title>
+            <Card.Description>
+              {description}
+            </Card.Description>
+          </Card.Header>
+          <Card.Content class="px-10 py-8">
+            {@render children?.()}
+          </Card.Content>
+        </Card.Root>
+      </div>
     </div>
   </div>
 </div>
