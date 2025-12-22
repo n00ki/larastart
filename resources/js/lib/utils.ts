@@ -43,7 +43,7 @@ export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & {
 };
 
 /**
- * A utility function to display a flash message.
+ * Display a flash message using svelte-sonner toast.
  * @param type The type of the flash message.
  * @param message The message to display.
  */

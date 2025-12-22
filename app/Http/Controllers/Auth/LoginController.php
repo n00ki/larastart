@@ -30,7 +30,11 @@ final readonly class LoginController
 
         session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false))
-            ->with('flash', ['type' => 'success', 'message' => __('auth.logged_in')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('auth.logged_in'),
+        ]);
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }

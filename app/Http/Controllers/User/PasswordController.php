@@ -27,7 +27,11 @@ final readonly class PasswordController
     {
         $action->handle($request->user(), $request->validated());
 
-        return back()
-            ->with('flash', ['type' => 'success', 'message' => __('settings.password_updated')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('settings.password_updated'),
+        ]);
+
+        return back();
     }
 }

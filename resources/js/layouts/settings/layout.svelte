@@ -35,7 +35,9 @@
 
   const { children }: Props = $props();
 
-  const currentPath = $derived(new URL($page.url).pathname);
+  const currentPath = $derived(
+    new URL($page.url, window.location.origin).pathname,
+  );
 </script>
 
 <div class="px-4 py-6">

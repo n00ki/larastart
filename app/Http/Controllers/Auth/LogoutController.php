@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 final readonly class LogoutController
 {
@@ -20,7 +21,11 @@ final readonly class LogoutController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')
-            ->with('flash', ['type' => 'success', 'message' => __('auth.logged_out')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('auth.logged_out'),
+        ]);
+
+        return redirect('/');
     }
 }

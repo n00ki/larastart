@@ -37,7 +37,11 @@ final class ConfirmPasswordController
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(route('dashboard', absolute: false))
-            ->with('flash', ['type' => 'success', 'message' => __('auth.password_confirmed')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('auth.password_confirmed'),
+        ]);
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }

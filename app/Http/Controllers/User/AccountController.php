@@ -29,7 +29,11 @@ final readonly class AccountController
     {
         $action->handle($user, $request);
 
-        return redirect('/')
-            ->with('flash', ['type' => 'success', 'message' => __('settings.account_deleted')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('settings.account_deleted'),
+        ]);
+
+        return redirect('/');
     }
 }

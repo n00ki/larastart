@@ -27,7 +27,11 @@ final readonly class ProfileController
     {
         $action->handle($request->user(), $request->validated());
 
-        return to_route('profile.edit')
-            ->with('flash', ['type' => 'success', 'message' => __('settings.profile_updated')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('settings.profile_updated'),
+        ]);
+
+        return to_route('profile.edit');
     }
 }

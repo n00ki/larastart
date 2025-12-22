@@ -37,7 +37,11 @@ final class ResetPasswordController
             $request->string('password')->value(),
         );
 
-        return to_route('login')
-            ->with('flash', ['type' => 'success', 'message' => __('passwords.reset')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('passwords.reset'),
+        ]);
+
+        return to_route('login');
     }
 }

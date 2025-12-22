@@ -5,10 +5,6 @@ export type PageProps<
 > = T & {
   name: string;
   auth: Auth;
-  flash?: {
-    type: 'success' | 'error' | 'warning' | 'info';
-    message: string;
-  };
   [key: string]: unknown;
 };
 

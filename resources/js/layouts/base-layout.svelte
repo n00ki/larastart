@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
 
-  import { page } from '@inertiajs/svelte';
+  import { router } from '@inertiajs/svelte';
+  import { onMount } from 'svelte';
 
   import { useTheme } from '@/hooks/use-theme.svelte';
   import { displayFlashMessage } from '@/lib/utils';
@@ -15,13 +16,15 @@
   const { children }: Props = $props();
   const theme = $derived(useTheme().current);
 
-  $effect(() => {
-    if ($page.props.flash) {
-      const { type, message } = $page.props.flash;
-      setTimeout(() => {
+  // Listen for Inertia flash events (v2.3+)
+  // @see https://inertiajs.com/docs/v2/data-props/flash-data#global-flash-event
+  onMount(() => {
+    return router.on('flash', (event) => {
+      const { type, message } = event.detail.flash;
+      if (type && message) {
         displayFlashMessage(type, message);
-      }, 250);
-    }
+      }
+    });
   });
 </script>
 

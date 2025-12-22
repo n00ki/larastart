@@ -38,7 +38,11 @@ final readonly class RegisterController
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false))
-            ->with('flash', ['type' => 'success', 'message' => __('auth.registered')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('auth.registered'),
+        ]);
+
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }

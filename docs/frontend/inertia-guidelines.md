@@ -168,9 +168,6 @@ export type PageProps<
 > = T & {
   name: string;
   auth: Auth;
-  flash: {
-    message: string;
-  };
   [key: string]: unknown;
 };
 
@@ -731,6 +728,68 @@ return inertia('todos/index', [
   {/each}
 </WhenVisible>
 ```
+
+## Flash Messages
+
+Flash messages use Inertia's native flash data feature, which ensures messages don't persist in browser history state.
+
+### Server-Side (Laravel Controllers)
+
+Use `Inertia::flash()` to send flash messages:
+
+```php
+<?php
+
+use Inertia\Inertia;
+
+// Flash a message before redirecting
+Inertia::flash([
+    'type' => 'success',
+    'message' => __('settings.profile_updated'),
+]);
+
+return to_route('profile.edit');
+```
+
+### Client-Side (Svelte)
+
+Flash messages are handled globally via the `router.on('flash')` event in the base layout:
+
+```svelte
+<script lang="ts">
+  import { router } from '@inertiajs/svelte';
+  import { onMount } from 'svelte';
+
+  import { displayFlashMessage } from '@/lib/utils';
+
+  onMount(() => {
+    return router.on('flash', (event) => {
+      const { type, message } = event.detail.flash;
+      if (type && message) {
+        displayFlashMessage(type, message);
+      }
+    });
+  });
+</script>
+```
+
+### TypeScript Configuration
+
+Flash data types are configured globally using TypeScript's declaration merging:
+
+```typescript
+// resources/js/types/global.d.ts
+declare module '@inertiajs/core' {
+  interface InertiaConfig {
+    flashDataType: {
+      type?: 'success' | 'error' | 'warning' | 'info';
+      message?: string;
+    };
+  }
+}
+```
+
+With this configuration, `$page.flash.type` and `$page.flash.message` are properly typed.
 
 ## Advanced Patterns
 

@@ -27,7 +27,11 @@ final class ForgotPasswordController
     {
         $action->handle($request->validated());
 
-        return back()
-            ->with('flash', ['type' => 'success', 'message' => __('passwords.sent')]);
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('passwords.sent'),
+        ]);
+
+        return back();
     }
 }
