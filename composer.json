@@ -22,6 +22,7 @@
     "driftingly/rector-laravel": "^2.1.8",
     "fakerphp/faker": "^1.24.1",
     "larastan/larastan": "^3.8.1",
+    "laravel/boost": "*",
     "laravel/pail": "^1.2.4",
     "laravel/pint": "^1.26.0",
     "laravel/sail": "^1.51.0",
@@ -53,6 +54,7 @@
     "post-update-cmd": [
       "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
       "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+      "@php artisan boost:update --ansi",
       "@php artisan ide-helper:generate"
     ],
     "post-root-package-install": [

@@ -14,7 +14,7 @@
 ## Tech Stack
 
 - [🐘 Laravel 12](https://laravel.com/) - Latest PHP framework with modern features
-- [🔧 PHP 8.4](https://php.net/) - Latest PHP with property hooks and performance improvements
+- [🔧 PHP 8.5](https://php.net/) - Latest PHP with property hooks and performance improvements
 - [🛡️ Inertia.js 2.0](https://inertiajs.com/) - Modern monolith approach with SPA feel
 - [🛣️ Laravel Wayfinder](https://github.com/laravel/wayfinder) - Type-safe routing for Laravel + TypeScript
 - [🟠 Svelte 5](https://svelte.dev/) - Revolutionary frontend framework with runes
@@ -54,6 +54,9 @@ php artisan key:generate
 # Setup database
 touch database/database.sqlite
 php artisan migrate
+
+# Generate AI assistant guidelines (optional)
+php artisan boost:update
 
 # Start development environment
 composer dev
@@ -152,23 +155,22 @@ composer test:all           # All tests with coverage
 
 ## Documentation
 
-Comprehensive development guidelines and best practices are available in the `/docs` folder:
+### For Humans
 
-- **[Documentation Index](/docs/README.md)** - Complete overview of all documentation
-- **[Development Workflow](/docs/development-workflow.md)** - Commands, tools, and development processes
-- **[PHP & Laravel Guidelines](/docs/backend/php-laravel-guidelines.md)**
-- **[Architecture Guidelines](/docs/backend/architecture-guidelines.md)**
-- **[Database Guidelines](/docs/backend/database-guidelines.md)**
-- **[Security Guidelines](/docs/backend/security-guidelines.md)**
-- **[Error Handling Guidelines](/docs/backend/error-handling-guidelines.md)**
-- **[Svelte Guidelines](/docs/frontend/svelte-guidelines.md)**
-- **[Inertia Guidelines](/docs/frontend/inertia-guidelines.md)**
-- **[UI Guidelines](/docs/frontend/ui-guidelines.md)**
-- **[Testing Guidelines](/docs/testing/testing-guidelines.md)** - Testing patterns and requirements
+- **[Architecture Decisions](/docs/ARCHITECTURE.md)** - Why we chose certain patterns
+
+### For AI Assistants
+
+This project uses **[Laravel Boost](https://boost.laravel.com)** for AI guidance:
+
+- **Laravel/Inertia/Pest/Wayfinder:** Automatically detected and provided by Laravel Boost
+- **Svelte 5:** Use the Svelte MCP server for up-to-date documentation, patterns and conventions
+
+After updating packages, run `php artisan boost:update` to refresh AI guidelines.
 
 ## Contributing
 
-Contributions are welcome! Please review the documentation in `/docs` and feel free to submit a Pull Request.
+Contributions are welcome! Feel free to submit a Pull Request.
 
 ## Acknowledgments
 

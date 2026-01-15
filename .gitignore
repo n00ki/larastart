@@ -61,6 +61,14 @@ _ide_helper*
 /resources/js/routes
 /resources/js/wayfinder
 
+# Laravel Boost (generated - run `php artisan boost:update` to regenerate)
+AGENTS.md
+CLAUDE.md
+.mcp.json
+.cursor/
+.claude/
+.opencode/
+
 # System files
 .DS_Store
 Thumbs.db
