@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ConfirmPasswordController
+final readonly class ConfirmPasswordController
 {
     /**
      * Show the confirm password page.

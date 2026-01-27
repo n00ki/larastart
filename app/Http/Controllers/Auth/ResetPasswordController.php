@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ResetPasswordController
+final readonly class ResetPasswordController
 {
     /**
      * Show the password reset page.

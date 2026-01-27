@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
-final class ForgotPasswordController
+final readonly class ForgotPasswordController
 {
     /**
      * Show the password reset link request page.

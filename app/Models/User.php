@@ -60,14 +60,8 @@ final class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'id' => 'integer',
-            'name' => 'string',
-            'email' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'remember_token' => 'string',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
         ];
     }
 }

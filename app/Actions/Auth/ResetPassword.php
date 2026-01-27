@@ -23,9 +23,6 @@ final readonly class ResetPassword
      */
     public function handle(array $data, #[SensitiveParameter] string $password): string
     {
-        // Attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $data,
             function (User $user) use ($password): void {
@@ -40,8 +37,6 @@ final readonly class ResetPassword
             },
         );
 
-        // If the password was successfully reset, we will return the status.
-        // Otherwise, we will throw a validation exception with the error.
         if ($status !== Password::PASSWORD_RESET) {
             throw ValidationException::withMessages([
                 'email' => [__($status)],

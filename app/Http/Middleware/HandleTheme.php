@@ -18,9 +18,9 @@ final class HandleTheme
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $key = (string) config('app.theme_key', 'theme');
+        $key = config('app.theme_key', 'theme');
 
-        View::share('theme', $request->cookie($key) ?? 'system');
+        View::share('theme', $request->cookie($key, 'system'));
 
         return $next($request);
     }
