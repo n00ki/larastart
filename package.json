@@ -10,7 +10,8 @@
     "check": "svelte-check resources/ --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check resources/ --tsconfig ./tsconfig.json --watch",
     "lint": "eslint . && svelte-check resources/ --tsconfig ./tsconfig.json",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "postinstall": "bun x simple-git-hooks"
   },
   "dependencies": {},
   "optionalDependencies": {
