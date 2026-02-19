@@ -16,7 +16,9 @@ test('user login happy path from homepage to dashboard', function (): void {
         ->click('Log in')
         ->assertPathIs('/dashboard')
         ->assertSee('Dashboard')
-        ->assertSee($user->name);
+        ->assertSee($user->name)
+        ->assertSee(__('auth.logged_in'))
+        ->assertNoJavaScriptErrors();
 
     $this->assertAuthenticatedAs($user);
 });

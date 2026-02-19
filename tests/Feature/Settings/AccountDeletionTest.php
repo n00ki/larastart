@@ -33,7 +33,9 @@ test('user can delete their account', function () {
 
     $response
         ->assertSessionHasNoErrors()
-        ->assertRedirect('/');
+        ->assertRedirect('/')
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('settings.account_deleted'));
 
     $this->assertGuest();
     expect($user->fresh())->toBeNull();

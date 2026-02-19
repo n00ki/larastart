@@ -36,7 +36,9 @@ test('profile information can be updated', function () {
 
     $response
         ->assertSessionHasNoErrors()
-        ->assertRedirect('/settings/profile');
+        ->assertRedirect('/settings/profile')
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('settings.profile_updated'));
 
     $user->refresh();
 

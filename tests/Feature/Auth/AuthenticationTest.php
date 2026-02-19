@@ -19,7 +19,10 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.logged_in'));
 });
 
 test('users can not authenticate with invalid password', function () {
@@ -33,13 +36,42 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
+test('users can authenticate using a json request', function () {
+    $user = User::factory()->create();
+
+    $response = $this->postJson('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+
+    $response
+        ->assertOk()
+        ->assertJson([
+            'two_factor' => false,
+        ]);
+});
+
 test('users can logout', function () {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->post('/logout');
 
     $this->assertGuest();
-    $response->assertRedirect('/');
+    $response
+        ->assertRedirect('/')
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.logged_out'));
+});
+
+test('users can logout using a json request', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->postJson('/logout');
+
+    $this->assertGuest();
+    $response->assertNoContent();
 });
 
 test('login attempts are rate limited after too many failed attempts', function () {
@@ -81,7 +113,10 @@ test('login rate limiting is cleared after successful authentication', function 
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.logged_in'));
 
     // Logout and verify we can login again immediately
     $this->post('/logout');
@@ -92,7 +127,10 @@ test('login rate limiting is cleared after successful authentication', function 
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.logged_in'));
 });
 
 test('users can authenticate with remember me option', function () {
@@ -105,5 +143,8 @@ test('users can authenticate with remember me option', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.logged_in'));
 });

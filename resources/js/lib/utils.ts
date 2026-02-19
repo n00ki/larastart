@@ -27,10 +27,14 @@ export type WithElementRef<T, U extends HTMLElement = HTMLElement> = T & {
   ref?: U | null;
 };
 
-export function displayFlashMessage(
-  type: 'success' | 'error' | 'warning' | 'info',
-  message: string,
-) {
+export type FlashMessageType = 'success' | 'error' | 'warning' | 'info';
+
+export type FlashPayload = {
+  type?: FlashMessageType;
+  message?: string;
+};
+
+export function displayFlashMessage(type: FlashMessageType, message: string) {
   switch (type) {
     case 'success':
       toast.success(message);
@@ -48,4 +52,34 @@ export function displayFlashMessage(
       toast.info(message);
       break;
   }
+}
+
+export function createFlashToastHandler() {
+  let lastDisplayedMessage: string | null = null;
+
+  return (flash?: FlashPayload | null): void => {
+    if (!flash?.type || !flash.message) {
+      return;
+    }
+
+    const message = flash.message.trim();
+
+    if (message === '') {
+      return;
+    }
+
+    const currentMessage = `${flash.type}:${message}`;
+
+    if (currentMessage === lastDisplayedMessage) {
+      return;
+    }
+
+    lastDisplayedMessage = currentMessage;
+
+    queueMicrotask(() => {
+      lastDisplayedMessage = null;
+    });
+
+    displayFlashMessage(flash.type, message);
+  };
 }

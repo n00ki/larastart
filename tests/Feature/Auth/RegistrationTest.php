@@ -17,5 +17,20 @@ test('new users can register', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.registered'));
+});
+
+test('new users can register using a json request', function () {
+    $response = $this->postJson('/register', [
+        'name' => 'Json Test User',
+        'email' => 'json-test@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $response->assertCreated();
 });

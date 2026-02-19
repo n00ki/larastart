@@ -107,6 +107,16 @@ it('calls UpdateProfileAction')
 it('uses AdminPolicy')
 ```
 
+## Authentication + Flash
+
+- For Fortify auth success redirects (`login`, `logout`, `register`), use custom
+  response contract implementations in `app/Http/Responses/Auth/`.
+- Bind Fortify response contracts in `App\Providers\FortifyServiceProvider::register()`.
+- Use `Inertia::flash()` for one-time success toasts.
+- Frontend toast handling should stay centralized in
+  `resources/js/layouts/base-layout.svelte` and route through utilities in
+  `resources/js/lib/utils.ts`.
+
 ## Essential Commands
 
 ```bash

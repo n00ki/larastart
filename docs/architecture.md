@@ -15,21 +15,51 @@
 All business logic lives in Action classes. Controllers stay thin.
 
 ```php
-// app/Actions/User/UpdateProfileAction.php
-final readonly class UpdateProfileAction
+// app/Actions/User/UpdateUserProfile.php
+final readonly class UpdateUserProfile
 {
     /** @param array<string, mixed> $data */
-    public function handle(User $user, array $data): User
+    public function handle(User $user, array $data): void
     {
-        return tap($user)->update($data);
+        $user->update($data);
     }
 }
 
-// app/Http/Controllers/ProfileController.php
-public function update(UpdateProfileRequest $request, UpdateProfileAction $action): RedirectResponse
+// app/Http/Controllers/User/ProfileController.php
+public function update(UpdateProfileRequest $request, UpdateUserProfile $action): RedirectResponse
 {
     $action->handle($request->user(), $request->validated());
-    return back();
+    Inertia::flash([
+        'type' => 'success',
+        'message' => __('settings.profile_updated'),
+    ]);
+
+    return to_route('profile.edit');
+}
+```
+
+### Auth + Flash Response Pattern
+
+Fortify auth redirects are customized via response contracts. This keeps auth
+success messaging consistent with app-level flash toasts.
+
+```php
+// app/Http/Responses/Auth/LoginResponse.php
+final class LoginResponse implements LoginResponseContract
+{
+    public function toResponse(mixed $request): JsonResponse|RedirectResponse
+    {
+        if ($request->wantsJson()) {
+            return response()->json(['two_factor' => false]);
+        }
+
+        Inertia::flash([
+            'type' => 'success',
+            'message' => __('auth.logged_in'),
+        ]);
+
+        return redirect()->intended(Fortify::redirects('login'));
+    }
 }
 ```
 
@@ -68,10 +98,11 @@ DB::table('users')->where('active', true)->get();
 ### Type-Safe Routing with Wayfinder
 
 ```typescript
-import { show } from '@/actions/App/Http/Controllers/UserController';
+import { edit } from '@/actions/App/Http/Controllers/User/ProfileController';
 import { dashboard } from '@/routes';
 
-router.visit(show(userId));
+router.visit(edit());
+router.visit(dashboard());
 ```
 
 ### State Management Scaling
@@ -169,14 +200,22 @@ final class UpdatePasswordRequest extends FormRequest
 
 ```
 app/
-├── Actions/           # Business logic
-├── Concerns/          # Reusable traits (validation rules, etc.)
+├── Actions/           # Business logic (Action pattern)
+├── Concerns/          # Reusable traits
 ├── Http/
 │   ├── Controllers/   # Thin, delegate to Actions
-│   └── Requests/      # Form validation (use Concern traits)
-└── Models/            # Eloquent models
+│   ├── Middleware/    # Inertia / theme middleware
+│   ├── Requests/      # Form validation
+│   └── Responses/
+│       └── Auth/      # Fortify custom auth response contracts
+├── Jobs/              # Queue jobs
+├── Models/            # Eloquent models
+├── Policies/          # Authorization
+└── Providers/         # Service providers
 
 resources/js/
+├── actions/           # Wayfinder action functions (generated)
+├── app.ts             # Client entrypoint
 ├── components/        # Svelte components
 │   └── ui/            # shadcn-svelte
 ├── hooks/             # Svelte hooks (theme, utilities)
@@ -184,7 +223,13 @@ resources/js/
 ├── lib/
 │   └── state/         # Global state machines (*.svelte.ts)
 ├── pages/             # Inertia pages
+├── routes/            # Wayfinder route functions (generated)
+├── ssr.ts             # SSR entrypoint
 ├── types/             # TypeScript type definitions
-├── actions/           # Wayfinder (auto-generated)
-└── routes/            # Wayfinder (auto-generated)
+└── wayfinder/         # Wayfinder runtime setup
+
+tests/
+├── Browser/           # Browser tests
+├── Feature/           # Feature tests
+└── Unit/              # Unit tests
 ```

@@ -92,16 +92,17 @@ app/
 │   ├── Fortify/               # Fortify authentication actions
 │   └── User/                  # User domain actions (profile, password, account)
 ├── Concerns/                  # Reusable traits (validation rules, etc.)
-├── Enums/                     # Enum classes
 ├── Http/
 │   ├── Controllers/           # Thin controllers (delegate to Actions)
+│   ├── Middleware/            # Custom middleware
 │   ├── Requests/              # Form validation with custom messages
-│   └── Middleware/            # Custom middleware
+│   └── Responses/             # Custom response contracts (Fortify, etc.)
+│       └── Auth/              # Login / logout / register response handling
 ├── Jobs/                      # Queue jobs
 ├── Models/                    # Eloquent models with typed properties
 ├── Policies/                  # Authorization logic
 ├── Providers/                 # Service providers
-└── Services/                  # Service classes
+
 
 resources/
 ├── css/
@@ -117,6 +118,7 @@ resources/
     ├── pages/                # Inertia.js pages
     ├── routes/               # Wayfinder-generated routes
     ├── types/                # TypeScript type definitions
+    ├── wayfinder/            # Wayfinder runtime setup
     ├── app.ts                # Main entry point
     └── ssr.ts                # SSR entry point
 
@@ -132,6 +134,8 @@ tests/
 - **Action Pattern**: Single responsibility for business logic
 - **Request Validation**: Centralized form validation with custom messages
 - **Type Safety**: End-to-end type safety from PHP to TypeScript
+- **Auth Response Contracts**: Fortify responses are customized via `app/Http/Responses/Auth/*Response.php`
+- **Flash Toasts**: One-time toasts use `Inertia::flash()` + centralized frontend handling in `resources/js/layouts/base-layout.svelte`
 
 ## Testing
 
