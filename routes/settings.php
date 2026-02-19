@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function (): void {
     Route::get('settings/appearance', fn () => Inertia::render('settings/appearance'))->name('appearance');
 });
 
-Route::middleware(['auth', 'verified'])->group(function (): void {
+Route::middleware(['auth'])->group(function (): void {
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 

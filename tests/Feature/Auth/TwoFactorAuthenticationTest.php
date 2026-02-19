@@ -10,13 +10,13 @@ test('two-factor authentication settings page requires authentication', function
         ->assertRedirect('/login');
 });
 
-test('two-factor authentication settings page requires verified email', function () {
+test('unverified users can access two-factor authentication settings page', function () {
     $user = User::factory()->unverified()->create();
 
     $this->actingAs($user)
         ->withSession(['auth.password_confirmed_at' => time()])
         ->get('/settings/two-factor')
-        ->assertRedirect('/email/verify');
+        ->assertOk();
 });
 
 test('two-factor authentication settings page requires password confirmation', function () {

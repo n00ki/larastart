@@ -16,23 +16,12 @@ test('profile page is displayed', function () {
     $response->assertOk();
 });
 
-test('unverified users are redirected from profile settings', function () {
+test('unverified users can access profile settings', function () {
     $user = User::factory()->unverified()->create();
 
     $this->actingAs($user)
         ->get('/settings/profile')
-        ->assertRedirect('/email/verify');
-});
-
-test('unverified users cannot update profile information', function () {
-    $user = User::factory()->unverified()->create();
-
-    $this->actingAs($user)
-        ->patch('/settings/profile', [
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ])
-        ->assertRedirect('/email/verify');
+        ->assertOk();
 });
 
 test('profile information can be updated', function () {
