@@ -33,7 +33,9 @@
 
     <Dialog.Root bind:open onOpenChange={(isOpen) => !isOpen && closeModal()}>
       <Dialog.Trigger>
-        <Button variant="destructive">Delete account</Button>
+        <Button variant="destructive" data-test="delete-user-button"
+          >Delete account</Button
+        >
       </Dialog.Trigger>
       <Dialog.Content>
         <Dialog.Title
@@ -45,8 +47,7 @@
           would like to permanently delete your account.
         </Dialog.Description>
         <Form
-          method="delete"
-          action={destroy()}
+          {...destroy.form()}
           options={{
             preserveScroll: true,
           }}
@@ -90,9 +91,14 @@
                 >
               </Dialog.Close>
 
-              <Button type="submit" variant="destructive" disabled={processing}
-                >Delete account</Button
+              <Button
+                type="submit"
+                variant="destructive"
+                disabled={processing}
+                data-test="confirm-delete-user-button"
               >
+                Delete account
+              </Button>
             </Dialog.Footer>
           {/snippet}
         </Form>

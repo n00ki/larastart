@@ -9,29 +9,27 @@ beforeEach(function () {
     $this->request = new DeleteUserRequest;
 });
 
-test('it authorizes all requests', function () {
+test('allows users to submit account deletion request', function () {
     expect($this->request->authorize())->toBeTrue();
 });
 
-test('it validates required fields', function () {
+test('requires password to delete account', function () {
     $validator = Validator::make([], $this->request->rules());
 
     expect($validator->fails())->toBeTrue()
         ->and($validator->errors()->has('password'))->toBeTrue();
 });
 
-test('it validates password requirements', function () {
+test('requires current password validation for account deletion', function () {
     $rules = $this->request->rules();
 
-    // Test required
     $validator = Validator::make(['password' => ''], $rules);
     expect($validator->errors()->has('password'))->toBeTrue();
 
-    // Test current_password rule exists
     expect($rules['password'])->toContain('current_password');
 });
 
-test('it provides custom error messages', function () {
+test('returns custom account deletion validation messages', function () {
     $messages = $this->request->messages();
 
     expect($messages)->toHaveKey('password.required')

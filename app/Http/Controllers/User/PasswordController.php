@@ -12,17 +12,11 @@ use Inertia\Response;
 
 final readonly class PasswordController
 {
-    /**
-     * Show the user's password settings page.
-     */
     public function edit(): Response
     {
         return Inertia::render('settings/password');
     }
 
-    /**
-     * Update the user's password.
-     */
     public function update(UpdatePasswordRequest $request, UpdateUserPassword $action): RedirectResponse
     {
         $action->handle($request->user(), $request->validated());

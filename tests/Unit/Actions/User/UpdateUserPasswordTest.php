@@ -13,7 +13,7 @@ beforeEach(function () {
     ]);
 });
 
-test('it updates user password', function () {
+test('updates the user password', function () {
     $data = [
         'current_password' => 'old-password',
         'password' => 'new-password-123',
@@ -28,7 +28,7 @@ test('it updates user password', function () {
         ->and(Hash::check('old-password', $this->user->password))->toBeFalse();
 });
 
-test('it hashes the new password', function () {
+test('stores the new password as a hash', function () {
     $plainPassword = 'new-secure-password';
 
     $data = [
@@ -45,7 +45,7 @@ test('it hashes the new password', function () {
         ->and(Hash::check($plainPassword, $this->user->password))->toBeTrue();
 });
 
-test('it persists password change to database', function () {
+test('persists password changes to storage', function () {
     $originalPasswordHash = $this->user->password;
 
     $data = [

@@ -1,66 +1,41 @@
 export type Mode = 'light' | 'dark' | 'system';
 
-/**
- * Theme management system.
- * Encapsulates all theme-related state and logic within a clean class interface.
- */
 export class Theme {
-  // State
   current = $state<Mode>('system');
   private initialized = false;
 
-  // Configuration
   private readonly STORAGE_KEY = import.meta.env.VITE_APP_THEME_KEY || 'theme';
   private readonly MODES: Mode[] = ['light', 'dark', 'system'];
 
   constructor() {
-    // Initialize with stored theme or default to system
     this.current = this.getStoredTheme() || 'system';
   }
 
-  /**
-   * Sets the theme and persists it to storage
-   */
   setTheme(value: Mode): void {
     this.current = value;
     this.persistTheme(value);
     this.applyTheme(value);
   }
 
-  /**
-   * Cycles through available themes: system → light → dark → system
-   */
   cycleTheme(): void {
     const currentIndex = this.MODES.indexOf(this.current);
     const nextIndex = (currentIndex + 1) % this.MODES.length;
     this.setTheme(this.MODES[nextIndex]);
   }
 
-  /**
-   * Initializes the theme system with proper DOM handling and event listeners
-   */
   initialize(): void {
     if (typeof window === 'undefined' || this.initialized) return;
     this.initialized = true;
 
-    // Apply initial theme
     this.applyTheme(this.current);
-
-    // Handle system theme changes
     this.setupSystemThemeListener();
-
-    // Setup keyboard shortcuts
     this.setupKeyboardListener();
   }
 
-  /**
-   * Resets theme to system default
-   */
   reset(): void {
     this.setTheme('system');
   }
 
-  // Private methods
   private getStoredTheme(): Mode | null {
     if (typeof window === 'undefined') return null;
     const stored = localStorage.getItem(this.STORAGE_KEY);
@@ -70,10 +45,7 @@ export class Theme {
   private persistTheme(value: Mode): void {
     if (typeof window === 'undefined') return;
 
-    // Persist to localStorage for client-side sessions
     localStorage.setItem(this.STORAGE_KEY, value);
-
-    // Persist to cookie for SSR
     this.setThemeCookie(this.STORAGE_KEY, value);
   }
 
@@ -123,7 +95,6 @@ export class Theme {
 
     mediaQuery.addEventListener('change', handleSystemThemeChange);
 
-    // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
       mediaQuery.removeEventListener('change', handleSystemThemeChange);
     });
@@ -131,7 +102,6 @@ export class Theme {
 
   private setupKeyboardListener(): void {
     const handleKeydown = (e: KeyboardEvent): void => {
-      // Skip if user is typing in input fields
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
@@ -148,21 +118,14 @@ export class Theme {
 
     window.addEventListener('keydown', handleKeydown);
 
-    // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
       window.removeEventListener('keydown', handleKeydown);
     });
   }
 }
 
-/**
- * Global theme instance - singleton pattern for consistent state
- */
 export const theme = new Theme();
 
-/**
- * Hook for accessing theme in components
- */
 export function useTheme() {
   return theme;
 }

@@ -10,7 +10,7 @@
   import { Label } from '@/components/ui/label';
   import { Spinner } from '@/components/ui/spinner';
 
-  import { store } from '@/actions/App/Http/Controllers/Auth/ResetPasswordController';
+  import { update } from '@/routes/password';
 
   interface Props {
     token: string;
@@ -27,8 +27,7 @@
   description="Please enter your new password below"
 >
   <Form
-    method="post"
-    action={store()}
+    {...update.form()}
     transform={(data) => {
       return {
         ...data,
@@ -81,7 +80,12 @@
           <InputError message={errors.password_confirmation} />
         </div>
 
-        <Button type="submit" class="mt-4 w-full" disabled={processing}>
+        <Button
+          type="submit"
+          class="mt-4 w-full"
+          disabled={processing}
+          data-test="reset-password-button"
+        >
           {#if processing}
             <Spinner />
           {/if}

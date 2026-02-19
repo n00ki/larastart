@@ -11,8 +11,8 @@
   import { Label } from '@/components/ui/label';
   import { Spinner } from '@/components/ui/spinner';
 
-  import { store } from '@/actions/App/Http/Controllers/Auth/ForgotPasswordController';
   import { login } from '@/routes';
+  import { email } from '@/routes/password';
 </script>
 
 <AppHead title="Forgot password" />
@@ -22,7 +22,7 @@
   description="Enter your email to receive a password reset link"
 >
   <div class="space-y-6">
-    <Form method="post" action={store()}>
+    <Form {...email.form()}>
       {#snippet children({ errors, processing })}
         <div class="grid gap-2">
           <Label for="email">Email address</Label>
@@ -38,7 +38,12 @@
         </div>
 
         <div class="my-6 flex items-center justify-start">
-          <Button type="submit" class="w-full" disabled={processing}>
+          <Button
+            type="submit"
+            class="w-full"
+            disabled={processing}
+            data-test="email-password-reset-link-button"
+          >
             {#if processing}
               <Spinner />
             {/if}

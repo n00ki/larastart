@@ -4,7 +4,7 @@
 
   import { Link, page } from '@inertiajs/svelte';
 
-  import { cn } from '@/lib/utils';
+  import { cn, toUrl } from '@/lib/utils';
 
   import Heading from '@/components/heading.svelte';
   import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@
   import { appearance } from '@/routes';
   import { edit as editPassword } from '@/routes/password';
   import { edit as editProfile } from '@/routes/profile';
+  import { show as showTwoFactor } from '@/routes/two-factor';
 
   const sidebarNavItems: NavItem[] = [
     {
@@ -22,6 +23,10 @@
     {
       title: 'Password',
       href: editPassword().url,
+    },
+    {
+      title: 'Two-Factor',
+      href: showTwoFactor().url,
     },
     {
       title: 'Appearance',
@@ -56,7 +61,7 @@
             <Button
               variant="ghost"
               class={cn('w-full justify-start', {
-                'bg-muted': currentPath === item.href,
+                'bg-muted': currentPath === toUrl(item.href),
               })}
             >
               {item.title}

@@ -12,7 +12,7 @@ beforeEach(function () {
     $this->action = new CreateUser;
 });
 
-test('it creates a user with hashed password', function () {
+test('creates a user account with a hashed password', function () {
     Event::fake();
 
     $data = [
@@ -33,7 +33,7 @@ test('it creates a user with hashed password', function () {
     ]);
 });
 
-test('it fires registered event', function () {
+test('dispatches registered event after account creation', function () {
     Event::fake();
 
     $data = [
@@ -48,7 +48,7 @@ test('it fires registered event', function () {
     });
 });
 
-test('it returns the created user', function () {
+test('returns the persisted user account', function () {
     $data = [
         'name' => 'Test User',
         'email' => 'test@example.com',

@@ -20,6 +20,7 @@
           <Sidebar.MenuButton
             size="lg"
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            data-test="sidebar-menu-button"
             {...props}
           >
             <UserInfo {user} showEmail />

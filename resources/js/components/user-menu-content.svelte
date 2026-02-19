@@ -49,6 +49,7 @@
       href={logout()}
       as="button"
       onclick={handleLogout}
+      data-test="logout-button"
       {...props}
     >
       <Icon name={LogOut} />

@@ -2,8 +2,8 @@ import { fileURLToPath } from 'node:url';
 import { includeIgnoreFile } from '@eslint/compat';
 import js from '@eslint/js';
 import prettier from 'eslint-config-prettier';
+import checkFile from 'eslint-plugin-check-file';
 import svelte from 'eslint-plugin-svelte';
-import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import ts from 'typescript-eslint';
@@ -17,9 +17,6 @@ export default defineConfig([
   ...svelte.configs.recommended,
   prettier,
   {
-    plugins: {
-      unicorn,
-    },
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -28,13 +25,14 @@ export default defineConfig([
         Laravel: 'readonly',
       },
     },
+    plugins: {
+      'check-file': checkFile,
+    },
     rules: {
-      'unicorn/filename-case': [
+      'check-file/filename-naming-convention': [
         'error',
-        {
-          case: 'kebabCase',
-          ignore: ['^\\.[a-z]+rc\\.(js|ts|json)$', '^[A-Z]+\\.(md|txt)$'],
-        },
+        { '**/*': 'KEBAB_CASE' },
+        { ignoreMiddleExtensions: true },
       ],
     },
     ignores: [
@@ -87,6 +85,11 @@ export default defineConfig([
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
+      // Allow underscore-prefixed variables (common in {#each} iteration)
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
 ]);

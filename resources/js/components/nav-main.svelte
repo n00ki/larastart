@@ -3,6 +3,8 @@
 
   import { Link, page } from '@inertiajs/svelte';
 
+  import { toUrl } from '@/lib/utils';
+
   import Icon from '@/components/icon.svelte';
   import * as Sidebar from '@/components/ui/sidebar';
 
@@ -19,7 +21,7 @@
     {#each items as item (item.title)}
       <Sidebar.MenuItem>
         <Sidebar.MenuButton
-          isActive={$page.url.startsWith(item.href)}
+          isActive={$page.url.startsWith(toUrl(item.href))}
           tooltipContent={item.title}
         >
           {#snippet child({ props })}

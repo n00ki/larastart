@@ -12,7 +12,7 @@ beforeEach(function () {
     $this->user = User::factory()->create();
 });
 
-test('it logs out user before deletion', function () {
+test('logs out the user when deleting the account', function () {
     Auth::login($this->user);
     $request = Request::create('/', 'DELETE');
     $request->setUserResolver(fn () => $this->user);
@@ -25,7 +25,7 @@ test('it logs out user before deletion', function () {
     expect(Auth::check())->toBeFalse();
 });
 
-test('it deletes the user', function () {
+test('deletes the user account from storage', function () {
     $request = Request::create('/', 'DELETE');
     $request->setLaravelSession($this->app['session.store']);
     $userId = $this->user->id;
@@ -37,7 +37,7 @@ test('it deletes the user', function () {
     ]);
 });
 
-test('it invalidates session', function () {
+test('invalidates session after account deletion', function () {
     $request = Request::create('/', 'DELETE');
     $request->setLaravelSession($session = $this->app['session.store']);
     $session->put('test_key', 'test_value');
@@ -49,7 +49,7 @@ test('it invalidates session', function () {
     expect($session->has('test_key'))->toBeFalse();
 });
 
-test('it regenerates session token', function () {
+test('regenerates session token after account deletion', function () {
     $request = Request::create('/', 'DELETE');
     $request->setLaravelSession($session = $this->app['session.store']);
     $originalToken = $session->token();

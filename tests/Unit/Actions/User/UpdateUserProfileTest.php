@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Actions\User\UpdateUserProfile;
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
 
 beforeEach(function () {
     $this->action = new UpdateUserProfile;
@@ -13,7 +15,7 @@ beforeEach(function () {
     ]);
 });
 
-test('it updates user profile information', function () {
+test('updates profile name and email', function () {
     $data = [
         'name' => 'Updated Name',
         'email' => 'updated@example.com',
@@ -27,7 +29,40 @@ test('it updates user profile information', function () {
         ->and($this->user->email)->toBe('updated@example.com');
 });
 
-test('it persists changes to database', function () {
+test('resets email verification and sends notification when email changes', function () {
+    Notification::fake();
+
+    $this->action->handle($this->user, [
+        'name' => 'Updated Name',
+        'email' => 'updated@example.com',
+    ]);
+
+    $this->user->refresh();
+
+    expect($this->user->email_verified_at)->toBeNull();
+
+    Notification::assertSentTo($this->user, VerifyEmail::class);
+});
+
+test('keeps email verification and does not send notification when email is unchanged', function () {
+    Notification::fake();
+
+    $verifiedAt = now();
+    $this->user->forceFill(['email_verified_at' => $verifiedAt])->save();
+
+    $this->action->handle($this->user, [
+        'name' => 'Updated Name',
+        'email' => $this->user->email,
+    ]);
+
+    $this->user->refresh();
+
+    expect($this->user->email_verified_at)->not->toBeNull();
+
+    Notification::assertNotSentTo($this->user, VerifyEmail::class);
+});
+
+test('persists updated profile data', function () {
     $data = [
         'name' => 'New Name',
         'email' => 'new@example.com',
@@ -48,7 +83,7 @@ test('it persists changes to database', function () {
     ]);
 });
 
-test('it updates only provided fields', function () {
+test('keeps unchanged fields intact', function () {
     $data = [
         'name' => 'Only Name Changed',
     ];
@@ -63,7 +98,7 @@ test('it updates only provided fields', function () {
         ->and($this->user->email)->toBe($originalEmail);
 });
 
-test('it handles empty data gracefully', function () {
+test('keeps profile unchanged when no data is provided', function () {
     $originalName = $this->user->name;
     $originalEmail = $this->user->email;
 

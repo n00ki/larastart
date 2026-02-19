@@ -15,6 +15,26 @@ test('password settings page can be rendered', function () {
     $response->assertStatus(200);
 });
 
+test('unverified users are redirected from password settings', function () {
+    $user = User::factory()->unverified()->create();
+
+    $this->actingAs($user)
+        ->get('/settings/password')
+        ->assertRedirect('/email/verify');
+});
+
+test('unverified users cannot update their password', function () {
+    $user = User::factory()->unverified()->create();
+
+    $this->actingAs($user)
+        ->put('/settings/password', [
+            'current_password' => 'password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ])
+        ->assertRedirect('/email/verify');
+});
+
 test('password can be updated', function () {
     $user = User::factory()->create();
 

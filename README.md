@@ -75,7 +75,7 @@ composer dev:ssr
 composer lint
 
 # Format and Lint code
-composer lint:fix
+composer fix
 
 # Generate IDE helpers
 composer annotate
@@ -89,8 +89,9 @@ composer test
 ```
 app/
 ├── Actions/                   # Business logic (Action pattern)
-│   ├── Auth/                  # Authentication actions
+│   ├── Fortify/               # Fortify authentication actions
 │   └── User/                  # User domain actions (profile, password, account)
+├── Concerns/                  # Reusable traits (validation rules, etc.)
 ├── Enums/                     # Enum classes
 ├── Http/
 │   ├── Controllers/           # Thin controllers (delegate to Actions)
@@ -109,26 +110,20 @@ resources/
     ├── actions/              # Wayfinder-generated actions
     ├── components/           # Svelte components
     │   └── ui/               # shadcn-svelte UI components
-    ├── hooks/                # Svelte hooks and utilities
+    ├── hooks/                # Svelte hooks (theme, utilities)
     ├── layouts/              # Page layouts (auth, app, settings)
-    ├── lib/                  # Utility functions
+    ├── lib/                  # Utilities and state machines
+    │   └── state/            # Global state (class-based, *.svelte.ts)
     ├── pages/                # Inertia.js pages
     ├── routes/               # Wayfinder-generated routes
     ├── types/                # TypeScript type definitions
-    ├── wayfinder/            # Wayfinder (automatically generated)
     ├── app.ts                # Main entry point
-    └── ssr.ts                # Server-side rendering entry point
+    └── ssr.ts                # SSR entry point
 
 tests/
 ├── Browser/                  # Browser tests (end-to-end)
 ├── Feature/                  # Feature tests
-└── Unit/
-    ├── Actions/              # Business logic
-    ├── Models/               # Model behavior
-    ├── Requests/             # Request validation
-    ├── Policies/             # Authorization logic
-    ├── Jobs/                 # Queue jobs
-    └── Services/             # Service classes
+└── Unit/                     # Unit tests
 ```
 
 ### Architecture Decisions
@@ -157,7 +152,7 @@ composer test:all           # All tests with coverage
 
 ### For Humans
 
-- **[Architecture Decisions](/docs/ARCHITECTURE.md)** - Why we chose certain patterns
+- **[Architecture Decisions](/docs/architecture.md)** - Why we chose certain patterns
 
 ### For AI Assistants
 

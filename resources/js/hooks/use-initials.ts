@@ -1,9 +1,3 @@
-/**
- * Generates initials from a full name.
- *
- * @param {string | undefined} fullName - The full name to generate initials from.
- * @returns {string} The generated initials.
- */
 export function getInitials(fullName?: string): string {
   if (!fullName) return '';
 

@@ -25,6 +25,11 @@
 
   import { dashboard, login, register } from '@/routes';
 
+  interface Props {
+    canRegister: boolean;
+  }
+
+  const { canRegister }: Props = $props();
   const user = $derived($page.props.auth.user);
 </script>
 
@@ -72,16 +77,18 @@
           >
             Log in
           </Link>
-          <Link
-            as="button"
-            href={register()}
-            class="
-              inline-block rounded-sm border border-border px-5 py-1.5 text-sm leading-normal text-foreground
-              hover:border-border/70
-            "
-          >
-            Register
-          </Link>
+          {#if canRegister}
+            <Link
+              as="button"
+              href={register()}
+              class="
+                inline-block rounded-sm border border-border px-5 py-1.5 text-sm leading-normal text-foreground
+                hover:border-border/70
+              "
+            >
+              Register
+            </Link>
+          {/if}
         {/if}
       </nav>
     </header>

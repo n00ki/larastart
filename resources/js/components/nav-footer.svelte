@@ -2,6 +2,8 @@
   import type { NavItem } from '@/types';
   import type { HTMLAttributes } from 'svelte/elements';
 
+  import { toUrl } from '@/lib/utils';
+
   import Icon from '@/components/icon.svelte';
   import {
     SidebarGroup,
@@ -35,7 +37,7 @@
           >
             {#snippet child({ props })}
               <a
-                href={item.href}
+                href={toUrl(item.href)}
                 target="_blank"
                 rel="noopener noreferrer"
                 {...props}

@@ -10,12 +10,12 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "^8.4",
+    "php": "^8.5",
     "inertiajs/inertia-laravel": "^2.0.16",
+    "laravel/fortify": "^1.34",
     "laravel/framework": "^12.43.1",
     "laravel/tinker": "^2.10.2",
-    "laravel/wayfinder": "^0.1.12",
-    "nunomaduro/essentials": "^1.0.1"
+    "laravel/wayfinder": "^0.1.12"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^3.6.1",
@@ -67,12 +67,12 @@
     ],
     "dev": [
       "Composer\\Config::disableProcessTimeout",
-      "bun x concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"bun run dev\" --names=server,queue,logs,vite --kill-others"
+      "bunx concurrently -c "#93c5fd,#c4b5fd,#fb7185,#fdba74" "php artisan serve" "php artisan queue:listen --tries=1" "php artisan pail --timeout=0" "bun run dev" --names=server,queue,logs,vite --kill-others"
     ],
     "dev:ssr": [
       "bun run build:ssr",
       "Composer\\Config::disableProcessTimeout",
-      "bun x concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"php artisan inertia:start-ssr\" --names=server,queue,logs,ssr --kill-others"
+      "bunx concurrently -c "#93c5fd,#c4b5fd,#fb7185,#fdba74" "php artisan serve" "php artisan queue:listen --tries=1" "php artisan pail --timeout=0" "php artisan inertia:start-ssr" --names=server,queue,logs,ssr --kill-others"
     ],
     "annotate": [
       "@php artisan ide-helper:generate",
@@ -88,11 +88,10 @@
       "bun run format:check",
       "bun run lint"
     ],
-    "lint:fix": [
+    "fix": [
       "pint --parallel",
       "rector",
-      "bun run format",
-      "bun run lint:fix"
+      "bun run fix"
     ],
     "test:type-coverage": "pest --type-coverage --min=100",
     "test:types": "phpstan analyse",

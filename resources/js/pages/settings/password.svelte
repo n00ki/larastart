@@ -14,10 +14,10 @@
   import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
 
-  import { update } from '@/actions/App/Http/Controllers/User/PasswordController';
+  import PasswordController from '@/actions/App/Http/Controllers/User/PasswordController';
   import { edit } from '@/routes/password';
 
-  const breadcrumbItems: BreadcrumbItem[] = [
+  const breadcrumbs: BreadcrumbItem[] = [
     {
       title: 'Password settings',
       href: edit().url,
@@ -27,7 +27,9 @@
 
 <AppHead title="Password settings" />
 
-<AppLayout breadcrumbs={breadcrumbItems}>
+<AppLayout {breadcrumbs}>
+  <h1 class="sr-only">Password Settings</h1>
+
   <SettingsLayout>
     <div class="space-y-6">
       <HeadingSmall
@@ -36,13 +38,10 @@
       />
 
       <Form
-        method="put"
-        action={update()}
-        options={{
-          preserveScroll: true,
-        }}
+        {...PasswordController.update.form()}
+        options={{ preserveScroll: true }}
         resetOnSuccess
-        resetOnError
+        resetOnError={['password', 'password_confirmation', 'current_password']}
         class="space-y-6"
       >
         {#snippet children({ errors, processing, recentlySuccessful })}
@@ -54,8 +53,7 @@
               type="password"
               class="mt-1 block w-full"
               autocomplete="current-password"
-              placeholder="********"
-              required
+              placeholder="Current password"
             />
             <InputError message={errors.current_password} />
           </div>
@@ -68,7 +66,7 @@
               type="password"
               class="mt-1 block w-full"
               autocomplete="new-password"
-              placeholder="********"
+              placeholder="New password"
             />
             <InputError message={errors.password} />
           </div>
@@ -81,13 +79,19 @@
               type="password"
               class="mt-1 block w-full"
               autocomplete="new-password"
-              placeholder="********"
+              placeholder="Confirm password"
             />
             <InputError message={errors.password_confirmation} />
           </div>
 
           <div class="flex items-center gap-4">
-            <Button type="submit" disabled={processing}>Save</Button>
+            <Button
+              type="submit"
+              disabled={processing}
+              data-test="update-password-button"
+            >
+              Save password
+            </Button>
 
             {#if recentlySuccessful}
               <p

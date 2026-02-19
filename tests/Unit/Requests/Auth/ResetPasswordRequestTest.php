@@ -9,11 +9,11 @@ beforeEach(function () {
     $this->request = new ResetPasswordRequest;
 });
 
-test('it authorizes all requests', function () {
+test('allows users to submit the password reset request', function () {
     expect($this->request->authorize())->toBeTrue();
 });
 
-test('it validates required fields', function () {
+test('requires token, email, and password when resetting password', function () {
     $validator = Validator::make([], $this->request->rules());
 
     expect($validator->fails())->toBeTrue()
@@ -22,49 +22,41 @@ test('it validates required fields', function () {
         ->and($validator->errors()->has('password'))->toBeTrue();
 });
 
-test('it validates token requirements', function () {
+test('requires a valid password reset token', function () {
     $rules = $this->request->rules();
 
-    // Test required
     $validator = Validator::make(['token' => ''], $rules);
     expect($validator->errors()->has('token'))->toBeTrue();
 
-    // Test valid token
     $validator = Validator::make(['token' => 'valid-token-string'], $rules);
     expect($validator->errors()->has('token'))->toBeFalse();
 });
 
-test('it validates email requirements', function () {
+test('requires a valid reset email address', function () {
     $rules = $this->request->rules();
 
-    // Test required
     $validator = Validator::make(['email' => ''], $rules);
     expect($validator->errors()->has('email'))->toBeTrue();
 
-    // Test valid email format
     $validator = Validator::make(['email' => 'invalid-email'], $rules);
     expect($validator->errors()->has('email'))->toBeTrue();
 
-    // Test valid email
     $validator = Validator::make(['email' => 'test@example.com'], $rules);
     expect($validator->errors()->has('email'))->toBeFalse();
 });
 
-test('it validates password requirements', function () {
+test('requires a confirmed new password', function () {
     $rules = $this->request->rules();
 
-    // Test required
     $validator = Validator::make(['password' => ''], $rules);
     expect($validator->errors()->has('password'))->toBeTrue();
 
-    // Test confirmation required
     $validator = Validator::make([
         'password' => 'newpassword123',
         'password_confirmation' => 'different',
     ], $rules);
     expect($validator->errors()->has('password'))->toBeTrue();
 
-    // Test valid password with confirmation
     $validator = Validator::make([
         'password' => 'newpassword123',
         'password_confirmation' => 'newpassword123',
@@ -72,7 +64,7 @@ test('it validates password requirements', function () {
     expect($validator->errors()->has('password'))->toBeFalse();
 });
 
-test('it provides custom error messages', function () {
+test('returns custom password reset validation messages', function () {
     $messages = $this->request->messages();
 
     expect($messages)->toHaveKey('token.required')

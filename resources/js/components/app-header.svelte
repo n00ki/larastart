@@ -5,7 +5,7 @@
   import { BookOpen, Folder, LayoutGrid, Menu, Search } from '@lucide/svelte';
 
   import { getInitials } from '@/hooks/use-initials';
-  import { cn } from '@/lib/utils';
+  import { cn, toUrl } from '@/lib/utils';
 
   import AppLogoIcon from '@/components/app-logo-icon.svelte';
   import AppLogo from '@/components/app-logo.svelte';
@@ -92,7 +92,7 @@
               <div class="flex flex-col space-y-4">
                 {#each rightNavItems as item (item.title)}
                   <a
-                    href={item.href}
+                    href={toUrl(item.href)}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="flex items-center space-x-2 font-medium"
@@ -165,7 +165,7 @@
               <Tooltip.Root>
                 <Tooltip.Trigger>
                   <a
-                    href={item.href}
+                    href={toUrl(item.href)}
                     target="_blank"
                     rel="noopener noreferrer"
                     class="

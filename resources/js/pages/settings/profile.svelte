@@ -11,12 +11,21 @@
   import DeleteUser from '@/components/delete-user.svelte';
   import HeadingSmall from '@/components/heading-small.svelte';
   import InputError from '@/components/input-error.svelte';
+  import TextLink from '@/components/text-link.svelte';
   import { Button } from '@/components/ui/button';
   import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
 
-  import { update } from '@/actions/App/Http/Controllers/User/ProfileController';
+  import ProfileController from '@/actions/App/Http/Controllers/User/ProfileController';
   import { edit } from '@/routes/profile';
+  import { send } from '@/routes/verification';
+
+  interface Props {
+    mustVerifyEmail: boolean;
+    status?: string;
+  }
+
+  const { mustVerifyEmail, status = '' }: Props = $props();
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,6 +40,8 @@
 <AppHead title="Profile settings" />
 
 <AppLayout {breadcrumbs}>
+  <h1 class="sr-only">Profile Settings</h1>
+
   <SettingsLayout>
     <div class="flex flex-col space-y-6">
       <HeadingSmall
@@ -39,16 +50,8 @@
       />
 
       <Form
-        method="patch"
-        action={update()}
-        transform={(data) => ({
-          ...data,
-          name: data.name || user.name,
-          email: data.email || user.email,
-        })}
-        options={{
-          preserveScroll: true,
-        }}
+        {...ProfileController.update.form()}
+        options={{ preserveScroll: true }}
         class="space-y-6"
       >
         {#snippet children({ errors, processing, recentlySuccessful })}
@@ -81,8 +84,31 @@
             <InputError class="mt-2" message={errors.email} />
           </div>
 
+          {#if mustVerifyEmail && !user.email_verified_at}
+            <div>
+              <p class="-mt-4 text-sm text-muted-foreground">
+                Your email address is unverified.
+                <TextLink href={send()} method="post" as="button">
+                  Click here to resend the verification email.
+                </TextLink>
+              </p>
+
+              {#if status === 'verification-link-sent'}
+                <div class="mt-2 text-sm font-medium text-green-600">
+                  A new verification link has been sent to your email address.
+                </div>
+              {/if}
+            </div>
+          {/if}
+
           <div class="flex items-center gap-4">
-            <Button type="submit" disabled={processing}>Save</Button>
+            <Button
+              type="submit"
+              disabled={processing}
+              data-test="update-profile-button"
+            >
+              Save
+            </Button>
 
             {#if recentlySuccessful}
               <p

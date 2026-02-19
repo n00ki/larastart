@@ -59,7 +59,7 @@ test('login attempts are rate limited after too many failed attempts', function 
         'password' => 'wrong-password',
     ]);
 
-    $response->assertSessionHasErrors('email');
+    $response->assertStatus(429);
     $this->assertGuest();
 });
 

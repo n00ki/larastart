@@ -6,8 +6,12 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
-  contents: write
+  contents: read
 
 env:
   BUN_VERSION: 'latest'
@@ -25,14 +29,19 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: 8.5
           tools: composer:v2
           coverage: xdebug
 
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: Install Composer Dependencies
-        run: |
-          composer install --no-interaction --prefer-dist --optimize-autoloader
-          composer dump-autoload --optimize
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -42,25 +51,17 @@ jobs:
       - name: Cache Bun Dependencies
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.bun/install/cache
-            ./.bun
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'bun.lockb') }}
+          path: node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
           restore-keys: ${{ runner.os }}-bun-
 
       - name: Install Bun Dependencies
-        run: |
-          if [ -f bun.lock ] || [ -f bun.lockb ]; then
-            bun install --frozen-lockfile
-          else
-            echo "⚠️ No bun lockfile found — installing without frozen lockfile"
-            bun install
-          fi
+        run: bun install --frozen-lockfile
 
       - name: Get Playwright Version
         id: playwright-version
         run: |
-          VERSION=$(jq -r '.version' node_modules/@playwright/test/package.json 2>/dev/null || bun x playwright --version | awk '{print $2}')
+          VERSION=$(jq -r '.version' node_modules/@playwright/test/package.json 2>/dev/null || bunx playwright --version | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Cache Playwright Browsers
@@ -69,14 +70,15 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
+          restore-keys: ${{ runner.os }}-playwright-
 
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: bun x playwright install --with-deps
+        run: bunx playwright install --with-deps
 
       - name: Install Playwright System Dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: bun x playwright install-deps
+        run: bunx playwright install-deps
 
       - name: Build Assets
         run: bun run build
@@ -108,3 +110,10 @@ jobs:
 
       - name: Format, Lint & Test
         run: composer test
+
+      - name: Store Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-screenshots
+          path: tests/Browser/Screenshots

@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-test('that true is true', function () {
+test('basic unit assertions work', function () {
     expect(true)->toBeTrue();
 });

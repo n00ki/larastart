@@ -14,17 +14,11 @@ use Inertia\Response;
 
 final readonly class AccountController
 {
-    /**
-     * Show the user's account settings page.
-     */
     public function edit(): Response
     {
         return Inertia::render('settings/account');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(DeleteUserRequest $request, #[CurrentUser] User $user, DeleteUser $action): RedirectResponse
     {
         $action->handle($user, $request);

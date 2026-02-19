@@ -11,8 +11,8 @@
   import { Label } from '@/components/ui/label';
   import { Spinner } from '@/components/ui/spinner';
 
-  import { store } from '@/actions/App/Http/Controllers/Auth/RegisterController';
   import { login } from '@/routes';
+  import { store } from '@/routes/register';
 </script>
 
 <AppHead title="Register" />
@@ -22,8 +22,7 @@
   description="Enter your details below to create your account"
 >
   <Form
-    method="post"
-    action={store()}
+    {...store.form()}
     resetOnSuccess={['password', 'password_confirmation']}
     class="flex flex-col gap-6"
   >
@@ -91,6 +90,7 @@
           class="mt-2 w-full"
           tabindex={5}
           disabled={processing}
+          data-test="register-button"
         >
           {#if processing}
             <Spinner />

@@ -7,7 +7,10 @@ import { theme } from '@/hooks/use-theme.svelte';
 
 import '../css/app.css';
 
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
 createInertiaApp({
+  title: (title) => (title ? `${title} - ${appName}` : appName),
   progress: {
     color: 'var(--primary)',
   },
@@ -19,7 +22,6 @@ createInertiaApp({
   },
   setup({ el, App, props }) {
     if (!el) return;
-    // Initialize theme management globally
     theme.initialize();
 
     if (el.dataset.serverRendered === 'true') {

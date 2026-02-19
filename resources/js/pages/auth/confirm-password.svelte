@@ -10,7 +10,7 @@
   import { Label } from '@/components/ui/label';
   import { Spinner } from '@/components/ui/spinner';
 
-  import { store } from '@/actions/App/Http/Controllers/Auth/ConfirmPasswordController';
+  import { store } from '@/routes/password/confirm';
 </script>
 
 <AppHead title="Confirm your password" />
@@ -19,7 +19,7 @@
   title="Confirm your password"
   description="This is a secure area of the application. Please confirm your password before continuing."
 >
-  <Form method="post" action={store()} resetOnSuccess={['password']}>
+  <Form {...store.form()} resetOnSuccess={['password']}>
     {#snippet children({ errors, processing })}
       <div class="space-y-6">
         <div class="grid gap-2">
@@ -39,7 +39,12 @@
         </div>
 
         <div class="flex items-center">
-          <Button type="submit" class="w-full" disabled={processing}>
+          <Button
+            type="submit"
+            class="w-full"
+            disabled={processing}
+            data-test="confirm-password-button"
+          >
             {#if processing}
               <Spinner />
             {/if}

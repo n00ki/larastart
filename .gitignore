@@ -64,10 +64,11 @@ _ide_helper*
 # Laravel Boost (generated - run `php artisan boost:update` to regenerate)
 AGENTS.md
 CLAUDE.md
-.mcp.json
+.agents/
 .cursor/
 .claude/
 .opencode/
+opencode.json
 
 # System files
 .DS_Store

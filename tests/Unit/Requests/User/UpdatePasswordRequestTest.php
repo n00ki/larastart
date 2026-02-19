@@ -9,11 +9,11 @@ beforeEach(function () {
     $this->request = new UpdatePasswordRequest;
 });
 
-test('it authorizes all requests', function () {
+test('allows users to submit password update request', function () {
     expect($this->request->authorize())->toBeTrue();
 });
 
-test('it validates required fields', function () {
+test('requires current password and new password', function () {
     $validator = Validator::make([], $this->request->rules());
 
     expect($validator->fails())->toBeTrue()
@@ -21,32 +21,27 @@ test('it validates required fields', function () {
         ->and($validator->errors()->has('password'))->toBeTrue();
 });
 
-test('it validates current password requirements', function () {
+test('requires the current password rule', function () {
     $rules = $this->request->rules();
 
-    // Test required
     $validator = Validator::make(['current_password' => ''], $rules);
     expect($validator->errors()->has('current_password'))->toBeTrue();
 
-    // Test current_password rule exists
     expect($rules['current_password'])->toContain('current_password');
 });
 
-test('it validates new password requirements', function () {
+test('requires a confirmed new password', function () {
     $rules = $this->request->rules();
 
-    // Test required
     $validator = Validator::make(['password' => ''], $rules);
     expect($validator->errors()->has('password'))->toBeTrue();
 
-    // Test confirmation required
     $validator = Validator::make([
         'password' => 'newpassword123',
         'password_confirmation' => 'different',
     ], $rules);
     expect($validator->errors()->has('password'))->toBeTrue();
 
-    // Test valid password with confirmation
     $validator = Validator::make([
         'password' => 'newpassword123',
         'password_confirmation' => 'newpassword123',
@@ -54,7 +49,7 @@ test('it validates new password requirements', function () {
     expect($validator->errors()->has('password'))->toBeFalse();
 });
 
-test('it provides custom error messages', function () {
+test('returns custom password update validation messages', function () {
     $messages = $this->request->messages();
 
     expect($messages)->toHaveKey('current_password.required')

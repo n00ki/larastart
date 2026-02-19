@@ -14,6 +14,24 @@ test('account settings page is displayed', function () {
     $response->assertOk();
 });
 
+test('unverified users are redirected from account settings', function () {
+    $user = User::factory()->unverified()->create();
+
+    $this->actingAs($user)
+        ->get('/settings/account')
+        ->assertRedirect('/email/verify');
+});
+
+test('unverified users cannot delete their account from settings', function () {
+    $user = User::factory()->unverified()->create();
+
+    $this->actingAs($user)
+        ->delete('/settings/account', [
+            'password' => 'password',
+        ])
+        ->assertRedirect('/email/verify');
+});
+
 test('user can delete their account', function () {
     $user = User::factory()->create();
 

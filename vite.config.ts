@@ -1,35 +1,35 @@
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-import tailwindcss from "@tailwindcss/vite";
-import laravel from "laravel-vite-plugin";
-import path from "path";
-import { defineConfig } from "vite";
-import { wayfinder } from '@laravel/vite-plugin-wayfinder'
+import path from 'path';
+import { wayfinder } from '@laravel/vite-plugin-wayfinder';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
+import tailwindcss from '@tailwindcss/vite';
+import laravel from 'laravel-vite-plugin';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          if (id.includes("node_modules")) {
-            return "vendor";
+          if (id.includes('node_modules')) {
+            return 'vendor';
           }
-        }
-      }
-    }
+        },
+      },
+    },
   },
   plugins: [
     laravel({
-      input: ["resources/css/app.css", "resources/js/app.ts"],
-      ssr: "resources/js/ssr.ts",
-      refresh: true
+      input: ['resources/css/app.css', 'resources/js/app.ts'],
+      ssr: 'resources/js/ssr.ts',
+      refresh: true,
     }),
     svelte(),
     tailwindcss(),
-    wayfinder()
+    wayfinder({ formVariants: true }),
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./resources/js")
-    }
-  }
+      '@': path.resolve(__dirname, './resources/js'),
+    },
+  },
 });

@@ -16,7 +16,7 @@ alwaysApply: true
 All business logic MUST live in Action classes. Controllers stay thin.
 
 - Actions live in `app/Actions/` organized by domain
-- Actions are `final readonly` classes with an `execute()` method
+- Actions are `final readonly` classes with a `handle()` method
 - Controllers inject Actions and call them with validated data
 - See `docs/ARCHITECTURE.md` for detailed examples
 
@@ -37,11 +37,6 @@ User::query()->where('id', 1)->first();
 ```
 
 ## Frontend
-
-### Code Style
-
-- Use `//` comments to describe flows clearly and concisely
-- No JSDoc blocks unless it's an essential shared helper/util
 
 ### Svelte Components
 
@@ -67,6 +62,37 @@ import * as Dialog from '@/components/ui/dialog';
 | Complex    | Class-based state machine | Same file or co-located   |
 | Global     | Class-based state machine | `@/lib/state/*.svelte.ts` |
 
+## Comments
+
+Code should be self-documenting. Only use comments when essential.
+
+### PHP
+
+**PHPDoc blocks - Use for:**
+
+- Array/collection type hints: `@param array<string, mixed>`, `@return array<int, User>`
+- Exception annotations: `@throws ValidationException`
+
+**PHPDoc blocks - Avoid:**
+
+- Verbose descriptions that repeat method names
+- Obvious summaries for self-explanatory methods
+
+```php
+// WRONG - verbose and obvious
+/** Update the user's profile information. */
+public function handle(User $user, array $data): void
+
+// CORRECT - only type hint
+/** @param array<string, mixed> $data */
+public function handle(User $user, array $data): void
+```
+
+### Svelte / TypeScript
+
+- Use `//` comments to describe flows clearly and concisely
+- No JSDoc blocks unless it's an essential shared helper/util
+
 ## Testing
 
 Name tests by WHAT they do for users, not implementation details.
@@ -86,7 +112,7 @@ it('uses AdminPolicy')
 ```bash
 composer dev              # Start all services
 
-composer lint:fix         # Format + lint
+composer fix              # Format + lint
 
 composer test             # Run tests
 
@@ -96,7 +122,7 @@ composer test             # Run tests
 
 Before marking any task complete:
 
-- [ ] Run `composer lint:fix`
+- [ ] Run `composer fix`
 - [ ] Run `composer test`
 
 === foundation rules ===
@@ -111,6 +137,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 - php - 8.5.0
 - inertiajs/inertia-laravel (INERTIA) - v2
+- laravel/fortify (FORTIFY) - v1
 - laravel/framework (LARAVEL) - v12
 - laravel/prompts (PROMPTS) - v0
 - laravel/wayfinder (WAYFINDER) - v0

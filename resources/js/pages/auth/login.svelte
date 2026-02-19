@@ -12,15 +12,16 @@
   import { Label } from '@/components/ui/label';
   import { Spinner } from '@/components/ui/spinner';
 
-  import { store } from '@/actions/App/Http/Controllers/Auth/LoginController';
   import { register } from '@/routes';
+  import { store } from '@/routes/login';
   import { request } from '@/routes/password';
 
   interface Props {
     canResetPassword: boolean;
+    canRegister: boolean;
   }
 
-  const { canResetPassword }: Props = $props();
+  const { canResetPassword, canRegister }: Props = $props();
 </script>
 
 <AppHead title="Login" />
@@ -30,8 +31,7 @@
   description="Enter your email and password below to log in"
 >
   <Form
-    method="post"
-    action={store()}
+    {...store.form()}
     resetOnSuccess={['password']}
     class="flex flex-col gap-6"
   >
@@ -85,6 +85,7 @@
           class="mt-4 w-full"
           tabindex={4}
           disabled={processing}
+          data-test="login-button"
         >
           {#if processing}
             <Spinner />
@@ -93,10 +94,12 @@
         </Button>
       </div>
 
-      <div class="text-center text-sm text-muted-foreground">
-        Don't have an account?
-        <TextLink href={register()} tabindex={5}>Sign up</TextLink>
-      </div>
+      {#if canRegister}
+        <div class="text-center text-sm text-muted-foreground">
+          Don't have an account?
+          <TextLink href={register()} tabindex={5}>Sign up</TextLink>
+        </div>
+      {/if}
     {/snippet}
   </Form>
 </AuthLayout>
