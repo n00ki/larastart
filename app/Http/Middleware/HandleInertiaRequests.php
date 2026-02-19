@@ -11,6 +11,7 @@ use Override;
 final class HandleInertiaRequests extends Middleware
 {
     /** @see https://inertiajs.com/server-side-setup#root-template */
+    #[Override]
     protected $rootView = 'app';
 
     /** @see https://inertiajs.com/asset-versioning */
