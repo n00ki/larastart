@@ -8,7 +8,7 @@
 
 <img
   {...props}
-  src="https://res.cloudinary.com/nshemesh/image/upload/v1756715372/larastart/logo.png"
+  src="https://res.cloudinary.com/nshemesh/image/upload/v1771517303/larastart/logo.png"
   class="
     mx-auto size-16
     md:size-20

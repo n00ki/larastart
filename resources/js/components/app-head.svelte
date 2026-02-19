@@ -12,7 +12,7 @@
   const {
     title,
     description = 'LaraStart - the ultimate mise en place for your next Laravel + Svelte project',
-    image = 'https://res.cloudinary.com/nshemesh/image/upload/v1756713825/larastart/meta.png',
+    image = 'https://res.cloudinary.com/nshemesh/image/upload/v1771517281/larastart/meta.png',
     url,
     type = 'website',
   }: Props = $props();
