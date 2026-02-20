@@ -15,7 +15,7 @@
   },
   "dependencies": {},
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.57.1",
+    "@rollup/rollup-linux-x64-gnu": "4.58.0",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.2.0",
     "lightningcss-linux-x64-gnu": "^1.31.1"
   },
@@ -32,7 +32,7 @@
     "@types/eslint": "^9.6.1",
     "@types/node": "^25.3.0",
     "axios": "^1.13.5",
-    "bits-ui": "^2.16.0",
+    "bits-ui": "^2.16.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint": "^10.0.0",
@@ -49,7 +49,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "simple-git-hooks": "^2.13.1",
     "svelte": "^5.53.0",
-    "svelte-check": "^4.4.1",
+    "svelte-check": "^4.4.2",
     "svelte-sonner": "^1.0.7",
     "svelte-transition": "^0.0.17",
     "tailwind-merge": "^3.5.0",
