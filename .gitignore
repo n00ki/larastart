@@ -19,12 +19,11 @@ composer.phar
 dist/
 
 # Lock files
-yarn.lock
-bun.lockb
-package-lock.json
-pnpm-lock.yaml
-bun.lock
-bun.lockb
+# yarn.lock
+# package-lock.json
+# pnpm-lock.yaml
+# bun.lock
+# bun.lockb
 
 # Cache & temporary files
 /.phpunit.cache
