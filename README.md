@@ -2,8 +2,11 @@
 
 **The ultimate _mise en place_ for your next Laravel + Svelte project 🚀**
 
+![Version](https://img.shields.io/badge/version-1.0.0-blue) [![PHP Version](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)](https://php.net/) [![Svelte Version](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/) [![CI](https://github.com/n00ki/larastart/actions/workflows/ci.yml/badge.svg)](https://github.com/n00ki/larastart/actions/workflows/ci.yml)
+
 <div align="center">
-  <img src="https://res.cloudinary.com/nshemesh/image/upload/v1771517281/larastart/meta.png" alt="LaraStart" width="600">
+
+<img src="https://res.cloudinary.com/nshemesh/image/upload/v1771517281/larastart/meta.png" alt="LaraStart" width="600">
 
 <a href="https://larastart.laravel.cloud">🌐 View Demo</a> ·
 <a href="#getting-started">⚡ Quick Start</a> ·

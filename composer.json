@@ -2,7 +2,7 @@
   "$schema": "https://getcomposer.org/schema.json",
   "name": "n00ki/lasrastart",
   "type": "project",
-  "description": "The Laravel + Svelte starter kit",
+  "description": "The ultimate mise-en-place for your next Laravel + Svelte project",
   "keywords": [
     "laravel",
     "framework",
