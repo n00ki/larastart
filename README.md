@@ -61,6 +61,9 @@ php artisan migrate
 # Generate AI assistant guidelines (optional)
 php artisan boost:update
 
+# Build frontend (required once)
+bun run build
+
 # Start development environment
 composer dev
 ```
