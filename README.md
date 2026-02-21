@@ -59,7 +59,7 @@ touch database/database.sqlite
 php artisan migrate
 
 # Generate AI assistant guidelines (optional)
-php artisan boost:update
+php artisan boost:install
 
 # Build frontend (required once)
 bun run build
