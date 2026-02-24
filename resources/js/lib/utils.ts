@@ -56,6 +56,7 @@ export function displayFlashMessage(type: FlashMessageType, message: string) {
 
 export function createFlashToastHandler() {
   let lastDisplayedMessage: string | null = null;
+  let lastDisplayedAt = 0;
 
   return (flash?: FlashPayload | null): void => {
     if (!flash?.type || !flash.message) {
@@ -70,15 +71,15 @@ export function createFlashToastHandler() {
 
     const currentMessage = `${flash.type}:${message}`;
 
-    if (currentMessage === lastDisplayedMessage) {
+    if (
+      currentMessage === lastDisplayedMessage &&
+      Date.now() - lastDisplayedAt < 2_500
+    ) {
       return;
     }
 
     lastDisplayedMessage = currentMessage;
-
-    queueMicrotask(() => {
-      lastDisplayedMessage = null;
-    });
+    lastDisplayedAt = Date.now();
 
     displayFlashMessage(flash.type, message);
   };

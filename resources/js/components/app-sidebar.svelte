@@ -57,4 +57,6 @@
     <NavFooter items={footerNavItems} class="mt-auto" />
     <NavUser />
   </Sidebar.Footer>
+
+  <Sidebar.Rail />
 </Sidebar.Root>

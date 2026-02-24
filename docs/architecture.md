@@ -38,6 +38,25 @@ public function update(UpdateProfileRequest $request, UpdateUserProfile $action)
 }
 ```
 
+### Naming Conventions
+
+Use domain-focused names while keeping Laravel HTTP naming conventions.
+
+#### Action Classes
+
+- Use clear intent verbs for writes: `CreateUser`, `UpdateUserProfile`, `DeleteUser`.
+- Use explicit read names when extracting reusable queries: `GetUserByEmail`, `GetRecentUsers`.
+- Keep Fortify contract action names aligned to framework expectations where required.
+
+#### Controllers + Form Requests
+
+- Controller methods follow Laravel HTTP conventions: `show`, `store`, `update`, `destroy`.
+- Form requests follow HTTP intent: `UpdateProfileRequest`, `UpdatePasswordRequest`, `DeleteUserRequest`.
+
+#### Routes
+
+- Prefer resource-scoped route names: `profile.edit`, `password.update`, `two-factor.show`.
+
 ### Auth + Flash Response Pattern
 
 Fortify auth redirects are customized via response contracts. This keeps auth

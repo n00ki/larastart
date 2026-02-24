@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
 
-  import { page, router } from '@inertiajs/svelte';
-  import { onMount } from 'svelte';
+  import { page } from '@inertiajs/svelte';
 
   import { useTheme } from '@/hooks/use-theme.svelte';
   import { createFlashToastHandler } from '@/lib/utils';
@@ -19,12 +18,6 @@
 
   $effect(() => {
     handleFlashToast($page.flash);
-  });
-
-  onMount(() => {
-    return router.on('flash', (event) => {
-      handleFlashToast(event.detail.flash);
-    });
   });
 </script>
 

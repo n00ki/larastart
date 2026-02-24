@@ -17,10 +17,11 @@
     type = 'website',
   }: Props = $props();
 
+  const appUrl = $derived($page.props.app_url || '');
   const fullTitle = $derived(title ? `${title} | LaraStart` : 'LaraStart');
-  const canonicalUrl = $derived(url || $page.url);
+  const canonicalUrl = $derived(url || `${appUrl}${$page.url}`);
   const imageUrl = $derived(
-    image.startsWith('http') ? image : `${$page.props.app_url}${image}`,
+    image.startsWith('http') ? image : `${appUrl}${image}`,
   );
 </script>
 
@@ -28,7 +29,7 @@
   <title>{fullTitle}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalUrl} />
-  <meta name="image" content={image} />
+  <meta name="image" content={imageUrl} />
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph tags -->
