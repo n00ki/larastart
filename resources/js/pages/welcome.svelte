@@ -93,9 +93,7 @@
       </nav>
     </header>
 
-    <div class="absolute right-5 bottom-5">
-      <ThemeSwitch />
-    </div>
+    <ThemeSwitch class="fixed right-5 bottom-5 z-10" />
 
     <div
       class="flex w-full max-w-3xl flex-1 flex-col items-center justify-center gap-8"

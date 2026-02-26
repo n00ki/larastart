@@ -49,7 +49,10 @@
   };
 </script>
 
-<div class={className} {...props}>
+<div
+  class="rounded-lg border border-border bg-background shadow-sm {className}"
+  {...props}
+>
   <Tooltip.Provider>
     <Tooltip.Root delayDuration={250} disableCloseOnTriggerClick={true}>
       <Tooltip.Trigger onclick={() => theme.cycleTheme()}>

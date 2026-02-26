@@ -19,8 +19,6 @@
   <AuthSimpleLayout {title} {description}>
     {@render children?.()}
 
-    <div class="absolute top-5 right-5">
-      <ThemeSwitch />
-    </div>
+    <ThemeSwitch class="fixed right-5 bottom-5 z-10" />
   </AuthSimpleLayout>
 </BaseLayout>
