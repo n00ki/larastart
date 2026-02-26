@@ -3,7 +3,7 @@ import type { Icon } from '@lucide/svelte';
 
 export type BreadcrumbItem = {
   title: string;
-  href?: string;
+  href: NonNullable<LinkComponentBaseProps['href']>;
 };
 
 export type NavItem = {

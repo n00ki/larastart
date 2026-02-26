@@ -15,7 +15,7 @@
   const mainNavItems: NavItem[] = [
     {
       title: 'Dashboard',
-      href: dashboard().url,
+      href: dashboard(),
       icon: LayoutGrid,
     },
   ];
@@ -40,7 +40,7 @@
       <Sidebar.MenuItem>
         <Sidebar.MenuButton size="lg">
           {#snippet child({ props })}
-            <Link href="/dashboard" prefetch {...props}>
+            <Link href={dashboard()} prefetch {...props}>
               <AppLogo />
             </Link>
           {/snippet}

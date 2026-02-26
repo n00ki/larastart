@@ -18,19 +18,19 @@
   const sidebarNavItems: NavItem[] = [
     {
       title: 'Profile',
-      href: editProfile().url,
+      href: editProfile(),
     },
     {
       title: 'Password',
-      href: editPassword().url,
+      href: editPassword(),
     },
     {
       title: 'Two-Factor',
-      href: showTwoFactor().url,
+      href: showTwoFactor(),
     },
     {
       title: 'Appearance',
-      href: appearance().url,
+      href: appearance(),
     },
   ];
 

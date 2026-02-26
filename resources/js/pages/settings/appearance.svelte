@@ -13,7 +13,7 @@
   const breadcrumbItems: BreadcrumbItem[] = [
     {
       title: 'Appearance settings',
-      href: appearance().url,
+      href: appearance(),
     },
   ];
 </script>

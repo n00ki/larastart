@@ -14,19 +14,17 @@
 
 <Breadcrumb.Root>
   <Breadcrumb.List>
-    {#each breadcrumbs as item, index (item.href || index)}
+    {#each breadcrumbs as item, index (item.href)}
       {@const isLast = index === breadcrumbs.length - 1}
       <Breadcrumb.Item>
         {#if isLast}
           <Breadcrumb.Page>{item.title}</Breadcrumb.Page>
-        {:else if item.href}
+        {:else}
           <Breadcrumb.Link>
             {#snippet child()}
               <Link href={item.href}>{item.title}</Link>
             {/snippet}
           </Breadcrumb.Link>
-        {:else}
-          <Breadcrumb.Page>{item.title}</Breadcrumb.Page>
         {/if}
       </Breadcrumb.Item>
       {#if !isLast}

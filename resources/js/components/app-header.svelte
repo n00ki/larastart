@@ -32,7 +32,7 @@
   const mainNavItems: NavItem[] = [
     {
       title: 'Dashboard',
-      href: dashboard().url,
+      href: dashboard(),
       icon: LayoutGrid,
     },
   ];
@@ -40,12 +40,12 @@
   const rightNavItems: NavItem[] = [
     {
       title: 'Repository',
-      href: 'https://github.com/laravel/react-starter-kit',
+      href: 'https://github.com/n00ki/larastart',
       icon: Folder,
     },
     {
       title: 'Documentation',
-      href: 'https://laravel.com/docs/starter-kits#react',
+      href: 'https://github.com/n00ki/larastart#readme',
       icon: BookOpen,
     },
   ];
@@ -110,7 +110,7 @@
       </Sheet.Root>
     </div>
 
-    <Link href="/dashboard" prefetch class="flex items-center space-x-2">
+    <Link href={dashboard()} prefetch class="flex items-center space-x-2">
       <AppLogo />
     </Link>
 
@@ -131,7 +131,7 @@
                     disabled:pointer-events-none disabled:opacity-50
                   `,
                   'h-9 cursor-pointer px-3',
-                  $page.url === item.href && activeItemStyles,
+                  $page.url === toUrl(item.href) && activeItemStyles,
                 )}
               >
                 {#if item.icon}
@@ -139,7 +139,7 @@
                 {/if}
                 {item.title}
               </Link>
-              {#if $page.url === item.href}
+              {#if $page.url === toUrl(item.href)}
                 <div
                   class="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-foreground"
                 ></div>
