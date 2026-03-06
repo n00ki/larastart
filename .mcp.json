@@ -1,14 +1,11 @@
 {
-    "mcpServers": {
-        "laravel-boost": {
-            "command": "php",
-            "args": [
-                "artisan",
-                "boost:mcp"
-            ]
-        },
-        "svelte": {
-            "url": "https://mcp.svelte.dev/mcp"
-        }
+  "mcpServers": {
+    "laravel-boost": {
+      "command": "php",
+      "args": ["artisan", "boost:mcp"]
+    },
+    "svelte": {
+      "url": "https://mcp.svelte.dev/mcp"
     }
+  }
 }

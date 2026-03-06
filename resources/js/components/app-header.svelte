@@ -1,10 +1,11 @@
 <script lang="ts">
-  import type { BreadcrumbItem, NavItem } from '@/types';
+  import type { BreadcrumbItem } from '@/types';
 
   import { Link, page } from '@inertiajs/svelte';
-  import { BookOpen, Folder, LayoutGrid, Menu, Search } from '@lucide/svelte';
+  import { Menu, Search } from '@lucide/svelte';
 
   import { getInitials } from '@/hooks/use-initials';
+  import { mainNavItems, secondaryNavItems } from '@/lib/navigation';
   import { cn, toUrl } from '@/lib/utils';
 
   import AppLogoIcon from '@/components/app-logo-icon.svelte';
@@ -28,27 +29,6 @@
   const { breadcrumbs = [] }: Props = $props();
 
   const auth = $derived($page.props.auth);
-
-  const mainNavItems: NavItem[] = [
-    {
-      title: 'Dashboard',
-      href: dashboard(),
-      icon: LayoutGrid,
-    },
-  ];
-
-  const rightNavItems: NavItem[] = [
-    {
-      title: 'Repository',
-      href: 'https://github.com/n00ki/larastart',
-      icon: Folder,
-    },
-    {
-      title: 'Documentation',
-      href: 'https://github.com/n00ki/larastart#readme',
-      icon: BookOpen,
-    },
-  ];
 
   const activeItemStyles = 'text-foreground bg-accent';
 </script>
@@ -90,7 +70,7 @@
               </div>
 
               <div class="flex flex-col space-y-4">
-                {#each rightNavItems as item (item.title)}
+                {#each secondaryNavItems as item (item.title)}
                   <a
                     href={toUrl(item.href)}
                     target="_blank"
@@ -119,6 +99,7 @@
       <NavigationMenu.Root class="flex h-full items-stretch">
         <NavigationMenu.List class="flex h-full items-stretch space-x-2">
           {#each mainNavItems as item, index (index)}
+            {@const isActive = $page.url === toUrl(item.href)}
             <NavigationMenu.Item class="relative flex h-full items-center">
               <Link
                 href={item.href}
@@ -131,7 +112,7 @@
                     disabled:pointer-events-none disabled:opacity-50
                   `,
                   'h-9 cursor-pointer px-3',
-                  $page.url === toUrl(item.href) && activeItemStyles,
+                  isActive && activeItemStyles,
                 )}
               >
                 {#if item.icon}
@@ -139,7 +120,7 @@
                 {/if}
                 {item.title}
               </Link>
-              {#if $page.url === toUrl(item.href)}
+              {#if isActive}
                 <div
                   class="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-foreground"
                 ></div>
@@ -160,7 +141,7 @@
           <Search class="!size-5 opacity-80 group-hover:opacity-100" />
         </Button>
         <div class="hidden lg:flex">
-          {#each rightNavItems as item (item.title)}
+          {#each secondaryNavItems as item (item.title)}
             <Tooltip.Provider delayDuration={0}>
               <Tooltip.Root>
                 <Tooltip.Trigger>

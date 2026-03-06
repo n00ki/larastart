@@ -1,8 +1,7 @@
 <script lang="ts">
-  import type { NavItem } from '@/types';
-
   import { Link } from '@inertiajs/svelte';
-  import { BookOpen, Folder, LayoutGrid } from '@lucide/svelte';
+
+  import { mainNavItems, secondaryNavItems } from '@/lib/navigation';
 
   import AppLogo from '@/components/app-logo.svelte';
   import NavFooter from '@/components/nav-footer.svelte';
@@ -11,27 +10,6 @@
   import * as Sidebar from '@/components/ui/sidebar';
 
   import { dashboard } from '@/routes';
-
-  const mainNavItems: NavItem[] = [
-    {
-      title: 'Dashboard',
-      href: dashboard(),
-      icon: LayoutGrid,
-    },
-  ];
-
-  const footerNavItems: NavItem[] = [
-    {
-      title: 'Repository',
-      href: 'https://github.com/n00ki/larastart',
-      icon: Folder,
-    },
-    {
-      title: 'Documentation',
-      href: 'https://github.com/n00ki/larastart#readme',
-      icon: BookOpen,
-    },
-  ];
 </script>
 
 <Sidebar.Root collapsible="icon" variant="inset">
@@ -54,7 +32,7 @@
   </Sidebar.Content>
 
   <Sidebar.Footer>
-    <NavFooter items={footerNavItems} class="mt-auto" />
+    <NavFooter items={secondaryNavItems} class="mt-auto" />
     <NavUser />
   </Sidebar.Footer>
 

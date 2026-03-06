@@ -22,24 +22,20 @@ export type FlashPayload = {
   message?: string;
 };
 
+const flashToasts: Record<
+  FlashMessageType,
+  (message: string) => string | number
+> = {
+  success: (message) => toast.success(message),
+  error: (message) => toast.error(message),
+  warning: (message) => toast.warning(message),
+  info: (message) => toast.info(message),
+};
+
 export function displayFlashMessage(type: FlashMessageType, message: string) {
-  switch (type) {
-    case 'success':
-      toast.success(message);
-      break;
-    case 'error':
-      toast.error(message);
-      break;
-    case 'warning':
-      toast.warning(message);
-      break;
-    case 'info':
-      toast.info(message);
-      break;
-    default:
-      toast.info(message);
-      break;
-  }
+  const showToast = flashToasts[type] ?? toast.info;
+
+  showToast(message);
 }
 
 export function createFlashToastHandler() {
@@ -58,16 +54,17 @@ export function createFlashToastHandler() {
     }
 
     const currentMessage = `${flash.type}:${message}`;
+    const now = Date.now();
 
     if (
       currentMessage === lastDisplayedMessage &&
-      Date.now() - lastDisplayedAt < 2_500
+      now - lastDisplayedAt < 2_500
     ) {
       return;
     }
 
     lastDisplayedMessage = currentMessage;
-    lastDisplayedAt = Date.now();
+    lastDisplayedAt = now;
 
     displayFlashMessage(flash.type, message);
   };

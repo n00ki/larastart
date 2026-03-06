@@ -2,7 +2,7 @@
   import type { NavItem } from '@/types';
   import type { HTMLAttributes } from 'svelte/elements';
 
-  import { toUrl } from '@/lib/utils';
+  import { cn, toUrl } from '@/lib/utils';
 
   import Icon from '@/components/icon.svelte';
   import {
@@ -23,10 +23,7 @@
 
 <SidebarGroup
   {...props}
-  class={`
-  group-data-[collapsible=icon]:p-0
-  ${className || ''}
-`}
+  class={cn('group-data-[collapsible=icon]:p-0', className)}
 >
   <SidebarGroupContent>
     <SidebarMenu>

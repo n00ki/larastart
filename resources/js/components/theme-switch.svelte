@@ -6,6 +6,7 @@
   import { fade, fly } from 'svelte/transition';
 
   import { useTheme } from '@/hooks/use-theme.svelte';
+  import { cn } from '@/lib/utils';
 
   import Icon from '@/components/icon.svelte';
   import { Button } from '@/components/ui/button';
@@ -31,26 +32,30 @@
     { value: 'system' as Mode, label: 'System', icon: Monitor },
   ];
 
-  const currentMode = $derived(
-    modes.find((mode) => mode.value === theme.current)!,
-  );
-  const nextMode = $derived(
-    modes[(modes.indexOf(currentMode) + 1) % modes.length],
-  );
+  const modesByValue = Object.fromEntries(
+    modes.map((mode) => [mode.value, mode]),
+  ) as Record<Mode, (typeof modes)[number]>;
 
-  const getTransitionProps = () => {
-    if (nextMode.value === 'system') {
-      return { transition: fade, props: { duration: 200 } };
-    } else if (nextMode.value === 'light') {
-      return { transition: fly, props: { y: 20, duration: 200 } }; // Sun comes up from below
-    } else {
-      return { transition: fly, props: { y: -20, duration: 200 } }; // Moon comes down from above
-    }
+  const nextModeByValue: Record<Mode, Mode> = {
+    light: 'dark',
+    dark: 'system',
+    system: 'light',
   };
+
+  const transitionByMode = {
+    system: { transition: fade, props: { duration: 200 } },
+    light: { transition: fly, props: { y: 20, duration: 200 } },
+    dark: { transition: fly, props: { y: -20, duration: 200 } },
+  };
+
+  const nextMode = $derived(modesByValue[nextModeByValue[theme.current]]);
 </script>
 
 <div
-  class="rounded-lg border border-border bg-background shadow-sm {className}"
+  class={cn(
+    'rounded-lg border border-border bg-background shadow-sm',
+    className,
+  )}
   {...props}
 >
   <Tooltip.Provider>
@@ -65,8 +70,9 @@
             {...props}
           >
             {#key nextMode.value}
-              {@const { transition, props } = getTransitionProps()}
-              <span in:transition={props}>
+              {@const { transition, props: transitionProps } =
+                transitionByMode[nextMode.value]}
+              <span in:transition={transitionProps}>
                 <Icon name={nextMode.icon} />
               </span>
             {/key}

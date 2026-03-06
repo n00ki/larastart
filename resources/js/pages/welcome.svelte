@@ -25,6 +25,50 @@
 
   import { dashboard, login, register } from '@/routes';
 
+  const featureCardClass =
+    'group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:bg-muted hover:shadow-sm focus-visible:outline-primary';
+
+  const primaryAuthLinkClass =
+    'inline-block rounded-sm border border-border px-5 py-1.5 text-sm leading-normal text-foreground hover:border-border/70';
+
+  const secondaryAuthLinkClass =
+    'inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-foreground hover:border-border';
+
+  const featureCards = [
+    { href: 'https://laravel.com/', icon: Sparkles, label: 'Laravel 12' },
+    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 2.0' },
+    { href: 'https://svelte.dev/', icon: WandSparkles, label: 'Svelte 5' },
+    {
+      href: 'https://tailwindcss.com/',
+      icon: Palette,
+      label: 'TailwindCSS v4',
+    },
+    {
+      href: 'https://www.shadcn-svelte.com/',
+      icon: Paintbrush,
+      label: 'shadcn-svelte',
+    },
+    {
+      href: 'https://typescriptlang.org/',
+      icon: FileType,
+      label: 'TypeScript',
+    },
+    { href: 'https://pestphp.com/', icon: TestTubeDiagonal, label: 'Pest 4' },
+    {
+      href: 'https://github.com/laravel/wayfinder',
+      icon: Globe,
+      label: 'Laravel Wayfinder',
+    },
+    { href: 'https://phpstan.org/', icon: ScanEye, label: 'PHPStan' },
+    {
+      href: 'https://laravel.com/docs/pint',
+      icon: Hammer,
+      label: 'Laravel Pint',
+    },
+    { href: 'https://eslint.org/', icon: Zap, label: 'ESLint' },
+    { href: 'https://getrector.org/', icon: RefreshCw, label: 'Rector' },
+  ];
+
   interface Props {
     canRegister: boolean;
   }
@@ -56,36 +100,15 @@
       </div>
       <nav class="flex items-center justify-end gap-4">
         {#if user}
-          <Link
-            as="button"
-            href={dashboard()}
-            class="
-              inline-block rounded-sm border border-border px-5 py-1.5 text-sm leading-normal text-foreground
-              hover:border-border/70
-            "
-          >
+          <Link as="button" href={dashboard()} class={primaryAuthLinkClass}>
             Dashboard
           </Link>
         {:else}
-          <Link
-            as="button"
-            href={login()}
-            class="
-              inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-foreground
-              hover:border-border
-            "
-          >
+          <Link as="button" href={login()} class={secondaryAuthLinkClass}>
             Log in
           </Link>
           {#if canRegister}
-            <Link
-              as="button"
-              href={register()}
-              class="
-                inline-block rounded-sm border border-border px-5 py-1.5 text-sm leading-normal text-foreground
-                hover:border-border/70
-              "
-            >
+            <Link as="button" href={register()} class={primaryAuthLinkClass}>
               Register
             </Link>
           {/if}
@@ -118,210 +141,21 @@
 
       <section class="w-full max-w-3xl">
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <a
-            href="https://laravel.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={Sparkles}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Laravel 12</span>
-          </a>
-          <a
-            href="https://inertiajs.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={LinkIcon}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Inertia 2.0</span>
-          </a>
-          <a
-            href="https://svelte.dev/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={WandSparkles}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Svelte 5</span>
-          </a>
-          <a
-            href="https://tailwindcss.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={Palette}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">TailwindCSS v4</span>
-          </a>
-          <a
-            href="https://www.shadcn-svelte.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={Paintbrush}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">shadcn-svelte</span>
-          </a>
-          <a
-            href="https://typescriptlang.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={FileType}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">TypeScript</span>
-          </a>
-          <a
-            href="https://pestphp.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={TestTubeDiagonal}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Pest 4</span>
-          </a>
-          <a
-            href="https://github.com/laravel/wayfinder"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={Globe}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Laravel Wayfinder</span>
-          </a>
-          <a
-            href="https://phpstan.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={ScanEye}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">PHPStan</span>
-          </a>
-          <a
-            href="https://laravel.com/docs/pint"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={Hammer}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Laravel Pint</span>
-          </a>
-          <a
-            href="https://eslint.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={Zap}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">ESLint</span>
-          </a>
-          <a
-            href="https://getrector.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="
-              group flex items-center gap-3 rounded-lg border border-border p-4 transition-colors
-              hover:bg-muted hover:shadow-sm
-              focus-visible:outline-primary
-            "
-          >
-            <Icon
-              name={RefreshCw}
-              size={18}
-              class="text-muted-foreground group-hover:text-blue-400"
-            />
-            <span class="font-medium">Rector</span>
-          </a>
+          {#each featureCards as card (card.label)}
+            <a
+              href={card.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={featureCardClass}
+            >
+              <Icon
+                name={card.icon}
+                size={18}
+                class="text-muted-foreground group-hover:text-blue-400"
+              />
+              <span class="font-medium">{card.label}</span>
+            </a>
+          {/each}
         </div>
       </section>
 
