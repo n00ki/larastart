@@ -138,7 +138,7 @@
           size="icon"
           class="group h-9 w-9 cursor-pointer"
         >
-          <Search class="!size-5 opacity-80 group-hover:opacity-100" />
+          <Search class="size-5! opacity-80 group-hover:opacity-100" />
         </Button>
         <div class="hidden lg:flex">
           {#each secondaryNavItems as item (item.title)}
