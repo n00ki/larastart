@@ -1,16 +1,22 @@
 {
-  "agents": ["cursor", "opencode", "claude_code"],
-  "guidelines": true,
-  "herd_mcp": false,
-  "mcp": true,
-  "nightwatch_mcp": false,
-  "packages": ["laravel/fortify"],
-  "sail": false,
-  "skills": [
-    "wayfinder-development",
-    "pest-testing",
-    "inertia-svelte-development",
-    "tailwindcss-development",
-    "developing-with-fortify"
-  ]
+    "agents": [
+        "cursor",
+        "opencode",
+        "claude_code"
+    ],
+    "guidelines": true,
+    "herd_mcp": false,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "packages": [
+        "laravel/fortify"
+    ],
+    "sail": false,
+    "skills": [
+        "wayfinder-development",
+        "pest-testing",
+        "inertia-svelte-development",
+        "tailwindcss-development",
+        "fortify-development"
+    ]
 }
