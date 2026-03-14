@@ -6,16 +6,10 @@ namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
-use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 
 final class TwoFactorAuthenticationRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return Features::enabled(Features::twoFactorAuthentication());
-    }
-
     /**
      * @return array<string, mixed>
      */
@@ -71,7 +65,7 @@ final class TwoFactorAuthenticationRequest extends FormRequest
         $attributes = $this->user()->getAttributes();
         $confirmedAt = $attributes['two_factor_confirmed_at'] ?? null;
 
-        return ! $this->session()->hasOldInput('code') &&
+        return is_null($this->old('code')) &&
             is_null($confirmedAt) &&
             $this->session()->get('two_factor_confirming_at', 0) !== $currentTime;
     }

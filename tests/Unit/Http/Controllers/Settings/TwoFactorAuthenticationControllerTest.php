@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
+use App\Http\Controllers\Settings\SecurityController;
 use Laravel\Fortify\Features;
 
 test('middleware returns empty array when password confirmation is disabled', function () {
@@ -11,7 +11,7 @@ test('middleware returns empty array when password confirmation is disabled', fu
         Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => false]),
     ]);
 
-    $middleware = TwoFactorAuthenticationController::middleware();
+    $middleware = SecurityController::middleware();
 
     expect($middleware)->toBe([]);
 });
@@ -22,9 +22,9 @@ test('middleware returns password.confirm middleware when enabled', function () 
         Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
     ]);
 
-    $middleware = TwoFactorAuthenticationController::middleware();
+    $middleware = SecurityController::middleware();
 
     expect($middleware)->toHaveCount(1);
     expect($middleware[0]->middleware)->toBe('password.confirm');
-    expect($middleware[0]->only)->toBe(['show']);
+    expect($middleware[0]->only)->toBe(['edit']);
 });

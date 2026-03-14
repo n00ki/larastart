@@ -5,14 +5,19 @@ declare(strict_types=1);
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
+use Laravel\Fortify\Features;
 
 test('reset password link screen can be rendered', function () {
+    $this->skipUnlessFortifyFeature(Features::resetPasswords());
+
     $response = $this->get('/forgot-password');
 
     $response->assertStatus(200);
 });
 
 test('reset password link can be requested', function () {
+    $this->skipUnlessFortifyFeature(Features::resetPasswords());
+
     Notification::fake();
 
     $user = User::factory()->create();
@@ -23,6 +28,8 @@ test('reset password link can be requested', function () {
 });
 
 test('reset password screen can be rendered', function () {
+    $this->skipUnlessFortifyFeature(Features::resetPasswords());
+
     Notification::fake();
 
     $user = User::factory()->create();
@@ -39,6 +46,8 @@ test('reset password screen can be rendered', function () {
 });
 
 test('password can be reset with valid token', function () {
+    $this->skipUnlessFortifyFeature(Features::resetPasswords());
+
     Notification::fake();
 
     $user = User::factory()->create();
@@ -62,6 +71,8 @@ test('password can be reset with valid token', function () {
 });
 
 test('password reset fails with invalid token', function () {
+    $this->skipUnlessFortifyFeature(Features::resetPasswords());
+
     $user = User::factory()->create();
 
     $response = $this->post('/reset-password', [

@@ -5,6 +5,7 @@
 
   import AppHead from '@/components/app-head.svelte';
   import InputError from '@/components/input-error.svelte';
+  import PasswordInput from '@/components/password-input.svelte';
   import TextLink from '@/components/text-link.svelte';
   import { Button } from '@/components/ui/button';
   import { Checkbox } from '@/components/ui/checkbox';
@@ -61,10 +62,9 @@
               >
             {/if}
           </div>
-          <Input
+          <PasswordInput
             id="password"
             name="password"
-            type="password"
             required
             tabindex={2}
             autocomplete="current-password"

@@ -3,6 +3,8 @@ import '@inertiajs/svelte';
 export * from './auth';
 export * from './navigation';
 
+export type AppVariant = 'header' | 'sidebar';
+
 export type PageProps<
   T extends Record<string, unknown> = Record<string, unknown>,
 > = T & {

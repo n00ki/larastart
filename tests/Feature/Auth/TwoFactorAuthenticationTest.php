@@ -6,56 +6,66 @@ use App\Models\User;
 use Laravel\Fortify\Features;
 
 test('two-factor authentication settings page requires authentication', function () {
-    $this->get('/settings/two-factor')
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
+    $this->get('/settings/security')
         ->assertRedirect('/login');
 });
 
 test('unverified users can access two-factor authentication settings page', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->unverified()->create();
 
     $this->actingAs($user)
         ->withSession(['auth.password_confirmed_at' => time()])
-        ->get('/settings/two-factor')
+        ->get('/settings/security')
         ->assertOk();
 });
 
 test('two-factor authentication settings page requires password confirmation', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->get('/settings/two-factor')
+        ->get('/settings/security')
         ->assertRedirect('/user/confirm-password');
-})->skip(
-    fn () => ! Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
-    'password confirmation not required for two-factor authentication',
-);
+})->skip(fn () => ! Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'), 'password confirmation not required for two-factor authentication');
 
 test('two-factor authentication settings page can be rendered', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)
         ->withSession(['auth.password_confirmed_at' => time()])
-        ->get('/settings/two-factor')
+        ->get('/settings/security')
         ->assertSuccessful()
         ->assertInertia(fn ($page) => $page
-            ->component('settings/two-factor')
+            ->component('settings/security')
+            ->where('canManageTwoFactor', true)
             ->has('twoFactorEnabled')
             ->has('requiresConfirmation'),
         );
 });
 
 test('two-factor authentication is disabled by default', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)
         ->withSession(['auth.password_confirmed_at' => time()])
-        ->get('/settings/two-factor')
+        ->get('/settings/security')
         ->assertInertia(fn ($page) => $page
             ->where('twoFactorEnabled', false),
         );
-})->skip(fn () => ! Features::enabled(Features::twoFactorAuthentication()), 'two-factor authentication not enabled');
+});
 
 test('user can enable two-factor authentication', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -64,9 +74,11 @@ test('user can enable two-factor authentication', function () {
         ->assertRedirect();
 
     expect($user->fresh()->two_factor_secret)->not->toBeNull();
-})->skip(fn () => ! Features::enabled(Features::twoFactorAuthentication()), 'two-factor authentication not enabled');
+});
 
 test('user can disable two-factor authentication', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -79,9 +91,11 @@ test('user can disable two-factor authentication', function () {
         ->assertRedirect();
 
     expect($user->fresh()->two_factor_secret)->toBeNull();
-})->skip(fn () => ! Features::enabled(Features::twoFactorAuthentication()), 'two-factor authentication not enabled');
+});
 
 test('two-factor settings page works without password confirmation requirement', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     // Temporarily disable confirmPassword option
     config()->set('fortify.features', [
         Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => false]),
@@ -90,11 +104,13 @@ test('two-factor settings page works without password confirmation requirement',
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->get('/settings/two-factor')
+        ->get('/settings/security')
         ->assertSuccessful();
 });
 
 test('two-factor state tracks when user begins confirming', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
     $user = User::factory()->create();
 
     // Enable 2FA to get a secret without confirmation
@@ -112,6 +128,6 @@ test('two-factor state tracks when user begins confirming', function () {
             'auth.password_confirmed_at' => time(),
             'two_factor_empty_at' => time() - 10, // Was empty before
         ])
-        ->get('/settings/two-factor')
+        ->get('/settings/security')
         ->assertSuccessful();
-})->skip(fn () => ! Features::enabled(Features::twoFactorAuthentication()), 'two-factor authentication not enabled');
+});

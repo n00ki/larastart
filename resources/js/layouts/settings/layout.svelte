@@ -11,9 +11,8 @@
   import { Separator } from '@/components/ui/separator';
 
   import { appearance } from '@/routes';
-  import { edit as editPassword } from '@/routes/password';
   import { edit as editProfile } from '@/routes/profile';
-  import { show as showTwoFactor } from '@/routes/two-factor';
+  import { edit as editSecurity } from '@/routes/security';
 
   const sidebarNavItems: NavItem[] = [
     {
@@ -21,12 +20,8 @@
       href: editProfile(),
     },
     {
-      title: 'Password',
-      href: editPassword(),
-    },
-    {
-      title: 'Two-Factor',
-      href: showTwoFactor(),
+      title: 'Security',
+      href: editSecurity(),
     },
     {
       title: 'Appearance',

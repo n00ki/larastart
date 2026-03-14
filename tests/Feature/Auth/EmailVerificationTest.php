@@ -6,8 +6,11 @@ use App\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+use Laravel\Fortify\Features;
 
 test('email verification screen can be rendered for unverified users', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     $user = User::factory()->unverified()->create();
 
     $this->actingAs($user)
@@ -16,6 +19,8 @@ test('email verification screen can be rendered for unverified users', function 
 });
 
 test('verified users are redirected away from email verification screen', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -24,11 +29,15 @@ test('verified users are redirected away from email verification screen', functi
 });
 
 test('email verification notice requires authentication', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     $this->get('/email/verify')
         ->assertRedirect('/login');
 });
 
 test('email can be verified', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     Event::fake();
 
     $user = User::factory()->unverified()->create();
@@ -48,6 +57,8 @@ test('email can be verified', function () {
 });
 
 test('email is not verified with invalid hash', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     $user = User::factory()->unverified()->create();
 
     $verificationUrl = URL::temporarySignedRoute(
@@ -62,6 +73,8 @@ test('email is not verified with invalid hash', function () {
 });
 
 test('resend verification email can be sent', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     $user = User::factory()->unverified()->create();
 
     $this->actingAs($user)
@@ -70,6 +83,8 @@ test('resend verification email can be sent', function () {
 });
 
 test('resend verification is a no-op for already verified users', function () {
+    $this->skipUnlessFortifyFeature(Features::emailVerification());
+
     $user = User::factory()->create();
 
     $this->actingAs($user)

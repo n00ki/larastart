@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { AppVariant } from '@/types';
   import type { Snippet } from 'svelte';
 
   import { cn } from '@/lib/utils';
@@ -6,7 +7,7 @@
   import { SidebarInset } from '@/components/ui/sidebar';
 
   interface Props {
-    variant?: 'header' | 'sidebar';
+    variant?: AppVariant;
     class?: string;
     children: Snippet;
   }

@@ -16,7 +16,7 @@ test('skips two-factor state validation when confirmation is disabled', function
     $user = User::factory()->create();
 
     $formRequest = TwoFactorAuthenticationRequest::createFrom(
-        Request::create('/settings/two-factor', 'GET'),
+        Request::create('/settings/security', 'GET'),
     );
     $formRequest->setUserResolver(fn () => $user);
 
@@ -37,7 +37,7 @@ test('records confirmation start time when user begins two-factor confirmation',
     Session::start();
     Session::put('two_factor_empty_at', time() - 10);
 
-    $request = Request::create('/settings/two-factor', 'GET');
+    $request = Request::create('/settings/security', 'GET');
     $request->setLaravelSession(Session::driver());
 
     $formRequest = TwoFactorAuthenticationRequest::createFrom($request);

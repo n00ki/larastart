@@ -3,9 +3,9 @@
 
   import HeadingSmall from '@/components/heading-small.svelte';
   import InputError from '@/components/input-error.svelte';
+  import PasswordInput from '@/components/password-input.svelte';
   import { Button } from '@/components/ui/button';
   import * as Dialog from '@/components/ui/dialog';
-  import { Input } from '@/components/ui/input';
   import { Label } from '@/components/ui/label';
 
   import { destroy } from '@/actions/App/Http/Controllers/User/AccountController';
@@ -64,9 +64,8 @@
             <div class="grid gap-2">
               <Label for="password" class="sr-only">Password</Label>
 
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 name="password"
                 bind:ref={passwordInput}
                 placeholder="Password"

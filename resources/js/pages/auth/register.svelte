@@ -5,6 +5,7 @@
 
   import AppHead from '@/components/app-head.svelte';
   import InputError from '@/components/input-error.svelte';
+  import PasswordInput from '@/components/password-input.svelte';
   import TextLink from '@/components/text-link.svelte';
   import { Button } from '@/components/ui/button';
   import { Input } from '@/components/ui/input';
@@ -59,10 +60,9 @@
 
         <div class="grid gap-2">
           <Label for="password">Password</Label>
-          <Input
+          <PasswordInput
             id="password"
             name="password"
-            type="password"
             required
             tabindex={3}
             autocomplete="new-password"
@@ -73,10 +73,9 @@
 
         <div class="grid gap-2">
           <Label for="password_confirmation">Confirm password</Label>
-          <Input
+          <PasswordInput
             id="password_confirmation"
             name="password_confirmation"
-            type="password"
             required
             tabindex={4}
             autocomplete="new-password"

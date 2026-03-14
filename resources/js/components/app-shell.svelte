@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { AppVariant } from '@/types';
   import type { Snippet } from 'svelte';
 
   import { page } from '@inertiajs/svelte';
@@ -7,7 +8,7 @@
 
   interface Props {
     children: Snippet;
-    variant?: 'header' | 'sidebar';
+    variant?: AppVariant;
   }
 
   const { children, variant = 'header' }: Props = $props();

@@ -1,24 +1,18 @@
 {
-    "agents": [
-        "cursor",
-        "opencode",
-        "claude_code"
-    ],
-    "guidelines": true,
-    "herd_mcp": false,
-    "mcp": true,
-    "nightwatch_mcp": false,
-    "packages": [
-        "laravel/fortify"
-    ],
-    "sail": false,
-    "skills": [
-        "wayfinder-development",
-        "pest-testing",
-        "inertia-svelte-development",
-        "tailwindcss-development",
-        "fortify-development",
-        "svelte-code-writer",
-        "svelte-core-bestpractices"
-    ]
+  "agents": ["cursor", "opencode", "claude_code"],
+  "guidelines": true,
+  "herd_mcp": false,
+  "mcp": true,
+  "nightwatch_mcp": false,
+  "packages": ["laravel/fortify"],
+  "sail": false,
+  "skills": [
+    "wayfinder-development",
+    "pest-testing",
+    "inertia-svelte-development",
+    "tailwindcss-development",
+    "fortify-development",
+    "svelte-code-writer",
+    "svelte-core-bestpractices"
+  ]
 }
