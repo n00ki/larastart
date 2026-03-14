@@ -17,6 +17,8 @@
         "pest-testing",
         "inertia-svelte-development",
         "tailwindcss-development",
-        "fortify-development"
+        "fortify-development",
+        "svelte-code-writer",
+        "svelte-core-bestpractices"
     ]
 }

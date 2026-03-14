@@ -92,6 +92,7 @@ public function handle(User $user, array $data): void
 
 - Use `//` comments to describe flows in-line clearly and concisely if essential
 - No JSDoc blocks unless it's an essential shared helper/util
+- Prefer TypeScript inference over type assertions. avoid `as any` except as a last resort at library boundaries
 
 ## Testing
 
