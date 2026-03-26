@@ -21,7 +21,7 @@
     {#each items as item (item.title)}
       <Sidebar.MenuItem>
         <Sidebar.MenuButton
-          isActive={$page.url.startsWith(toUrl(item.href))}
+          isActive={page.url.startsWith(toUrl(item.href))}
           tooltipContent={item.title}
         >
           {#snippet child({ props })}

@@ -1,4 +1,5 @@
 import path from 'path';
+import inertia from '@inertiajs/vite';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
@@ -20,8 +21,12 @@ export default defineConfig({
   plugins: [
     laravel({
       input: ['resources/css/app.css', 'resources/js/app.ts'],
-      ssr: 'resources/js/ssr.ts',
       refresh: true,
+    }),
+    inertia({
+      ssr: {
+        port: 13714,
+      },
     }),
     svelte(),
     tailwindcss(),

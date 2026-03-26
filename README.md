@@ -18,7 +18,7 @@
 
 - [🐘 Laravel 12](https://laravel.com/) - Latest PHP framework with modern features
 - [🔧 PHP 8.5](https://php.net/) - Latest PHP with property hooks and performance improvements
-- [🛡️ Inertia.js 2.0](https://inertiajs.com/) - Modern monolith approach with SPA feel
+- [🛡️ Inertia.js 3.0](https://inertiajs.com/) - Modern monolith approach with SPA feel
 - [🛣️ Laravel Wayfinder](https://github.com/laravel/wayfinder) - Type-safe routing for Laravel + TypeScript
 - [🟠 Svelte 5](https://svelte.dev/) - Revolutionary frontend framework with runes
 - [💨 TailwindCSS v4](https://tailwindcss.com/) - Utility-first CSS with latest features
@@ -71,10 +71,10 @@ composer dev
 ### Development
 
 ```bash
-# Standard development (all services)
+# Standard development with automatic SSR in Vite dev
 composer dev
 
-# Development with SSR
+# Production-style SSR preview
 composer dev:ssr
 
 # Check format & linting
@@ -89,6 +89,25 @@ composer annotate
 # Run tests
 composer test
 ```
+
+### SSR Deployment
+
+```bash
+# Build the client and SSR bundles
+bun run build
+
+# Start the production SSR server with Bun
+composer ssr:start
+
+# Verify the SSR server is healthy
+composer ssr:check
+
+# Stop the SSR server during deploys or restarts
+composer ssr:stop
+```
+
+- In development, `composer dev` is enough; the Inertia Vite plugin handles SSR automatically.
+- In production, run the SSR server under a process monitor such as Supervisor, Forge, or Laravel Cloud.
 
 ## Project Structure
 
@@ -125,8 +144,7 @@ resources/
     ├── routes/               # Wayfinder-generated routes
     ├── types/                # TypeScript type definitions
     ├── wayfinder/            # Wayfinder runtime setup
-    ├── app.ts                # Main entry point
-    └── ssr.ts                # SSR entry point
+    └── app.ts                # Inertia app entry point (CSR + SSR)
 
 tests/
 ├── Browser/                  # Browser tests (end-to-end)

@@ -2,7 +2,7 @@
 
 ## Stack
 
-**Backend:** Laravel 12, PHP 8.5, Inertia.js 2.0, Pest PHP
+**Backend:** Laravel 12, PHP 8.5, Inertia.js 3.0, Pest PHP
 
 **Frontend:** Svelte 5, TypeScript, TailwindCSS v4, shadcn-svelte
 
@@ -234,7 +234,7 @@ app/
 
 resources/js/
 ├── actions/           # Wayfinder action functions (generated)
-├── app.ts             # Client entrypoint
+├── app.ts             # Inertia entrypoint (CSR + SSR)
 ├── components/        # Svelte components
 │   └── ui/            # shadcn-svelte
 ├── hooks/             # Svelte hooks (theme, utilities)
@@ -243,7 +243,6 @@ resources/js/
 │   └── state/         # Global state machines (*.svelte.ts)
 ├── pages/             # Inertia pages
 ├── routes/            # Wayfinder route functions (generated)
-├── ssr.ts             # SSR entrypoint
 ├── types/             # TypeScript type definitions
 └── wayfinder/         # Wayfinder runtime setup
 

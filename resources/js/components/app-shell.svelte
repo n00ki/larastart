@@ -13,7 +13,7 @@
 
   const { children, variant = 'header' }: Props = $props();
 
-  let isOpen = $derived(Boolean($page.props.sidebarOpen));
+  let isOpen = $derived(Boolean(page.props.sidebarOpen));
 </script>
 
 {#if variant === 'header'}

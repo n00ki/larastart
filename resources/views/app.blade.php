@@ -46,8 +46,6 @@
     }
   </style>
 
-  <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -55,11 +53,14 @@
   <link href="https://fonts.bunny.net/css?family=outfit:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
 
   @vite(['resources/js/app.ts'])
-  @inertiaHead
+
+  <x-inertia::head>
+    <title>{{ config('app.name', 'Laravel') }}</title>
+  </x-inertia::head>
 </head>
 
 <body class="font-sans antialiased">
-  @inertia
+  <x-inertia::app />
 </body>
 
 </html>

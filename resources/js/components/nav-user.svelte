@@ -8,7 +8,7 @@
   import UserInfo from '@/components/user-info.svelte';
   import UserMenuContent from '@/components/user-menu-content.svelte';
 
-  const user = $derived($page.props.auth.user);
+  const user = $derived(page.props.auth.user);
   const sidebar = Sidebar.useSidebar();
 </script>
 

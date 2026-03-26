@@ -15,7 +15,7 @@
 
   const { title, description, children }: Props = $props();
 
-  const name = $derived($page.props.name);
+  const name = $derived(page.props.name);
 </script>
 
 <div

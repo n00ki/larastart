@@ -1,17 +1,11 @@
 import type { PageProps as InertiaPageProps } from '@inertiajs/core';
-import type { AxiosInstance } from 'axios';
-import type { PageProps as AppPageProps } from './';
-
-declare global {
-  interface Window {
-    axios: AxiosInstance;
-  }
-}
+import type { SharedPageProps } from './';
 
 declare module '@inertiajs/core' {
-  interface PageProps extends InertiaPageProps, AppPageProps {}
+  interface PageProps extends InertiaPageProps, SharedPageProps {}
 
   interface InertiaConfig {
+    sharedPageProps: SharedPageProps;
     flashDataType: {
       type?: 'success' | 'error' | 'warning' | 'info';
       message?: string;

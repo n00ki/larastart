@@ -36,7 +36,7 @@
 
   const featureCards = [
     { href: 'https://laravel.com/', icon: Sparkles, label: 'Laravel 12' },
-    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 2.0' },
+    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 3.0' },
     { href: 'https://svelte.dev/', icon: WandSparkles, label: 'Svelte 5' },
     {
       href: 'https://tailwindcss.com/',
@@ -74,7 +74,7 @@
   }
 
   const { canRegister }: Props = $props();
-  const user = $derived($page.props.auth.user);
+  const user = $derived(page.props.auth.user);
 </script>
 
 <AppHead

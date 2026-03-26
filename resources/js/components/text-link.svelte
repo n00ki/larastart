@@ -5,7 +5,7 @@
 
   import { cn } from '@/lib/utils';
 
-  interface Props extends ComponentProps<Link> {
+  interface Props extends ComponentProps<typeof Link> {
     class?: string;
     children: Snippet;
   }

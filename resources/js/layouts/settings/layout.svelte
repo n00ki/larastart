@@ -35,9 +35,14 @@
 
   const { children }: Props = $props();
 
-  const currentPath = $derived(
-    new URL($page.url, window.location.origin).pathname,
-  );
+  const currentPath = $derived.by(() => {
+    const origin =
+      typeof window === 'undefined'
+        ? 'http://localhost'
+        : window.location.origin;
+
+    return new URL(page.url, origin).pathname;
+  });
 </script>
 
 <div class="px-4 py-6">

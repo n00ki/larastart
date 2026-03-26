@@ -17,9 +17,10 @@
     type = 'website',
   }: Props = $props();
 
-  const appUrl = $derived($page.props.app_url || '');
-  const fullTitle = $derived(title ? `${title} | LaraStart` : 'LaraStart');
-  const canonicalUrl = $derived(url || `${appUrl}${$page.url}`);
+  const siteName = $derived(page.props.name || 'LaraStart');
+  const appUrl = $derived(page.props.app_url || '');
+  const fullTitle = $derived(title ? `${title} | ${siteName}` : siteName);
+  const canonicalUrl = $derived(url || `${appUrl}${page.url}`);
   const imageUrl = $derived(
     image.startsWith('http') ? image : `${appUrl}${image}`,
   );
@@ -38,7 +39,7 @@
   <meta property="og:description" content={description} />
   <meta property="og:image" content={imageUrl} />
   <meta property="og:url" content={canonicalUrl} />
-  <meta property="og:site_name" content="LaraStart" />
+  <meta property="og:site_name" content={siteName} />
   <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card tags -->

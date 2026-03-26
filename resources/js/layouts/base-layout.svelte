@@ -17,7 +17,7 @@
   const handleFlashToast = createFlashToastHandler();
 
   $effect(() => {
-    handleFlashToast($page.flash);
+    handleFlashToast(page.flash);
   });
 </script>
 
