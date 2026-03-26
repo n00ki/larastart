@@ -2,7 +2,7 @@
   import { Link, page } from '@inertiajs/svelte';
   import {
     FileType,
-    GitBranch,
+    FolderGit2,
     Globe,
     Hammer,
     Link as LinkIcon,
@@ -35,9 +35,9 @@
     'inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-foreground hover:border-border';
 
   const featureCards = [
-    { href: 'https://laravel.com/', icon: Sparkles, label: 'Laravel 12' },
-    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 3.0' },
+    { href: 'https://laravel.com/', icon: Sparkles, label: 'Laravel 13' },
     { href: 'https://svelte.dev/', icon: WandSparkles, label: 'Svelte 5' },
+    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 3.0' },
     {
       href: 'https://tailwindcss.com/',
       icon: Palette,
@@ -95,7 +95,7 @@
             transition-none
           "
         >
-          <Icon name={GitBranch} size={16} />
+          <Icon name={FolderGit2} size={16} />
         </Button>
       </div>
       <nav class="flex items-center justify-end gap-4">
