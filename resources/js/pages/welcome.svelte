@@ -2,7 +2,7 @@
   import { Link, page } from '@inertiajs/svelte';
   import {
     FileType,
-    Github,
+    GitBranch,
     Globe,
     Hammer,
     Link as LinkIcon,
@@ -95,7 +95,7 @@
             transition-none
           "
         >
-          <Icon name={Github} size={16} />
+          <Icon name={GitBranch} size={16} />
         </Button>
       </div>
       <nav class="flex items-center justify-end gap-4">
