@@ -2,9 +2,10 @@
   import type { NavItem } from '@/types';
   import type { Snippet } from 'svelte';
 
-  import { Link, page } from '@inertiajs/svelte';
+  import { Link } from '@inertiajs/svelte';
 
-  import { cn, toUrl } from '@/lib/utils';
+  import { currentUrlState } from '@/lib/current-url.svelte';
+  import { cn } from '@/lib/utils';
 
   import Heading from '@/components/heading.svelte';
   import { Button } from '@/components/ui/button';
@@ -34,15 +35,7 @@
   }
 
   const { children }: Props = $props();
-
-  const currentPath = $derived.by(() => {
-    const origin =
-      typeof window === 'undefined'
-        ? 'http://localhost'
-        : window.location.origin;
-
-    return new URL(page.url, origin).pathname;
-  });
+  const currentUrl = currentUrlState();
 </script>
 
 <div class="px-4 py-6">
@@ -61,7 +54,7 @@
             <Button
               variant="ghost"
               class={cn('w-full justify-start', {
-                'bg-muted': currentPath === toUrl(item.href),
+                'bg-muted': currentUrl.isCurrentUrl(item.href),
               })}
             >
               {item.title}

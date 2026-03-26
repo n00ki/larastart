@@ -52,7 +52,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=outfit:100,200,300,400,500,600,700,800,900" rel="stylesheet" />
 
-  @vite(['resources/js/app.ts'])
+  @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
   <x-inertia::head>
     <title>{{ config('app.name', 'Laravel') }}</title>

@@ -5,6 +5,7 @@
   import { Menu, Search } from '@lucide/svelte';
 
   import { getInitials } from '@/hooks/use-initials';
+  import { currentUrlState } from '@/lib/current-url.svelte';
   import { mainNavItems, secondaryNavItems } from '@/lib/navigation';
   import { cn, toUrl } from '@/lib/utils';
 
@@ -29,6 +30,7 @@
   const { breadcrumbs = [] }: Props = $props();
 
   const auth = $derived(page.props.auth);
+  const currentUrl = currentUrlState();
 
   const activeItemStyles = 'text-foreground bg-accent';
 </script>
@@ -99,7 +101,7 @@
       <NavigationMenu.Root class="flex h-full items-stretch">
         <NavigationMenu.List class="flex h-full items-stretch space-x-2">
           {#each mainNavItems as item, index (index)}
-            {@const isActive = page.url === toUrl(item.href)}
+            {@const isActive = currentUrl.isCurrentUrl(item.href)}
             <NavigationMenu.Item class="relative flex h-full items-center">
               <Link
                 href={item.href}

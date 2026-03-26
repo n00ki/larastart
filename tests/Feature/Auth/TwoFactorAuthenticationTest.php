@@ -93,6 +93,27 @@ test('user can disable two-factor authentication', function () {
     expect($user->fresh()->two_factor_secret)->toBeNull();
 });
 
+test('invalid two-factor confirmation does not confirm two-factor authentication', function () {
+    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->post('/user/two-factor-authentication')
+        ->assertRedirect();
+
+    $this->actingAs($user->fresh())
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->from('/settings/security')
+        ->post('/user/confirmed-two-factor-authentication', [
+            'code' => '000000',
+        ])
+        ->assertRedirect('/settings/security');
+
+    expect($user->fresh()->two_factor_confirmed_at)->toBeNull();
+});
+
 test('two-factor settings page works without password confirmation requirement', function () {
     $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
 

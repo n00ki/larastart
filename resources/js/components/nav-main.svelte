@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { NavItem } from '@/types';
 
-  import { Link, page } from '@inertiajs/svelte';
+  import { Link } from '@inertiajs/svelte';
 
-  import { toUrl } from '@/lib/utils';
+  import { currentUrlState } from '@/lib/current-url.svelte';
 
   import Icon from '@/components/icon.svelte';
   import * as Sidebar from '@/components/ui/sidebar';
@@ -13,6 +13,7 @@
   }
 
   const { items = [] }: Props = $props();
+  const currentUrl = currentUrlState();
 </script>
 
 <Sidebar.Group class="px-2 py-0">
@@ -21,7 +22,7 @@
     {#each items as item (item.title)}
       <Sidebar.MenuItem>
         <Sidebar.MenuButton
-          isActive={page.url.startsWith(toUrl(item.href))}
+          isActive={currentUrl.startsWithCurrentUrl(item.href)}
           tooltipContent={item.title}
         >
           {#snippet child({ props })}

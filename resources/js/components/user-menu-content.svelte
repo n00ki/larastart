@@ -4,6 +4,8 @@
   import { Link, router } from '@inertiajs/svelte';
   import { LogOut, Settings } from '@lucide/svelte';
 
+  import { cn } from '@/lib/utils';
+
   import Icon from '@/components/icon.svelte';
   import * as DropdownMenu from '@/components/ui/dropdown-menu';
   import UserInfo from '@/components/user-info.svelte';
@@ -17,10 +19,22 @@
 
   const { user }: Props = $props();
 
-  function handleLogout() {
-    // mobile navigation cleanup
-    document.body.style.removeProperty('pointer-events');
-    router.flushAll();
+  type ClickHandler = (() => void) | undefined;
+
+  function dropdownItemClass(className: unknown): string {
+    return cn('block w-full', typeof className === 'string' ? className : '');
+  }
+
+  function handleLogout(onclick: unknown) {
+    const callback =
+      typeof onclick === 'function' ? (onclick as ClickHandler) : undefined;
+
+    return () => {
+      callback?.();
+
+      document.body.style.removeProperty('pointer-events');
+      router.flushAll();
+    };
   }
 </script>
 
@@ -33,7 +47,13 @@
 <DropdownMenu.Group>
   <DropdownMenu.Item class="w-full">
     {#snippet child({ props })}
-      <Link class="block w-full" href={edit()} as="button" prefetch {...props}>
+      <Link
+        class={dropdownItemClass(props.class)}
+        href={edit()}
+        as="button"
+        prefetch
+        {...props}
+      >
         <Icon name={Settings} />
         Settings
       </Link>
@@ -44,13 +64,13 @@
 <DropdownMenu.Item class="w-full">
   {#snippet child({ props })}
     <Link
-      class="block w-full"
+      class={dropdownItemClass(props.class)}
       method="post"
       href={logout()}
       as="button"
-      onclick={handleLogout}
-      data-test="logout-button"
       {...props}
+      onclick={handleLogout(props.onclick)}
+      data-test="logout-button"
     >
       <Icon name={LogOut} />
       Log out

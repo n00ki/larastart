@@ -248,7 +248,10 @@
                     {/each}
                   </InputOTPGroup>
                 </InputOTP>
-                <InputError message={formErrors.code} />
+                <InputError
+                  message={formErrors['confirmTwoFactorAuthentication.code'] ??
+                    formErrors.code}
+                />
               </div>
 
               <div class="flex w-full items-center space-x-5">
