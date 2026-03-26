@@ -1,3 +1,5 @@
+import { page } from '@inertiajs/svelte';
+
 export type Mode = 'light' | 'dark' | 'system';
 
 export class Theme {
@@ -8,7 +10,7 @@ export class Theme {
   private readonly MODES: Mode[] = ['light', 'dark', 'system'];
 
   constructor() {
-    this.current = this.getStoredTheme() || 'system';
+    this.current = this.resolveInitialTheme();
   }
 
   setTheme(value: Mode): void {
@@ -27,6 +29,7 @@ export class Theme {
     if (typeof window === 'undefined' || this.initialized) return;
     this.initialized = true;
 
+    this.current = this.resolveInitialTheme();
     this.applyTheme(this.current);
     this.setupSystemThemeListener();
     this.setupKeyboardListener();
@@ -36,10 +39,38 @@ export class Theme {
     this.setTheme('system');
   }
 
+  get hasInitialized(): boolean {
+    return this.initialized;
+  }
+
+  get selectedMode(): Mode {
+    return this.initialized
+      ? this.current
+      : (this.getSharedTheme() ?? this.current);
+  }
+
   private getStoredTheme(): Mode | null {
     if (typeof window === 'undefined') return null;
+
     const stored = localStorage.getItem(this.STORAGE_KEY);
-    return this.MODES.includes(stored as Mode) ? (stored as Mode) : null;
+
+    return this.toMode(stored);
+  }
+
+  private getSharedTheme(): Mode | null {
+    return this.toMode(page.props.theme);
+  }
+
+  private resolveInitialTheme(): Mode {
+    return this.getStoredTheme() ?? this.getSharedTheme() ?? 'system';
+  }
+
+  private toMode(value: unknown): Mode | null {
+    if (typeof value !== 'string') {
+      return null;
+    }
+
+    return this.MODES.includes(value as Mode) ? (value as Mode) : null;
   }
 
   private persistTheme(value: Mode): void {
@@ -124,8 +155,10 @@ export class Theme {
   }
 }
 
-export const theme = new Theme();
+let theme: Theme | null = null;
 
-export function useTheme() {
+export function useTheme(): Theme {
+  theme ??= new Theme();
+
   return theme;
 }

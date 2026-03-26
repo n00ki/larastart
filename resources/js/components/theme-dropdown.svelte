@@ -32,7 +32,7 @@
   ];
 
   const currentMode = $derived(
-    modes.find((mode) => mode.value === theme.current) || modes[2],
+    modes.find((mode) => mode.value === theme.selectedMode) || modes[2],
   );
 </script>
 

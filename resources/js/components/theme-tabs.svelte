@@ -27,7 +27,7 @@
 
 <ToggleGroup.Root
   type="single"
-  value={theme.current}
+  value={theme.selectedMode}
   onValueChange={(value) => value && theme.setTheme(value as Mode)}
   class={cn('inline-flex gap-1 rounded-lg bg-muted p-1', className)}
 >

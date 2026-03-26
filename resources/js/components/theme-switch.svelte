@@ -48,7 +48,7 @@
     dark: { transition: fly, props: { y: -20, duration: 200 } },
   };
 
-  const nextMode = $derived(modesByValue[nextModeByValue[theme.current]]);
+  const nextMode = $derived(modesByValue[nextModeByValue[theme.selectedMode]]);
 </script>
 
 <div

@@ -1,8 +1,8 @@
 import { createInertiaApp } from '@inertiajs/svelte';
 
-import { theme } from '@/hooks/use-theme.svelte';
+import { useTheme } from '@/hooks/use-theme.svelte';
 
-theme.initialize();
+useTheme().initialize();
 
 void createInertiaApp({
   pages: './pages',
