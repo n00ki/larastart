@@ -7,27 +7,12 @@ import laravel from 'laravel-vite-plugin';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-        },
-      },
-    },
-  },
   plugins: [
     laravel({
       input: ['resources/css/app.css', 'resources/js/app.ts'],
       refresh: true,
     }),
-    inertia({
-      ssr: {
-        port: 13714,
-      },
-    }),
+    inertia(),
     svelte(),
     tailwindcss(),
     wayfinder({ formVariants: true }),
