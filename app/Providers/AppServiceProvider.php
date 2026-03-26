@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Sleep;
 use Illuminate\Validation\Rules\Password;
+use Inertia\ExceptionResponse;
+use Inertia\Inertia;
 use Override;
 
 final class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ final class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDateDefaults();
+        $this->configureInertiaExceptionHandling();
         $this->configureModelDefaults();
         $this->configurePasswordDefaults();
         $this->configureUrlDefaults();
@@ -32,6 +35,25 @@ final class AppServiceProvider extends ServiceProvider
     private function configureDateDefaults(): void
     {
         Date::use(CarbonImmutable::class);
+    }
+
+    private function configureInertiaExceptionHandling(): void
+    {
+        Inertia::handleExceptionsUsing(function (ExceptionResponse $response): ?ExceptionResponse {
+            $status = $response->statusCode();
+
+            if (! in_array($status, [403, 404, 500, 503], true)) {
+                return null;
+            }
+
+            if (app()->isLocal() && in_array($status, [500, 503], true)) {
+                return null;
+            }
+
+            return $response->render('error', [
+                'status' => $status,
+            ])->withSharedData();
+        });
     }
 
     private function configureModelDefaults(): void
