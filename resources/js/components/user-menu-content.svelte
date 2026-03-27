@@ -11,7 +11,7 @@
   import UserInfo from '@/components/user-info.svelte';
 
   import { logout } from '@/routes';
-  import { edit } from '@/routes/profile';
+  import { edit } from '@/routes/settings/profile';
 
   interface Props {
     user: User;

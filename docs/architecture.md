@@ -2,7 +2,7 @@
 
 ## Stack
 
-**Backend:** Laravel 12, PHP 8.5, Inertia.js 3.0, Pest PHP
+**Backend:** Laravel 13, PHP 8.5, Inertia.js 3.0, Pest PHP
 
 **Frontend:** Svelte 5, TypeScript, TailwindCSS v4, shadcn-svelte
 
@@ -34,7 +34,7 @@ public function update(UpdateProfileRequest $request, UpdateUserProfile $action)
         'message' => __('settings.profile_updated'),
     ]);
 
-    return to_route('profile.edit');
+    return to_route('settings.profile.edit');
 }
 ```
 
@@ -51,11 +51,11 @@ Use domain-focused names while keeping Laravel HTTP naming conventions.
 #### Controllers + Form Requests
 
 - Controller methods follow Laravel HTTP conventions: `show`, `store`, `update`, `destroy`.
-- Form requests follow HTTP intent: `UpdateProfileRequest`, `UpdatePasswordRequest`, `DeleteUserRequest`.
+- Form requests follow HTTP intent: `UpdateProfileRequest`, `UpdatePasswordRequest`, `DestroyAccountRequest`.
 
 #### Routes
 
-- Prefer resource-scoped route names: `profile.edit`, `password.update`, `two-factor.show`.
+- Prefer resource-scoped route names: `settings.profile.edit`, `settings.profile.update`, `settings.security.edit`, `settings.security.password.update`, `settings.account.destroy`.
 
 ### Auth + Flash Response Pattern
 

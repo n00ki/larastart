@@ -11,9 +11,9 @@
   import { Button } from '@/components/ui/button';
   import { Separator } from '@/components/ui/separator';
 
-  import { appearance } from '@/routes';
-  import { edit as editProfile } from '@/routes/profile';
-  import { edit as editSecurity } from '@/routes/security';
+  import { edit as editAppearance } from '@/routes/settings/appearance';
+  import { edit as editProfile } from '@/routes/settings/profile';
+  import { edit as editSecurity } from '@/routes/settings/security';
 
   const sidebarNavItems: NavItem[] = [
     {
@@ -27,7 +27,7 @@
     },
     {
       title: 'Appearance',
-      href: appearance(),
+      href: editAppearance(),
       component: 'settings/appearance',
     },
   ];

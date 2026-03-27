@@ -2,7 +2,7 @@
   import AppLayout from '@/layouts/app-layout.svelte';
   import SettingsLayout from '@/layouts/settings/layout.svelte';
 
-  import { appearance } from '@/routes';
+  import { edit } from '@/routes/settings/appearance';
 
   export const layout = [
     [
@@ -11,7 +11,7 @@
         breadcrumbs: [
           {
             title: 'Appearance settings',
-            href: appearance(),
+            href: edit(),
           },
         ],
       },

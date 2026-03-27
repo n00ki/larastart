@@ -2,7 +2,7 @@
   import AppLayout from '@/layouts/app-layout.svelte';
   import SettingsLayout from '@/layouts/settings/layout.svelte';
 
-  import { edit } from '@/routes/security';
+  import { edit } from '@/routes/settings/security';
 
   export const layout = [
     [

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\User;
 
 use App\Actions\User\DeleteUser;
-use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\DestroyAccountRequest;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +19,7 @@ final readonly class AccountController
         return Inertia::render('settings/account');
     }
 
-    public function destroy(DeleteUserRequest $request, #[CurrentUser] User $user, DeleteUser $action): RedirectResponse
+    public function destroy(DestroyAccountRequest $request, #[CurrentUser] User $user, DeleteUser $action): RedirectResponse
     {
         $action->handle($user, $request);
 

@@ -7,7 +7,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Override;
 
-final class DeleteUserRequest extends FormRequest
+final class DestroyAccountRequest extends FormRequest
 {
     public function authorize(): bool
     {

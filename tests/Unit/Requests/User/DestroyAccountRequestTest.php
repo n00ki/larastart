@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Http\Requests\User\DeleteUserRequest;
+use App\Http\Requests\User\DestroyAccountRequest;
 use Illuminate\Support\Facades\Validator;
 
 beforeEach(function () {
-    $this->request = new DeleteUserRequest;
+    $this->request = new DestroyAccountRequest;
 });
 
 test('allows users to submit account deletion request', function () {

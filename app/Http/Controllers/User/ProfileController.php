@@ -31,6 +31,6 @@ final readonly class ProfileController
             'message' => __('settings.profile_updated'),
         ]);
 
-        return to_route('profile.edit');
+        return to_route('settings.profile.edit');
     }
 }
