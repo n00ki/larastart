@@ -1,7 +1,17 @@
+<script module lang="ts">
+  import AuthLayout from '@/layouts/auth-layout.svelte';
+
+  export const layout = [
+    AuthLayout,
+    {
+      title: 'Create an account',
+      description: 'Enter your details below to create your account',
+    },
+  ];
+</script>
+
 <script lang="ts">
   import { Form } from '@inertiajs/svelte';
-
-  import AuthLayout from '@/layouts/auth-layout.svelte';
 
   import AppHead from '@/components/app-head.svelte';
   import InputError from '@/components/input-error.svelte';
@@ -18,94 +28,87 @@
 
 <AppHead title="Register" />
 
-<AuthLayout
-  title="Create an account"
-  description="Enter your details below to create your account"
+<Form
+  {...store.form()}
+  resetOnSuccess={['password', 'password_confirmation']}
+  class="flex flex-col gap-6"
 >
-  <Form
-    {...store.form()}
-    resetOnSuccess={['password', 'password_confirmation']}
-    class="flex flex-col gap-6"
-  >
-    {#snippet children({ errors, processing })}
-      <div class="grid gap-6">
-        <div class="grid gap-2">
-          <Label for="name">Name</Label>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            required
-            autofocus
-            tabindex={1}
-            autocomplete="name"
-            placeholder="Full name"
-          />
-          <InputError message={errors.name} />
-        </div>
-
-        <div class="grid gap-2">
-          <Label for="email">Email address</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            required
-            tabindex={2}
-            autocomplete="email"
-            placeholder="email@example.com"
-          />
-          <InputError message={errors.email} />
-        </div>
-
-        <div class="grid gap-2">
-          <Label for="password">Password</Label>
-          <PasswordInput
-            id="password"
-            name="password"
-            required
-            tabindex={3}
-            autocomplete="new-password"
-            placeholder="********"
-          />
-          <InputError message={errors.password} />
-        </div>
-
-        <div class="grid gap-2">
-          <Label for="password_confirmation">Confirm password</Label>
-          <PasswordInput
-            id="password_confirmation"
-            name="password_confirmation"
-            required
-            tabindex={4}
-            autocomplete="new-password"
-            placeholder="********"
-          />
-          <InputError message={errors.password_confirmation} />
-        </div>
-
-        <Button
-          type="submit"
-          class="mt-2 w-full"
-          tabindex={5}
-          disabled={processing}
-          data-test="register-button"
-        >
-          {#if processing}
-            <Spinner />
-          {/if}
-          Create account
-        </Button>
+  {#snippet children({ errors, processing })}
+    <div class="grid gap-6">
+      <div class="grid gap-2">
+        <Label for="name">Name</Label>
+        <Input
+          id="name"
+          name="name"
+          type="text"
+          required
+          autofocus
+          tabindex={1}
+          autocomplete="name"
+          placeholder="Full name"
+        />
+        <InputError message={errors.name} />
       </div>
 
-      <div class="text-center text-sm text-muted-foreground">
-        Already have an account?
-        <TextLink
-          href={login()}
-          class="underline underline-offset-4"
-          tabindex={6}>Log in</TextLink
-        >
+      <div class="grid gap-2">
+        <Label for="email">Email address</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          required
+          tabindex={2}
+          autocomplete="email"
+          placeholder="email@example.com"
+        />
+        <InputError message={errors.email} />
       </div>
-    {/snippet}
-  </Form>
-</AuthLayout>
+
+      <div class="grid gap-2">
+        <Label for="password">Password</Label>
+        <PasswordInput
+          id="password"
+          name="password"
+          required
+          tabindex={3}
+          autocomplete="new-password"
+          placeholder="********"
+        />
+        <InputError message={errors.password} />
+      </div>
+
+      <div class="grid gap-2">
+        <Label for="password_confirmation">Confirm password</Label>
+        <PasswordInput
+          id="password_confirmation"
+          name="password_confirmation"
+          required
+          tabindex={4}
+          autocomplete="new-password"
+          placeholder="********"
+        />
+        <InputError message={errors.password_confirmation} />
+      </div>
+
+      <Button
+        type="submit"
+        class="mt-2 w-full"
+        tabindex={5}
+        disabled={processing}
+        data-test="register-button"
+      >
+        {#if processing}
+          <Spinner />
+        {/if}
+        Create account
+      </Button>
+    </div>
+
+    <div class="text-center text-sm text-muted-foreground">
+      Already have an account?
+      <TextLink href={login()} class="underline underline-offset-4" tabindex={6}
+        >Log in</TextLink
+      >
+    </div>
+  {/snippet}
+</Form>

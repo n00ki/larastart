@@ -1,9 +1,20 @@
+<script module lang="ts">
+  import AuthLayout from '@/layouts/auth-layout.svelte';
+
+  export const layout = [
+    AuthLayout,
+    {
+      title: 'Authentication Code',
+      description:
+        'Enter the authentication code provided by your authenticator application.',
+    },
+  ];
+</script>
+
 <script lang="ts">
   import type { TwoFactorConfigContent } from '@/types';
 
-  import { Form } from '@inertiajs/svelte';
-
-  import AuthLayout from '@/layouts/auth-layout.svelte';
+  import { Form, setLayoutProps } from '@inertiajs/svelte';
 
   import AppHead from '@/components/app-head.svelte';
   import InputError from '@/components/input-error.svelte';
@@ -43,84 +54,86 @@
     clearErrors();
     code = '';
   }
+
+  $effect(() => {
+    setLayoutProps({
+      title: authConfigContent.title,
+      description: authConfigContent.description,
+    });
+  });
 </script>
 
 <AppHead title="Two-Factor Authentication" />
 
-<AuthLayout
-  title={authConfigContent.title}
-  description={authConfigContent.description}
->
-  <div class="space-y-6">
-    {#if !showRecoveryInput}
-      <Form
-        {...store.form()}
-        class="space-y-4"
-        resetOnError
-        onError={() => (code = '')}
-      >
-        {#snippet children({ errors, processing, clearErrors })}
-          <input type="hidden" name="code" value={code} />
-          <div
-            class="flex flex-col items-center justify-center space-y-3 text-center"
-          >
-            <div class="flex w-full items-center justify-center">
-              <InputOTP
-                id="otp"
-                bind:value={code}
-                maxlength={6}
-                disabled={processing}
-              >
-                <InputOTPGroup>
-                  {#each { length: 6 } as _, i (i)}
-                    <InputOTPSlot index={i} />
-                  {/each}
-                </InputOTPGroup>
-              </InputOTP>
-            </div>
-            <InputError message={errors.code} />
-          </div>
-          <Button type="submit" class="w-full" disabled={processing}
-            >Continue</Button
-          >
-          <div class="text-center text-sm text-muted-foreground">
-            <span>or you can </span>
-            <button
-              type="button"
-              class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-              onclick={() => toggleRecoveryMode(clearErrors)}
+<div class="space-y-6">
+  {#if !showRecoveryInput}
+    <Form
+      {...store.form()}
+      class="space-y-4"
+      resetOnError
+      onError={() => (code = '')}
+    >
+      {#snippet children({ errors, processing, clearErrors })}
+        <input type="hidden" name="code" value={code} />
+        <div
+          class="flex flex-col items-center justify-center space-y-3 text-center"
+        >
+          <div class="flex w-full items-center justify-center">
+            <InputOTP
+              id="otp"
+              bind:value={code}
+              maxlength={6}
+              disabled={processing}
             >
-              {authConfigContent.buttonText}
-            </button>
+              <InputOTPGroup>
+                {#each { length: 6 } as _, i (i)}
+                  <InputOTPSlot index={i} />
+                {/each}
+              </InputOTPGroup>
+            </InputOTP>
           </div>
-        {/snippet}
-      </Form>
-    {:else}
-      <Form {...store.form()} class="space-y-4" resetOnError>
-        {#snippet children({ errors, processing, clearErrors })}
-          <Input
-            name="recovery_code"
-            type="text"
-            placeholder="Enter recovery code"
-            required
-          />
-          <InputError message={errors.recovery_code} />
-          <Button type="submit" class="w-full" disabled={processing}
-            >Continue</Button
+          <InputError message={errors.code} />
+        </div>
+        <Button type="submit" class="w-full" disabled={processing}
+          >Continue</Button
+        >
+        <div class="text-center text-sm text-muted-foreground">
+          <span>or you can </span>
+          <button
+            type="button"
+            class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+            onclick={() => toggleRecoveryMode(clearErrors)}
           >
+            {authConfigContent.buttonText}
+          </button>
+        </div>
+      {/snippet}
+    </Form>
+  {:else}
+    <Form {...store.form()} class="space-y-4" resetOnError>
+      {#snippet children({ errors, processing, clearErrors })}
+        <Input
+          name="recovery_code"
+          type="text"
+          placeholder="Enter recovery code"
+          required
+        />
+        <InputError message={errors.recovery_code} />
+        <Button type="submit" class="w-full" disabled={processing}
+          >Continue</Button
+        >
 
-          <div class="text-center text-sm text-muted-foreground">
-            <span>or you can </span>
-            <button
-              type="button"
-              class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-              onclick={() => toggleRecoveryMode(clearErrors)}
-            >
-              {authConfigContent.buttonText}
-            </button>
-          </div>
-        {/snippet}
-      </Form>
-    {/if}
-  </div>
-</AuthLayout>
+        <div class="text-center text-sm text-muted-foreground">
+          <span>or you can </span>
+          <button
+            type="button"
+            class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+            onclick={() => toggleRecoveryMode(clearErrors)}
+          >
+            {authConfigContent.buttonText}
+          </button>
+        </div>
+      {/snippet}
+    </Form>
+  {/if}
+</div>

@@ -1,7 +1,17 @@
+<script module lang="ts">
+  import AuthLayout from '@/layouts/auth-layout.svelte';
+
+  export const layout = [
+    AuthLayout,
+    {
+      title: 'Reset password',
+      description: 'Please enter your new password below',
+    },
+  ];
+</script>
+
 <script lang="ts">
   import { Form } from '@inertiajs/svelte';
-
-  import AuthLayout from '@/layouts/auth-layout.svelte';
 
   import AppHead from '@/components/app-head.svelte';
   import InputError from '@/components/input-error.svelte';
@@ -23,74 +33,69 @@
 
 <AppHead title="Reset password" />
 
-<AuthLayout
-  title="Reset password"
-  description="Please enter your new password below"
+<Form
+  {...update.form()}
+  transform={(data) => {
+    return {
+      ...data,
+      token,
+      email,
+    };
+  }}
+  resetOnSuccess={['password', 'password_confirmation']}
 >
-  <Form
-    {...update.form()}
-    transform={(data) => {
-      return {
-        ...data,
-        token,
-        email,
-      };
-    }}
-    resetOnSuccess={['password', 'password_confirmation']}
-  >
-    {#snippet children({ errors, processing })}
-      <div class="grid gap-6">
-        <div class="grid gap-2">
-          <Label for="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            name="email"
-            autocomplete="email"
-            value={email}
-            class="mt-1 block w-full"
-            readonly
-          />
-          <InputError message={errors.email} class="mt-2" />
-        </div>
-
-        <div class="grid gap-2">
-          <Label for="password">Password</Label>
-          <PasswordInput
-            id="password"
-            name="password"
-            autocomplete="new-password"
-            class="mt-1 block w-full"
-            autofocus
-            placeholder="********"
-          />
-          <InputError message={errors.password} />
-        </div>
-
-        <div class="grid gap-2">
-          <Label for="password_confirmation">Confirm Password</Label>
-          <PasswordInput
-            id="password_confirmation"
-            name="password_confirmation"
-            autocomplete="new-password"
-            class="mt-1 block w-full"
-            placeholder="********"
-          />
-          <InputError message={errors.password_confirmation} />
-        </div>
-
-        <Button
-          type="submit"
-          class="mt-4 w-full"
-          disabled={processing}
-          data-test="reset-password-button"
-        >
-          {#if processing}
-            <Spinner />
-          {/if}
-          Reset password
-        </Button>
+  {#snippet children({ errors, processing })}
+    <div class="grid gap-6">
+      <div class="grid gap-2">
+        <Label for="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          name="email"
+          autocomplete="email"
+          value={email}
+          class="mt-1 block w-full"
+          readonly
+        />
+        <InputError message={errors.email} class="mt-2" />
       </div>
-    {/snippet}
-  </Form>
-</AuthLayout>
+
+      <div class="grid gap-2">
+        <Label for="password">Password</Label>
+        <PasswordInput
+          id="password"
+          name="password"
+          autocomplete="new-password"
+          class="mt-1 block w-full"
+          autofocus
+          placeholder="********"
+        />
+        <InputError message={errors.password} />
+      </div>
+
+      <div class="grid gap-2">
+        <Label for="password_confirmation">Confirm Password</Label>
+        <PasswordInput
+          id="password_confirmation"
+          name="password_confirmation"
+          autocomplete="new-password"
+          class="mt-1 block w-full"
+          placeholder="********"
+        />
+        <InputError message={errors.password_confirmation} />
+      </div>
+
+      <Button
+        type="submit"
+        class="mt-4 w-full"
+        disabled={processing}
+        data-test="reset-password-button"
+      >
+        {#if processing}
+          <Spinner />
+        {/if}
+        Reset password
+      </Button>
+    </div>
+  {/snippet}
+</Form>

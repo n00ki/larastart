@@ -1,8 +1,10 @@
+<script module lang="ts">
+  export { default as layout } from '@/layouts/base-layout.svelte';
+</script>
+
 <script lang="ts">
   import { Link, page } from '@inertiajs/svelte';
   import { ArrowLeft, RefreshCw } from '@lucide/svelte';
-
-  import BaseLayout from '@/layouts/base-layout.svelte';
 
   import AppHead from '@/components/app-head.svelte';
   import AppLogoIcon from '@/components/app-logo-icon.svelte';
@@ -50,53 +52,51 @@
 
 <AppHead title={`${status} ${content.title}`} />
 
-<BaseLayout>
-  <div class="flex min-h-screen items-center justify-center px-6 py-16">
-    <div class="w-full max-w-3xl">
-      <div class="mb-6">
-        <AppLogoIcon />
+<div class="flex min-h-screen items-center justify-center px-6 py-16">
+  <div class="w-full max-w-3xl">
+    <div class="mb-6">
+      <AppLogoIcon />
+    </div>
+
+    <div class="text-center">
+      <p
+        class="mb-3 text-xs font-semibold tracking-[0.36em] text-muted-foreground uppercase"
+      >
+        {content.title}
+      </p>
+
+      <div
+        class="mb-4 text-7xl font-black tracking-[-0.08em] text-foreground sm:text-8xl md:text-[9rem]"
+      >
+        {status}
       </div>
 
-      <div class="text-center">
-        <p
-          class="mb-3 text-xs font-semibold tracking-[0.36em] text-muted-foreground uppercase"
-        >
-          {content.title}
-        </p>
+      <p
+        class="mx-auto max-w-xl text-base leading-7 text-muted-foreground sm:text-lg"
+      >
+        {content.description}
+      </p>
 
-        <div
-          class="mb-4 text-7xl font-black tracking-[-0.08em] text-foreground sm:text-8xl md:text-[9rem]"
+      <div
+        class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+      >
+        <Link
+          href={returnHref}
+          class={buttonVariants({ variant: 'default', size: 'lg' })}
         >
-          {status}
-        </div>
+          <Icon name={ArrowLeft} size={16} />
+          {returnLabel}
+        </Link>
 
-        <p
-          class="mx-auto max-w-xl text-base leading-7 text-muted-foreground sm:text-lg"
+        <button
+          type="button"
+          class={buttonVariants({ variant: 'ghost', size: 'lg' })}
+          onclick={() => window.location.reload()}
         >
-          {content.description}
-        </p>
-
-        <div
-          class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
-        >
-          <Link
-            href={returnHref}
-            class={buttonVariants({ variant: 'default', size: 'lg' })}
-          >
-            <Icon name={ArrowLeft} size={16} />
-            {returnLabel}
-          </Link>
-
-          <button
-            type="button"
-            class={buttonVariants({ variant: 'ghost', size: 'lg' })}
-            onclick={() => window.location.reload()}
-          >
-            <Icon name={RefreshCw} size={16} />
-            Try again
-          </button>
-        </div>
+          <Icon name={RefreshCw} size={16} />
+          Try again
+        </button>
       </div>
     </div>
   </div>
-</BaseLayout>
+</div>
