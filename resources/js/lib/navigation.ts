@@ -8,6 +8,7 @@ export const mainNavItems: NavItem[] = [
   {
     title: 'Dashboard',
     href: dashboard(),
+    component: 'dashboard',
     icon: LayoutGrid,
   },
 ];

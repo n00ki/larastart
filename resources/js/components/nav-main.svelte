@@ -26,7 +26,12 @@
           tooltipContent={item.title}
         >
           {#snippet child({ props })}
-            <Link href={item.href} prefetch {...props}>
+            <Link
+              href={item.href}
+              component={item.component}
+              prefetch
+              {...props}
+            >
               {#if item.icon}
                 <Icon name={item.icon} />
               {/if}

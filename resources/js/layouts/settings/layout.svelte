@@ -19,6 +19,7 @@
     {
       title: 'Profile',
       href: editProfile(),
+      component: 'settings/profile',
     },
     {
       title: 'Security',
@@ -27,6 +28,7 @@
     {
       title: 'Appearance',
       href: appearance(),
+      component: 'settings/appearance',
     },
   ];
 
@@ -50,7 +52,12 @@
     <aside class="w-full max-w-xl lg:w-48">
       <nav class="flex flex-col space-y-1 space-x-0">
         {#each sidebarNavItems as item (item.title)}
-          <Link href={item.href}>
+          <Link
+            href={item.href}
+            component={item.component}
+            prefetch
+            data-test={`settings-nav-${item.title.toLowerCase()}`}
+          >
             <Button
               variant="ghost"
               class={cn('w-full justify-start', {

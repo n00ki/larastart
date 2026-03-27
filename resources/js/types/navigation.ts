@@ -11,6 +11,7 @@ export type BreadcrumbItem = {
 export type NavItem = {
   title: string;
   href: Href;
+  component?: string;
   icon?: typeof Icon;
   isActive?: boolean;
 };

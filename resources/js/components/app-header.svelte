@@ -61,6 +61,8 @@
                 {#each mainNavItems as item (item.title)}
                   <Link
                     href={item.href}
+                    component={item.component}
+                    prefetch
                     class="flex items-center space-x-2 font-medium"
                   >
                     {#if item.icon}
@@ -92,7 +94,12 @@
       </Sheet.Root>
     </div>
 
-    <Link href={dashboard()} prefetch class="flex items-center space-x-2">
+    <Link
+      href={dashboard()}
+      component="dashboard"
+      prefetch
+      class="flex items-center space-x-2"
+    >
       <AppLogo />
     </Link>
 
@@ -105,6 +112,8 @@
             <NavigationMenu.Item class="relative flex h-full items-center">
               <Link
                 href={item.href}
+                component={item.component}
+                prefetch
                 class={cn(
                   `
                     inline-flex items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium
