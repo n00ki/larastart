@@ -2,7 +2,7 @@
 
 **The ultimate _mise en place_ for your next Laravel + Svelte project 🚀**
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) [![PHP Version](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)](https://php.net/) [![Svelte Version](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/) [![CI](https://github.com/n00ki/larastart/actions/workflows/ci.yml/badge.svg)](https://github.com/n00ki/larastart/actions/workflows/ci.yml)
+![Version](https://img.shields.io/badge/version-2.0.0-blue) [![PHP Version](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)](https://php.net/) [![Svelte Version](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/) [![CI](https://github.com/n00ki/larastart/actions/workflows/ci.yml/badge.svg)](https://github.com/n00ki/larastart/actions/workflows/ci.yml)
 
 <div align="center">
 
@@ -16,7 +16,7 @@
 
 ## Tech Stack
 
-- [🐘 Laravel 12](https://laravel.com/) - Latest PHP framework with modern features
+- [🐘 Laravel 13](https://laravel.com/) - Latest PHP framework with modern features
 - [🔧 PHP 8.5](https://php.net/) - Latest PHP with property hooks and performance improvements
 - [🛡️ Inertia.js 3.0](https://inertiajs.com/) - Modern monolith approach with SPA feel
 - [🛣️ Laravel Wayfinder](https://github.com/laravel/wayfinder) - Type-safe routing for Laravel + TypeScript
