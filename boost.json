@@ -4,15 +4,14 @@
   "herd_mcp": false,
   "mcp": true,
   "nightwatch_mcp": false,
-  "packages": ["laravel/fortify"],
   "sail": false,
   "skills": [
+    "fortify-development",
     "laravel-best-practices",
     "wayfinder-development",
     "pest-testing",
     "inertia-svelte-development",
     "tailwindcss-development",
-    "fortify-development",
     "svelte-code-writer",
     "svelte-core-bestpractices"
   ]

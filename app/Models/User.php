@@ -42,6 +42,12 @@ use Override;
  *
  * @mixin \Eloquent
  */
+#[\Illuminate\Database\Eloquent\Attributes\Hidden([
+    'password',
+    'remember_token',
+    'two_factor_secret',
+    'two_factor_recovery_codes',
+])]
 final class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -52,17 +58,6 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     #[Override]
     protected $guarded = [];
-
-    /**
-     * @var list<string>
-     */
-    #[Override]
-    protected $hidden = [
-        'password',
-        'remember_token',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
-    ];
 
     /**
      * @return array<string, string>
