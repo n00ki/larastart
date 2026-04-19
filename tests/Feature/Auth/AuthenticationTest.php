@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Laravel\Fortify\Fortify;
+use PragmaRX\Google2FA\Google2FA;
 
 test('login screen can be rendered', function () {
     $response = $this->get('/login');
@@ -51,6 +53,82 @@ test('users can authenticate using a json request', function () {
         ->assertJson([
             'two_factor' => false,
         ]);
+});
+
+test('users see the login toast after completing two-factor authentication', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->post('/user/two-factor-authentication')
+        ->assertRedirect();
+
+    $user->forceFill([
+        'two_factor_confirmed_at' => now(),
+    ])->save();
+
+    auth()->logout();
+
+    $loginResponse = $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $loginResponse->assertRedirect('/two-factor-challenge');
+    $this->assertGuest();
+
+    $code = app(Google2FA::class)->getCurrentOtp(
+        Fortify::currentEncrypter()->decrypt($user->fresh()->two_factor_secret),
+    );
+
+    $challengeResponse = $this->post('/two-factor-challenge', [
+        'code' => $code,
+    ]);
+
+    $this->assertAuthenticatedAs($user->fresh());
+    $challengeResponse
+        ->assertRedirect(route('dashboard', absolute: false))
+        ->assertInertiaFlash('type', 'success')
+        ->assertInertiaFlash('message', __('auth.logged_in'));
+});
+
+test('users can authenticate with two-factor authentication using a json request', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->post('/user/two-factor-authentication')
+        ->assertRedirect();
+
+    $user->forceFill([
+        'two_factor_confirmed_at' => now(),
+    ])->save();
+
+    auth()->logout();
+
+    $loginResponse = $this->postJson('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $loginResponse
+        ->assertOk()
+        ->assertJson([
+            'two_factor' => true,
+        ]);
+
+    $this->assertGuest();
+
+    $code = app(Google2FA::class)->getCurrentOtp(
+        Fortify::currentEncrypter()->decrypt($user->fresh()->two_factor_secret),
+    );
+
+    $challengeResponse = $this->postJson('/two-factor-challenge', [
+        'code' => $code,
+    ]);
+
+    $this->assertAuthenticatedAs($user->fresh());
+    $challengeResponse->assertNoContent();
 });
 
 test('users can logout', function () {
