@@ -9,7 +9,7 @@ use Illuminate\Validation\Rules\Password;
 trait PasswordValidationRules
 {
     /**
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @return array<int, Password|string|null>
      */
     protected function passwordRules(): array
     {
@@ -17,7 +17,7 @@ trait PasswordValidationRules
     }
 
     /**
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @return array<int, string>
      */
     protected function currentPasswordRules(): array
     {

@@ -6,11 +6,12 @@ namespace App\Concerns;
 
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 
 trait ProfileValidationRules
 {
     /**
-     * @return array<string, array<int, \Illuminate\Contracts\Validation\Rule|\Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Validation\Rules\Unique|array<mixed>|string>>
+     * @return array<string, array<int, Unique|string>>
      */
     protected function profileRules(?string $userId = null): array
     {
@@ -21,7 +22,7 @@ trait ProfileValidationRules
     }
 
     /**
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|array<mixed>|string>
+     * @return array<int, string>
      */
     protected function nameRules(): array
     {
@@ -29,7 +30,7 @@ trait ProfileValidationRules
     }
 
     /**
-     * @return array<int, \Illuminate\Contracts\Validation\Rule|\Illuminate\Contracts\Validation\ValidationRule|\Illuminate\Validation\Rules\Unique|array<mixed>|string>
+     * @return array<int, Unique|string>
      */
     protected function emailRules(?string $userId = null): array
     {
