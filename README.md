@@ -45,7 +45,7 @@ cd my-app
 composer install
 
 # Install Node.js dependencies
-bun install
+pnpm install
 
 # Setup environment variables
 cp .env.example .env
@@ -62,7 +62,7 @@ php artisan migrate
 php artisan boost:install
 
 # Build frontend (required once)
-bun run build
+pnpm run build
 
 # Start development environment
 composer dev
@@ -94,9 +94,9 @@ composer test
 
 ```bash
 # Build the client and SSR bundles
-bun run build
+pnpm run build
 
-# Start the production SSR server with Bun
+# Start the production SSR server with Node.js
 composer ssr:start
 
 # Verify the SSR server is healthy

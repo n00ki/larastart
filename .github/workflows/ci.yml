@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  BUN_VERSION: 'latest'
+  PNPM_VERSION: 11
 
 jobs:
   quality-and-tests:
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -43,25 +43,25 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
         with:
-          bun-version: ${{ env.BUN_VERSION }}
+          version: ${{ env.PNPM_VERSION }}
+          cache: true
 
-      - name: Cache Bun Dependencies
-        uses: actions/cache@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          path: node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
-          restore-keys: ${{ runner.os }}-bun-
+          node-version: lts/*
+          cache: pnpm
 
-      - name: Install Bun Dependencies
-        run: bun install --frozen-lockfile
+      - name: Install pnpm Dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Get Playwright Version
         id: playwright-version
         run: |
-          VERSION=$(jq -r '.version' node_modules/@playwright/test/package.json 2>/dev/null || bunx playwright --version | awk '{print $2}')
+          VERSION=$(jq -r '.version' node_modules/@playwright/test/package.json 2>/dev/null || pnpm exec playwright --version | awk '{print $2}')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Cache Playwright Browsers
@@ -74,14 +74,14 @@ jobs:
 
       - name: Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: bunx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
 
       - name: Install Playwright System Dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: bunx playwright install-deps
+        run: pnpm exec playwright install-deps
 
       - name: Build Assets
-        run: bun run build
+        run: pnpm run build
 
       - name: Copy Environment File
         run: cp .env.example .env

@@ -171,7 +171,7 @@ import { Button } from '@/components/ui/button';
 import * as Dialog from '@/components/ui/dialog';
 ```
 
-Add new components: `bunx shadcn-svelte add <component>`
+Add new components: `pnx shadcn-svelte add <component>`
 
 ## Testing
 

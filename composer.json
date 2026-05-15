@@ -69,14 +69,14 @@
     ],
     "dev": [
       "Composer\\Config::disableProcessTimeout",
-      "bunx concurrently -c '#93c5fd,#c4b5fd,#fb7185,#fdba74' 'php artisan serve' 'php artisan queue:listen --tries=1' 'php artisan pail --timeout=0' 'bun run dev' --names=server,queue,logs,vite --kill-others"
+      "pnpm exec concurrently -c '#93c5fd,#c4b5fd,#fb7185,#fdba74' 'php artisan serve' 'php artisan queue:listen --tries=1' 'php artisan pail --timeout=0' 'pnpm run dev' --names=server,queue,logs,vite --kill-others"
     ],
     "dev:ssr": [
-      "bun run build",
+      "pnpm run build",
       "Composer\\Config::disableProcessTimeout",
-      "bunx concurrently -c '#93c5fd,#c4b5fd,#fb7185,#fdba74' 'php artisan serve' 'php artisan queue:listen --tries=1' 'php artisan pail --timeout=0' 'php artisan inertia:start-ssr --runtime=bun' --names=server,queue,logs,ssr --kill-others"
+      "pnpm exec concurrently -c '#93c5fd,#c4b5fd,#fb7185,#fdba74' 'php artisan serve' 'php artisan queue:listen --tries=1' 'php artisan pail --timeout=0' 'php artisan inertia:start-ssr' --names=server,queue,logs,ssr --kill-others"
     ],
-    "ssr:start": "php artisan inertia:start-ssr --runtime=bun",
+    "ssr:start": "php artisan inertia:start-ssr",
     "ssr:stop": "php artisan inertia:stop-ssr",
     "ssr:check": "php artisan inertia:check-ssr",
     "annotate": [
@@ -85,18 +85,18 @@
     ],
     "format": [
       "pint --parallel",
-      "bun run format"
+      "pnpm run format"
     ],
     "lint": [
       "pint --parallel --test",
       "rector --dry-run",
-      "bun run format:check",
-      "bun run lint"
+      "pnpm run format:check",
+      "pnpm run lint"
     ],
     "fix": [
       "pint --parallel",
       "rector",
-      "bun run fix"
+      "pnpm run fix"
     ],
     "test:type-coverage": "pest --type-coverage --min=100",
     "test:types": "phpstan analyse",
