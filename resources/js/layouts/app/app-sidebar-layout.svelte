@@ -22,3 +22,11 @@
     {@render children?.()}
   </AppContent>
 </AppShell>
+
+<style>
+  :global(html),
+  :global(html.dark),
+  :global(body) {
+    background-color: var(--color-sidebar);
+  }
+</style>
