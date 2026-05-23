@@ -24,7 +24,6 @@
   import { Form } from '@inertiajs/svelte';
   import { ShieldCheck } from '@lucide/svelte';
   import { onDestroy } from 'svelte';
-  import { fade } from 'svelte/transition';
 
   import { twoFactorAuthState } from '@/lib/state/two-factor-auth.svelte';
 
@@ -42,12 +41,14 @@
 
   interface Props {
     canManageTwoFactor?: boolean;
+    passwordRules: string;
     requiresConfirmation?: boolean;
     twoFactorEnabled?: boolean;
   }
 
   const {
     canManageTwoFactor = false,
+    passwordRules,
     requiresConfirmation = false,
     twoFactorEnabled = false,
   }: Props = $props();
@@ -77,7 +78,7 @@
     resetOnError={['password', 'password_confirmation', 'current_password']}
     class="space-y-6"
   >
-    {#snippet children({ errors, processing, recentlySuccessful })}
+    {#snippet children({ errors, processing })}
       <div class="grid gap-2">
         <Label for="current_password">Current password</Label>
         <PasswordInput
@@ -97,6 +98,7 @@
           name="password"
           class="mt-1 block w-full"
           autocomplete="new-password"
+          passwordrules={passwordRules}
           placeholder="New password"
         />
         <InputError message={errors.password} />
@@ -109,6 +111,7 @@
           name="password_confirmation"
           class="mt-1 block w-full"
           autocomplete="new-password"
+          passwordrules={passwordRules}
           placeholder="Confirm password"
         />
         <InputError message={errors.password_confirmation} />
@@ -122,15 +125,6 @@
         >
           Save password
         </Button>
-
-        {#if recentlySuccessful}
-          <p
-            class="text-sm text-muted-foreground"
-            transition:fade={{ duration: 150 }}
-          >
-            Saved.
-          </p>
-        {/if}
       </div>
     {/snippet}
   </Form>

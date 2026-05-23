@@ -24,6 +24,12 @@
 
   import { login } from '@/routes';
   import { store } from '@/routes/register';
+
+  interface Props {
+    passwordRules: string;
+  }
+
+  const { passwordRules }: Props = $props();
 </script>
 
 <AppHead title="Register" />
@@ -72,6 +78,7 @@
           required
           tabindex={3}
           autocomplete="new-password"
+          passwordrules={passwordRules}
           placeholder="********"
         />
         <InputError message={errors.password} />
@@ -85,6 +92,7 @@
           required
           tabindex={4}
           autocomplete="new-password"
+          passwordrules={passwordRules}
           placeholder="********"
         />
         <InputError message={errors.password_confirmation} />

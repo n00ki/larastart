@@ -22,7 +22,6 @@
 
 <script lang="ts">
   import { Form, page } from '@inertiajs/svelte';
-  import { fade } from 'svelte/transition';
 
   import AppHead from '@/components/app-head.svelte';
   import DeleteUser from '@/components/delete-user.svelte';
@@ -61,7 +60,7 @@
     options={{ preserveScroll: true }}
     class="space-y-6"
   >
-    {#snippet children({ errors, processing, recentlySuccessful })}
+    {#snippet children({ errors, processing })}
       <div class="grid gap-2">
         <Label for="name">Name</Label>
         <Input
@@ -116,15 +115,6 @@
         >
           Save
         </Button>
-
-        {#if recentlySuccessful}
-          <p
-            class="text-sm text-muted-foreground"
-            transition:fade={{ duration: 150 }}
-          >
-            Saved.
-          </p>
-        {/if}
       </div>
     {/snippet}
   </Form>

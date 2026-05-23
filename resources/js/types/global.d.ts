@@ -12,3 +12,9 @@ declare module '@inertiajs/core' {
     };
   }
 }
+
+declare module 'svelte/elements' {
+  interface HTMLInputAttributes {
+    passwordrules?: string;
+  }
+}

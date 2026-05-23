@@ -9,7 +9,12 @@ test('registration screen can be rendered', function () {
 
     $response = $this->get('/register');
 
-    $response->assertStatus(200);
+    $response
+        ->assertSuccessful()
+        ->assertInertia(fn ($page) => $page
+            ->component('auth/register')
+            ->where('passwordRules', 'minlength: 8;'),
+        );
 });
 
 test('new users can register', function () {

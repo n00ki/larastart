@@ -26,9 +26,10 @@
   interface Props {
     token: string;
     email: string;
+    passwordRules: string;
   }
 
-  const { token, email }: Props = $props();
+  const { token, email, passwordRules }: Props = $props();
 </script>
 
 <AppHead title="Reset password" />
@@ -66,6 +67,7 @@
           id="password"
           name="password"
           autocomplete="new-password"
+          passwordrules={passwordRules}
           class="mt-1 block w-full"
           autofocus
           placeholder="********"
@@ -79,6 +81,7 @@
           id="password_confirmation"
           name="password_confirmation"
           autocomplete="new-password"
+          passwordrules={passwordRules}
           class="mt-1 block w-full"
           placeholder="********"
         />

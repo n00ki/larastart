@@ -16,6 +16,7 @@ test('security page can be rendered', function () {
         ->assertInertia(fn ($page) => $page
             ->component('settings/security')
             ->where('canManageTwoFactor', true)
+            ->where('passwordRules', 'minlength: 8;')
             ->where('twoFactorEnabled', false)
             ->where('requiresConfirmation', true),
         );
@@ -65,6 +66,7 @@ test('security page renders without two-factor data when the feature is disabled
         ->assertInertia(fn ($page) => $page
             ->component('settings/security')
             ->where('canManageTwoFactor', false)
+            ->where('passwordRules', 'minlength: 8;')
             ->missing('twoFactorEnabled')
             ->missing('requiresConfirmation'),
         );

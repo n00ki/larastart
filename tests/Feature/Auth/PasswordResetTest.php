@@ -39,7 +39,12 @@ test('reset password screen can be rendered', function () {
     Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
         $response = $this->get('/reset-password/' . $notification->token);
 
-        $response->assertStatus(200);
+        $response
+            ->assertSuccessful()
+            ->assertInertia(fn ($page) => $page
+                ->component('auth/reset-password')
+                ->where('passwordRules', 'minlength: 8;'),
+            );
 
         return true;
     });
