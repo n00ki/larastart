@@ -56,7 +56,7 @@ jobs:
           cache: pnpm
 
       - name: Install pnpm Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts --config.strict-dep-builds=false
 
       - name: Get Playwright Version
         id: playwright-version
