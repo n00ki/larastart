@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use PragmaRX\Google2FA\Google2FA;
 
@@ -171,6 +172,18 @@ test('login attempts are rate limited after too many failed attempts', function 
 
     $response->assertStatus(429);
     $this->assertGuest();
+});
+
+test('passkey login options are rate limited', function () {
+    config()->set('fortify.features', [
+        Features::passkeys(),
+    ]);
+
+    for ($i = 0; $i < 5; $i++) {
+        $this->getJson('/passkeys/login/options')->assertOk();
+    }
+
+    $this->getJson('/passkeys/login/options')->assertStatus(429);
 });
 
 test('login rate limiting is cleared after successful authentication', function () {

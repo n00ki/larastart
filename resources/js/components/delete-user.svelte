@@ -4,7 +4,7 @@
   import HeadingSmall from '@/components/heading-small.svelte';
   import InputError from '@/components/input-error.svelte';
   import PasswordInput from '@/components/password-input.svelte';
-  import { Button } from '@/components/ui/button';
+  import { Button, buttonVariants } from '@/components/ui/button';
   import * as Dialog from '@/components/ui/dialog';
   import { Label } from '@/components/ui/label';
 
@@ -31,12 +31,14 @@
       <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
     </div>
 
-    <Dialog.Root bind:open onOpenChange={(isOpen) => !isOpen && closeModal()}>
-      <Dialog.Trigger>
-        <Button variant="destructive" data-test="delete-user-button"
-          >Delete account</Button
-        >
+    <Dialog.Root bind:open>
+      <Dialog.Trigger
+        class={buttonVariants({ variant: 'destructive' })}
+        data-test="delete-user-button"
+      >
+        Delete account
       </Dialog.Trigger>
+
       <Dialog.Content>
         <Dialog.Title
           >Are you sure you want to delete your account?</Dialog.Title
@@ -83,12 +85,11 @@
             </div>
 
             <Dialog.Footer class="gap-2">
-              <Dialog.Close>
-                <Button
-                  variant="secondary"
-                  onclick={() => resetAndClearErrors()}>Cancel</Button
-                >
-              </Dialog.Close>
+              <Dialog.Close
+                type="button"
+                class={buttonVariants({ variant: 'secondary' })}
+                onclick={() => resetAndClearErrors()}>Cancel</Dialog.Close
+              >
 
               <Button
                 type="submit"

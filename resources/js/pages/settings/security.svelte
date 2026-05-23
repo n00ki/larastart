@@ -21,6 +21,8 @@
 </script>
 
 <script lang="ts">
+  import type { Passkey } from '@/types/auth';
+
   import { Form } from '@inertiajs/svelte';
   import { ShieldCheck } from '@lucide/svelte';
   import { onDestroy } from 'svelte';
@@ -30,6 +32,7 @@
   import AppHead from '@/components/app-head.svelte';
   import HeadingSmall from '@/components/heading-small.svelte';
   import InputError from '@/components/input-error.svelte';
+  import ManagePasskeys from '@/components/manage-passkeys.svelte';
   import PasswordInput from '@/components/password-input.svelte';
   import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes.svelte';
   import TwoFactorSetupModal from '@/components/two-factor-setup-modal.svelte';
@@ -40,14 +43,18 @@
   import { disable, enable } from '@/routes/two-factor';
 
   interface Props {
+    canManagePasskeys?: boolean;
     canManageTwoFactor?: boolean;
+    passkeys?: Passkey[];
     passwordRules: string;
     requiresConfirmation?: boolean;
     twoFactorEnabled?: boolean;
   }
 
   const {
+    canManagePasskeys = false,
     canManageTwoFactor = false,
+    passkeys = [],
     passwordRules,
     requiresConfirmation = false,
     twoFactorEnabled = false,
@@ -187,3 +194,5 @@
     />
   </div>
 {/if}
+
+<ManagePasskeys {canManagePasskeys} {passkeys} />

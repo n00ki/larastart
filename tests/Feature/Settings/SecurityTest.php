@@ -15,7 +15,9 @@ test('security page can be rendered', function () {
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('settings/security')
+            ->where('canManagePasskeys', true)
             ->where('canManageTwoFactor', true)
+            ->where('passkeys', [])
             ->where('passwordRules', 'minlength: 8;')
             ->where('twoFactorEnabled', false)
             ->where('requiresConfirmation', true),
@@ -32,8 +34,6 @@ test('unverified users can access security settings', function () {
 });
 
 test('security page requires password confirmation when configured for two-factor authentication', function () {
-    $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
-
     config()->set('fortify.features', [
         Features::registration(),
         Features::resetPasswords(),
@@ -49,9 +49,49 @@ test('security page requires password confirmation when configured for two-facto
     $this->actingAs($user)
         ->get('/settings/security')
         ->assertRedirect('/user/confirm-password');
-})->skip(fn () => ! Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'), 'password confirmation not required for two-factor authentication');
+});
 
-test('security page renders without two-factor data when the feature is disabled', function () {
+test('security page requires password confirmation when configured for passkeys', function () {
+    config()->set('fortify.features', [
+        Features::registration(),
+        Features::resetPasswords(),
+        Features::emailVerification(),
+        Features::passkeys([
+            'confirmPassword' => true,
+        ]),
+    ]);
+
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/settings/security')
+        ->assertRedirect('/user/confirm-password');
+});
+
+test('security page includes registered passkeys', function () {
+    $user = User::factory()->create();
+
+    $user->passkeys()->create([
+        'name' => 'MacBook Pro',
+        'credential_id' => 'credential-id',
+        'credential' => ['aaguid' => '00000000-0000-0000-0000-000000000000'],
+    ]);
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->get('/settings/security')
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->component('settings/security')
+            ->where('canManagePasskeys', true)
+            ->has('passkeys', 1)
+            ->where('passkeys.0.name', 'MacBook Pro')
+            ->where('passkeys.0.authenticator', null)
+            ->where('passkeys.0.last_used_at_diff', null),
+        );
+});
+
+test('security page renders without optional security data when the features are disabled', function () {
     config()->set('fortify.features', [
         Features::registration(),
         Features::resetPasswords(),
@@ -65,8 +105,10 @@ test('security page renders without two-factor data when the feature is disabled
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('settings/security')
+            ->where('canManagePasskeys', false)
             ->where('canManageTwoFactor', false)
             ->where('passwordRules', 'minlength: 8;')
+            ->missing('passkeys')
             ->missing('twoFactorEnabled')
             ->missing('requiresConfirmation'),
         );

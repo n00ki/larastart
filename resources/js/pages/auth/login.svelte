@@ -15,6 +15,7 @@
 
   import AppHead from '@/components/app-head.svelte';
   import InputError from '@/components/input-error.svelte';
+  import PasskeyVerify from '@/components/passkey-verify.svelte';
   import PasswordInput from '@/components/password-input.svelte';
   import TextLink from '@/components/text-link.svelte';
   import { Button } from '@/components/ui/button';
@@ -98,6 +99,16 @@
         {/if}
         Log in
       </Button>
+
+      <div
+        class="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border"
+      >
+        <span class="relative z-10 bg-background px-2 text-muted-foreground">
+          Or
+        </span>
+      </div>
+
+      <PasskeyVerify />
     </div>
 
     {#if canRegister}

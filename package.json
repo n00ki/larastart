@@ -13,7 +13,6 @@
     "fix": "prettier --write . && eslint . --fix",
     "postinstall": "npx simple-git-hooks"
   },
-  "dependencies": {},
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.60.2",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.2.2",
@@ -26,6 +25,7 @@
     "@inertiajs/core": "^3.0.3",
     "@inertiajs/svelte": "^3.0.3",
     "@inertiajs/vite": "^3.0.3",
+    "@laravel/passkeys": "^0.2.0",
     "@laravel/vite-plugin-wayfinder": "^0.1.7",
     "@lucide/svelte": "^1.14.0",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
