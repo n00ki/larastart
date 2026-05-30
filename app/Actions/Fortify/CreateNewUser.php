@@ -7,6 +7,7 @@ namespace App\Actions\Fortify;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use App\Support\UserName;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -17,7 +18,7 @@ final readonly class CreateNewUser implements CreatesNewUsers
     use ProfileValidationRules;
 
     /**
-     * @param array<string, string> $input
+     * @param array<string, mixed> $input
      */
     public function create(array $input): User
     {
@@ -25,10 +26,14 @@ final readonly class CreateNewUser implements CreatesNewUsers
     }
 
     /**
-     * @param array<string, string> $input
+     * @param array<string, mixed> $input
      */
     public function handle(array $input): User
     {
+        if (isset($input['name']) && is_string($input['name'])) {
+            $input['name'] = UserName::normalize($input['name']);
+        }
+
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),

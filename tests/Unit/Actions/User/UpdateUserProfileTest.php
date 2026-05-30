@@ -29,6 +29,14 @@ test('updates profile name and email', function () {
         ->and($this->user->email)->toBe('updated@example.com');
 });
 
+test('stores a normalized name when updating profile data', function () {
+    $this->action->handle($this->user, [
+        'name' => "  Ada\tByron   Lovelace  ",
+    ]);
+
+    expect($this->user->refresh()->name)->toBe('Ada Byron Lovelace');
+});
+
 test('resets email verification and sends notification when email changes', function () {
     Notification::fake();
 

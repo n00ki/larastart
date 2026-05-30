@@ -215,6 +215,12 @@ final class UpdatePasswordRequest extends FormRequest
 }
 ```
 
+## Support Utilities
+
+Use `app/Support/` for small, stateless helpers that are not business workflows by
+themselves. Actions may call these helpers, but domain writes and orchestration still
+belong in Actions.
+
 ## Directory Structure
 
 ```
@@ -230,7 +236,8 @@ app/
 ├── Jobs/              # Queue jobs
 ├── Models/            # Eloquent models
 ├── Policies/          # Authorization
-└── Providers/         # Service providers
+├── Providers/         # Service providers
+└── Support/           # Small stateless helpers
 
 resources/js/
 ├── actions/           # Wayfinder action functions (generated)

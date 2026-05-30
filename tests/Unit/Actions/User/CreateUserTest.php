@@ -33,6 +33,17 @@ test('creates a user account with a hashed password', function () {
     ]);
 });
 
+test('stores a normalized name when creating an account', function () {
+    Event::fake();
+
+    $user = $this->action->handle([
+        'name' => "  Ada\tByron   Lovelace  ",
+        'email' => 'ada@example.com',
+    ], 'password123');
+
+    expect($user->name)->toBe('Ada Byron Lovelace');
+});
+
 test('dispatches registered event after account creation', function () {
     Event::fake();
 

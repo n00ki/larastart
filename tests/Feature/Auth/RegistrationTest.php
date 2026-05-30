@@ -34,6 +34,22 @@ test('new users can register', function () {
         ->assertInertiaFlash('message', __('auth.registered'));
 });
 
+test('new user names are normalized during registration', function () {
+    $this->skipUnlessFortifyFeature(Features::registration());
+
+    $this->post('/register', [
+        'name' => "  Test\tUser  ",
+        'email' => 'normalized@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ])->assertRedirect(route('dashboard', absolute: false));
+
+    $this->assertDatabaseHas('users', [
+        'name' => 'Test User',
+        'email' => 'normalized@example.com',
+    ]);
+});
+
 test('new users can register using a json request', function () {
     $this->skipUnlessFortifyFeature(Features::registration());
 

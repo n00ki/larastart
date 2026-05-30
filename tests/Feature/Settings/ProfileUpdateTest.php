@@ -46,6 +46,21 @@ test('profile information can be updated', function () {
     expect($user->email)->toBe('test@example.com');
 });
 
+test('profile names are normalized when updated', function () {
+    $user = User::factory()->create();
+
+    $this
+        ->actingAs($user)
+        ->patch('/settings/profile', [
+            'name' => "  Test\tUser  ",
+            'email' => 'test@example.com',
+        ])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect('/settings/profile');
+
+    expect($user->refresh()->name)->toBe('Test User');
+});
+
 test('email verification is reset and notification is sent when email changes', function () {
     Notification::fake();
 
