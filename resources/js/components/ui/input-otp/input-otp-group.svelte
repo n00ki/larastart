@@ -1,17 +1,20 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+	import type { HTMLAttributes } from "svelte/elements";
+	import { cn, type WithElementRef } from "@/lib/utils.js";
 
-  import { cn } from '@/lib/utils';
-
-  let {
-    class: className = '',
-    children,
-  }: {
-    class?: string;
-    children?: Snippet;
-  } = $props();
+	let {
+		ref = $bindable(null),
+		class: className,
+		children,
+		...restProps
+	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
 </script>
 
-<div data-slot="input-otp-group" class={cn('flex items-center', className)}>
-  {@render children?.()}
+<div
+	bind:this={ref}
+	data-slot="input-otp-group"
+	class={cn("flex items-center", className)}
+	{...restProps}
+>
+	{@render children?.()}
 </div>

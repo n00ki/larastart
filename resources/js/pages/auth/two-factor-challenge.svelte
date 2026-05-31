@@ -80,17 +80,19 @@
         >
           <div class="flex w-full items-center justify-center">
             <InputOTP
-              id="otp"
+              inputId="otp"
               bind:value={code}
               maxlength={6}
               disabled={processing}
               autofocus
             >
-              <InputOTPGroup>
-                {#each { length: 6 } as _, i (i)}
-                  <InputOTPSlot index={i} />
-                {/each}
-              </InputOTPGroup>
+              {#snippet children({ cells })}
+                <InputOTPGroup>
+                  {#each cells as cell, i (i)}
+                    <InputOTPSlot {cell} />
+                  {/each}
+                </InputOTPGroup>
+              {/snippet}
             </InputOTP>
           </div>
           <InputError message={errors.code} />
