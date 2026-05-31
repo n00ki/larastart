@@ -61,6 +61,27 @@ test('profile names are normalized when updated', function () {
     expect($user->refresh()->name)->toBe('Test User');
 });
 
+test('profile updates reject unexpected fields', function () {
+    $user = User::factory()->create([
+        'name' => 'Original User',
+        'email' => 'original@example.com',
+    ]);
+
+    $this
+        ->actingAs($user)
+        ->from('/settings/profile')
+        ->patch('/settings/profile', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'is_admin' => true,
+        ])
+        ->assertSessionHasErrors('is_admin')
+        ->assertRedirect('/settings/profile');
+
+    expect($user->refresh()->name)->toBe('Original User')
+        ->and($user->email)->toBe('original@example.com');
+});
+
 test('email verification is reset and notification is sent when email changes', function () {
     Notification::fake();
 

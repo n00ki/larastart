@@ -52,6 +52,7 @@ Use domain-focused names while keeping Laravel HTTP naming conventions.
 
 - Controller methods follow Laravel HTTP conventions: `show`, `store`, `update`, `destroy`.
 - Form requests follow HTTP intent: `UpdateProfileRequest`, `UpdatePasswordRequest`, `DestroyAccountRequest`.
+- App form requests extend `App\Http\Requests\FormRequest` to reject unknown fields outside production. Vendor form requests use Laravel defaults.
 
 #### Routes
 

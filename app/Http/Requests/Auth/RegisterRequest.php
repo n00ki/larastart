@@ -6,7 +6,7 @@ namespace App\Http\Requests\Auth;
 
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\FormRequest;
 
 final class RegisterRequest extends FormRequest
 {

@@ -186,6 +186,34 @@ test('passkey login options are rate limited', function () {
     $this->getJson('/passkeys/login/options')->assertStatus(429);
 });
 
+test('passkey verification requests allow browser credential response fields', function () {
+    config()->set('fortify.features', [
+        Features::passkeys(),
+    ]);
+
+    $this->postJson('/passkeys/login', [
+        'credential' => [
+            'id' => 'credential-id',
+            'rawId' => 'credential-id',
+            'type' => 'public-key',
+            'response' => [
+                'authenticatorData' => 'authenticator-data',
+                'clientDataJSON' => 'client-data-json',
+                'signature' => 'signature',
+                'userHandle' => null,
+            ],
+        ],
+    ])
+        ->assertUnprocessable()
+        ->assertJsonMissingValidationErrors([
+            'credential.response.authenticatorData',
+            'credential.response.clientDataJSON',
+            'credential.response.signature',
+            'credential.response.userHandle',
+        ])
+        ->assertJsonValidationErrors('credential');
+});
+
 test('login rate limiting is cleared after successful authentication', function () {
     $user = User::factory()->create();
 

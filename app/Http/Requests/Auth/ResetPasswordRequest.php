@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use App\Concerns\PasswordValidationRules;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\FormRequest;
 
 final class ResetPasswordRequest extends FormRequest
 {

@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\FormRequest as AppFormRequest;
+use Illuminate\Foundation\Http\FormRequest as BaseFormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -77,12 +78,28 @@ arch('controllers are final and extend nothing')
     ->toBeFinal()
     ->toExtendNothing();
 
-arch('requests are final form requests with request suffix')
-    ->expect('App\Http\Requests')
-    ->classes()
-    ->toBeFinal()
-    ->toHaveSuffix('Request')
-    ->toExtend(FormRequest::class);
+arch('base request extends Laravel form request')
+    ->expect(AppFormRequest::class)
+    ->toBeAbstract()
+    ->toExtend(BaseFormRequest::class);
+
+test('concrete requests are final app form requests with request suffix', function () {
+    $requests = collect(File::allFiles(app_path('Http/Requests')))
+        ->map(fn (SplFileInfo $file): string => 'App\\Http\\Requests\\' . str_replace(
+            ['/', '.php'],
+            ['\\', ''],
+            $file->getRelativePathname(),
+        ))
+        ->reject(fn (string $request): bool => $request === AppFormRequest::class);
+
+    foreach ($requests as $request) {
+        $reflection = new ReflectionClass($request);
+
+        expect($reflection->isFinal(), sprintf('Expected %s to be final.', $request))->toBeTrue()
+            ->and(Str::endsWith($request, 'Request'), sprintf('Expected %s to have a Request suffix.', $request))->toBeTrue()
+            ->and($reflection->isSubclassOf(AppFormRequest::class), sprintf('Expected %s to extend the app FormRequest.', $request))->toBeTrue();
+    }
+});
 
 arch('controllers avoid db facade usage')
     ->expect('App\Http\Controllers')

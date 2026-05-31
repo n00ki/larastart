@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\User;
 
 use App\Concerns\ProfileValidationRules;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\FormRequest;
 
 final class UpdateProfileRequest extends FormRequest
 {
