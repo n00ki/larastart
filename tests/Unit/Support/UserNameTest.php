@@ -9,10 +9,10 @@ test('normalizes surrounding and repeated whitespace', function () {
 });
 
 test('replaces control characters with spaces before compacting', function () {
-    expect(UserName::normalize("Ada\tByron\nLovelace"))->toBe('Ada Byron Lovelace');
+    expect(UserName::normalize("ada\tBYRON\nlovelace"))->toBe('Ada Byron Lovelace');
 });
 
-test('preserves user supplied casing and punctuation', function () {
-    expect(UserName::normalize("  van   der   Waals O'Connor McDonald  "))
-        ->toBe("van der Waals O'Connor McDonald");
+test('title-cases names across common separators', function () {
+    expect(UserName::normalize('  nOam   ShemESh  '))->toBe('Noam Shemesh')
+        ->and(UserName::normalize("anne-marie o'connor"))->toBe("Anne-Marie O'Connor");
 });

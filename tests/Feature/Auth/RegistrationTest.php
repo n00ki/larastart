@@ -38,15 +38,33 @@ test('new user names are normalized during registration', function () {
     $this->skipUnlessFortifyFeature(Features::registration());
 
     $this->post('/register', [
-        'name' => "  Test\tUser  ",
+        'name' => "  nOam\tShemESh  ",
         'email' => 'normalized@example.com',
         'password' => 'password',
         'password_confirmation' => 'password',
     ])->assertRedirect(route('dashboard', absolute: false));
 
     $this->assertDatabaseHas('users', [
-        'name' => 'Test User',
+        'name' => 'Noam Shemesh',
         'email' => 'normalized@example.com',
+    ]);
+});
+
+test('new user names reject unsupported punctuation during registration', function () {
+    $this->skipUnlessFortifyFeature(Features::registration());
+
+    $this->from('/register')->post('/register', [
+        'name' => 'noam. shemesh',
+        'email' => 'invalid-name@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ])
+        ->assertRedirect('/register')
+        ->assertSessionHasErrors('name');
+
+    $this->assertGuest();
+    $this->assertDatabaseMissing('users', [
+        'email' => 'invalid-name@example.com',
     ]);
 });
 

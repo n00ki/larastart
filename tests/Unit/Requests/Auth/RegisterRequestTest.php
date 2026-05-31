@@ -17,6 +17,18 @@ test('allows users to submit the registration request', function () {
     expect($this->request->authorize())->toBeTrue();
 });
 
+test('normalizes name before registration validation', function () {
+    $request = RegisterRequest::create('/register', 'POST', [
+        'name' => "  nOam\tShemESh  ",
+    ]);
+
+    (function (): void {
+        $this->prepareForValidation();
+    })->call($request);
+
+    expect($request->input('name'))->toBe('Noam Shemesh');
+});
+
 test('requires name, email, and password for registration', function () {
     $validator = Validator::make([], $this->request->rules());
 
@@ -35,8 +47,15 @@ test('requires a valid registration name', function () {
     $validator = Validator::make(['name' => str_repeat('a', 256)], $rules);
     expect($validator->errors()->has('name'))->toBeTrue();
 
-    $validator = Validator::make(['name' => 'John Doe'], $rules);
-    expect($validator->errors()->has('name'))->toBeFalse();
+    foreach (['John Doe', "Anne-Marie O'Connor", 'María José'] as $name) {
+        $validator = Validator::make(['name' => $name], $rules);
+        expect($validator->errors()->has('name'))->toBeFalse();
+    }
+
+    foreach (['John. Doe', 'John2 Doe', 'John_Doe'] as $name) {
+        $validator = Validator::make(['name' => $name], $rules);
+        expect($validator->errors()->has('name'))->toBeTrue();
+    }
 });
 
 test('requires a valid registration email', function () {
@@ -87,10 +106,12 @@ test('returns custom registration validation messages', function () {
     $messages = $this->request->messages();
 
     expect($messages)->toHaveKey('name.required')
+        ->and($messages)->toHaveKey('name.regex')
         ->and($messages)->toHaveKey('email.required')
         ->and($messages)->toHaveKey('email.unique')
         ->and($messages)->toHaveKey('password.required')
         ->and($messages)->toHaveKey('password.confirmed')
         ->and($messages['name.required'])->toBe('A name is required for registration.')
+        ->and($messages['name.regex'])->toBe('Names may only contain letters, spaces, hyphens, and apostrophes.')
         ->and($messages['email.unique'])->toBe('This email address is already registered.');
 });

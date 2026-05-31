@@ -31,7 +31,7 @@ test('updates profile name and email', function () {
 
 test('stores a normalized name when updating profile data', function () {
     $this->action->handle($this->user, [
-        'name' => "  Ada\tByron   Lovelace  ",
+        'name' => "  ada\tBYRON   lovelace  ",
     ]);
 
     expect($this->user->refresh()->name)->toBe('Ada Byron Lovelace');

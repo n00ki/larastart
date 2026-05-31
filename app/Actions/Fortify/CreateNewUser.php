@@ -37,7 +37,7 @@ final readonly class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
-        ])->validate();
+        ], $this->profileMessages())->validate();
 
         return DB::transaction(fn (): User => User::query()->create([
             'name' => $input['name'],

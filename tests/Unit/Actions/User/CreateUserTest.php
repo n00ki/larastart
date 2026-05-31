@@ -37,7 +37,7 @@ test('stores a normalized name when creating an account', function () {
     Event::fake();
 
     $user = $this->action->handle([
-        'name' => "  Ada\tByron   Lovelace  ",
+        'name' => "  ada\tBYRON   lovelace  ",
         'email' => 'ada@example.com',
     ], 'password123');
 

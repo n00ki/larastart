@@ -52,13 +52,33 @@ test('profile names are normalized when updated', function () {
     $this
         ->actingAs($user)
         ->patch('/settings/profile', [
-            'name' => "  Test\tUser  ",
+            'name' => "  nOam\tShemESh  ",
             'email' => 'test@example.com',
         ])
         ->assertSessionHasNoErrors()
         ->assertRedirect('/settings/profile');
 
-    expect($user->refresh()->name)->toBe('Test User');
+    expect($user->refresh()->name)->toBe('Noam Shemesh');
+});
+
+test('profile names reject unsupported punctuation when updated', function () {
+    $user = User::factory()->create([
+        'name' => 'Original User',
+        'email' => 'original@example.com',
+    ]);
+
+    $this
+        ->actingAs($user)
+        ->from('/settings/profile')
+        ->patch('/settings/profile', [
+            'name' => 'noam. shemesh',
+            'email' => 'updated@example.com',
+        ])
+        ->assertSessionHasErrors('name')
+        ->assertRedirect('/settings/profile');
+
+    expect($user->refresh()->name)->toBe('Original User')
+        ->and($user->email)->toBe('original@example.com');
 });
 
 test('profile updates reject unexpected fields', function () {

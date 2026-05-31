@@ -37,8 +37,15 @@ test('requires a valid profile name', function () {
     $validator = Validator::make(['name' => str_repeat('a', 256)], $rules);
     expect($validator->errors()->has('name'))->toBeTrue();
 
-    $validator = Validator::make(['name' => 'John Doe'], $rules);
-    expect($validator->errors()->has('name'))->toBeFalse();
+    foreach (['John Doe', "Anne-Marie O'Connor", 'María José'] as $name) {
+        $validator = Validator::make(['name' => $name], $rules);
+        expect($validator->errors()->has('name'))->toBeFalse();
+    }
+
+    foreach (['John. Doe', 'John2 Doe', 'John_Doe'] as $name) {
+        $validator = Validator::make(['name' => $name], $rules);
+        expect($validator->errors()->has('name'))->toBeTrue();
+    }
 });
 
 test('requires a valid profile email', function () {

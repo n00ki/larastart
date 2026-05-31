@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Concerns;
 
 use App\Models\User;
+use App\Support\UserName;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
 
@@ -26,7 +27,17 @@ trait ProfileValidationRules
      */
     protected function nameRules(): array
     {
-        return ['required', 'string', 'max:255'];
+        return ['required', 'string', 'max:255', 'regex:' . UserName::VALIDATION_PATTERN];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function profileMessages(): array
+    {
+        return [
+            'name.regex' => 'Names may only contain letters, spaces, hyphens, and apostrophes.',
+        ];
     }
 
     /**
