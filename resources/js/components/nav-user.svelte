@@ -19,7 +19,8 @@
         {#snippet child({ props })}
           <Sidebar.MenuButton
             size="lg"
-            class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            class="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+            data-active={undefined}
             data-test="sidebar-menu-button"
             {...props}
           >
@@ -29,7 +30,7 @@
         {/snippet}
       </DropdownMenu.Trigger>
       <DropdownMenu.Content
-        class="w-[var(--bits-dropdown-menu-anchor-width)] min-w-56 rounded-lg"
+        class="w-(--bits-dropdown-menu-anchor-width) min-w-56 rounded-lg"
         side={sidebar.isMobile ? 'bottom' : 'right'}
         align="end"
         sideOffset={4}

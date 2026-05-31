@@ -20,9 +20,10 @@
   <Sidebar.GroupLabel>Platform</Sidebar.GroupLabel>
   <Sidebar.Menu>
     {#each items as item (item.title)}
+      {@const isActive = currentUrl.startsWithCurrentUrl(item.href)}
       <Sidebar.MenuItem>
         <Sidebar.MenuButton
-          isActive={currentUrl.startsWithCurrentUrl(item.href)}
+          data-active={isActive ? '' : undefined}
           tooltipContent={item.title}
         >
           {#snippet child({ props })}

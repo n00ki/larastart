@@ -16,7 +16,7 @@
   <Sidebar.Header>
     <Sidebar.Menu>
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton size="lg">
+        <Sidebar.MenuButton size="lg" data-active={undefined}>
           {#snippet child({ props })}
             <Link href={dashboard()} prefetch {...props}>
               <AppLogo />

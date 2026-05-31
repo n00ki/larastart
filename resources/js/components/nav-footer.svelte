@@ -30,6 +30,7 @@
       {#each items as item (item.title)}
         <SidebarMenuItem>
           <SidebarMenuButton
+            data-active={undefined}
             class="text-muted-foreground hover:text-foreground"
           >
             {#snippet child({ props })}

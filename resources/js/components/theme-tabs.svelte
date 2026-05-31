@@ -28,8 +28,9 @@
 <ToggleGroup.Root
   type="single"
   value={theme.selectedMode}
+  spacing={1}
   onValueChange={(value) => value && theme.setTheme(value as Mode)}
-  class={cn('inline-flex gap-1 rounded-lg bg-muted p-1', className)}
+  class={cn('inline-flex rounded-lg bg-muted p-1', className)}
 >
   {#each modes as { value, icon, label } (value)}
     <ToggleGroup.Item

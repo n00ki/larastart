@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Form } from '@inertiajs/svelte';
 
+  import { cn } from '@/lib/utils';
+
   import HeadingSmall from '@/components/heading-small.svelte';
   import InputError from '@/components/input-error.svelte';
   import PasswordInput from '@/components/password-input.svelte';
@@ -9,6 +11,9 @@
   import { Label } from '@/components/ui/label';
 
   import { destroy } from '@/actions/App/Http/Controllers/User/AccountController';
+
+  const destructiveButtonClass =
+    'bg-destructive text-white hover:bg-destructive/90 dark:bg-destructive/60 dark:hover:bg-destructive/70';
 
   let open = $state(false);
   let passwordInput = $state<HTMLInputElement | null>(null);
@@ -33,13 +38,16 @@
 
     <Dialog.Root bind:open>
       <Dialog.Trigger
-        class={buttonVariants({ variant: 'destructive' })}
+        class={cn(
+          buttonVariants({ variant: 'destructive' }),
+          destructiveButtonClass,
+        )}
         data-test="delete-user-button"
       >
         Delete account
       </Dialog.Trigger>
 
-      <Dialog.Content>
+      <Dialog.Content class="sm:max-w-lg">
         <Dialog.Title
           >Are you sure you want to delete your account?</Dialog.Title
         >
@@ -94,6 +102,7 @@
               <Button
                 type="submit"
                 variant="destructive"
+                class={destructiveButtonClass}
                 disabled={processing}
                 data-test="confirm-delete-user-button"
               >
