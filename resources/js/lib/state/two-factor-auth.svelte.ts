@@ -34,24 +34,40 @@ const hasSetupData = (): boolean =>
 export function twoFactorAuthState(): TwoFactorAuthStateApi {
   const http = useHttp<Record<string, never>, unknown>({});
 
+  const addError = (message: string): void => {
+    if (!state.errors.includes(message)) {
+      state.errors = [...state.errors, message];
+    }
+  };
+
+  const reportFailure = (message: string) => ({
+    onHttpException: () => addError(message),
+    onNetworkError: () => addError(message),
+  });
+
   const fetchQrCode = async (): Promise<void> => {
+    const message = 'Failed to fetch QR code';
+
     try {
-      const { svg } = (await http.submit(qrCode())) as {
+      const { svg } = (await http.submit(qrCode(), reportFailure(message))) as {
         svg: string;
         url: string;
       };
       state.qrCodeSvg = svg;
     } catch {
-      state.errors = [...state.errors, 'Failed to fetch QR code'];
+      addError(message);
       state.qrCodeSvg = null;
     }
   };
 
   const fetchSetupKey = async (): Promise<void> => {
+    const message = 'Failed to fetch a setup key';
+
     try {
-      const payload = (await http.submit(secretKey())) as
-        | { secretKey?: string; secret_key?: string }
-        | string;
+      const payload = (await http.submit(
+        secretKey(),
+        reportFailure(message),
+      )) as { secretKey?: string; secret_key?: string } | string;
       const key =
         typeof payload === 'string'
           ? payload
@@ -63,7 +79,7 @@ export function twoFactorAuthState(): TwoFactorAuthStateApi {
 
       state.manualSetupKey = key;
     } catch {
-      state.errors = [...state.errors, 'Failed to fetch a setup key'];
+      addError(message);
       state.manualSetupKey = null;
     }
   };
@@ -85,25 +101,23 @@ export function twoFactorAuthState(): TwoFactorAuthStateApi {
   };
 
   const fetchRecoveryCodes = async (): Promise<void> => {
+    const message = 'Failed to fetch recovery codes';
+
     try {
       clearErrors();
       state.recoveryCodesList = (await http.submit(
         recoveryCodes(),
+        reportFailure(message),
       )) as string[];
     } catch {
-      state.errors = [...state.errors, 'Failed to fetch recovery codes'];
+      addError(message);
       state.recoveryCodesList = [];
     }
   };
 
   const fetchSetupData = async (): Promise<void> => {
-    try {
-      clearErrors();
-      await Promise.all([fetchQrCode(), fetchSetupKey()]);
-    } catch {
-      state.qrCodeSvg = null;
-      state.manualSetupKey = null;
-    }
+    clearErrors();
+    await Promise.all([fetchQrCode(), fetchSetupKey()]);
   };
 
   return {

@@ -223,6 +223,7 @@
       {:else}
         <Form
           {...confirm.form()}
+          errorBag="confirmTwoFactorAuthentication"
           resetOnError
           onFinish={() => (code = '')}
           onSuccess={() => (isOpen = false)}
@@ -251,10 +252,7 @@
                     </InputOTPGroup>
                   {/snippet}
                 </InputOTP>
-                <InputError
-                  message={formErrors['confirmTwoFactorAuthentication.code'] ??
-                    formErrors.code}
-                />
+                <InputError message={formErrors.code} />
               </div>
 
               <div class="flex w-full items-center space-x-5">
