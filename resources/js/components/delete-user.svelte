@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Form } from '@inertiajs/svelte';
+  import { toast } from 'svelte-sonner';
 
   import { cn } from '@/lib/utils';
 
@@ -20,6 +21,17 @@
 
   function closeModal() {
     open = false;
+  }
+
+  function preventKeyboardDelete(event: KeyboardEvent) {
+    if (event.key !== 'Enter') {
+      return;
+    }
+
+    event.preventDefault();
+    toast.info(
+      'Mysterious are the ways of the keyboard. Please click the button for confirmation.',
+    );
   }
 </script>
 
@@ -80,13 +92,7 @@
                 bind:ref={passwordInput}
                 placeholder="Password"
                 autocomplete="current-password"
-                onkeydown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.currentTarget.form?.requestSubmit();
-                  }
-                }}
+                onkeydown={preventKeyboardDelete}
               />
 
               <InputError message={errors.password} />
