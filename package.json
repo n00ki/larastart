@@ -7,9 +7,9 @@
     "dev": "vite",
     "format": "prettier --write resources/",
     "format:check": "prettier --check resources/",
-    "check": "svelte-check resources/ --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-check resources/ --tsconfig ./tsconfig.json --watch",
-    "lint": "eslint . && svelte-check resources/ --tsconfig ./tsconfig.json",
+    "check": "svelte-check resources/ --tsconfig ./tsconfig.json --config ./svelte.config.js",
+    "check:watch": "svelte-check resources/ --tsconfig ./tsconfig.json --config ./svelte.config.js --watch",
+    "lint": "eslint . && svelte-check resources/ --tsconfig ./tsconfig.json --config ./svelte.config.js",
     "fix": "prettier --write . && eslint . --fix",
     "postinstall": "npx simple-git-hooks"
   },
