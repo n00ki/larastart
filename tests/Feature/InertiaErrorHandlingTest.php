@@ -40,3 +40,25 @@ test('server errors render the inertia error page', function () {
             ->where('name', config('app.name')),
         );
 });
+
+test('json requests receive json errors instead of the inertia error page', function () {
+    Route::middleware('web')->get('/test-json-error-page', function (): never {
+        abort(404);
+    });
+
+    $this->get('/test-json-error-page', ['Accept' => 'application/json'])
+        ->assertNotFound()
+        ->assertHeaderMissing('X-Inertia')
+        ->assertHeader('Content-Type', 'application/json');
+});
+
+test('api routes receive json errors without an explicit json accept header', function () {
+    Route::get('/api/test-json-error-page', function (): never {
+        abort(404);
+    });
+
+    $this->get('/api/test-json-error-page')
+        ->assertNotFound()
+        ->assertHeaderMissing('X-Inertia')
+        ->assertHeader('Content-Type', 'application/json');
+});

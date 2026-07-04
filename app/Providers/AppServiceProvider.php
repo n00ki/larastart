@@ -46,6 +46,10 @@ final class AppServiceProvider extends ServiceProvider
                 return null;
             }
 
+            if ($response->request->is('api/*') || $response->request->expectsJson()) {
+                return null;
+            }
+
             if (app()->isLocal() && in_array($status, [500, 503], true)) {
                 return null;
             }
