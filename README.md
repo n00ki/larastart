@@ -2,7 +2,7 @@
 
 **The ultimate _mise en place_ for your next Laravel + Svelte project 🚀**
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue) [![PHP Version](https://img.shields.io/badge/PHP-8.5-777BB4?logo=php&logoColor=white)](https://php.net/) [![Svelte Version](https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white)](https://svelte.dev/) [![CI](https://github.com/n00ki/larastart/actions/workflows/ci.yml/badge.svg)](https://github.com/n00ki/larastart/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/github/v/tag/n00ki/larastart?label=version&sort=semver&filter=v*&color=2563eb)](https://github.com/n00ki/larastart/tags) [![PHP](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fn00ki%2Flarastart%2Fmain%2Fcomposer.json&query=%24.require.php&label=PHP&logo=php&logoColor=white&color=777BB4)](https://php.net/) [![Laravel](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fn00ki%2Flarastart%2Fmain%2Fcomposer.json&query=%24.require%5B%22laravel%2Fframework%22%5D&label=Laravel&logo=laravel&logoColor=white&color=FF2D20)](https://laravel.com/) [![Svelte](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fn00ki%2Flarastart%2Fmain%2Fpackage.json&query=%24.devDependencies.svelte&label=Svelte&logo=svelte&logoColor=white&color=FF3E00)](https://svelte.dev/) [![CI](https://github.com/n00ki/larastart/actions/workflows/ci.yml/badge.svg)](https://github.com/n00ki/larastart/actions/workflows/ci.yml)
 
 <div align="center">
 
