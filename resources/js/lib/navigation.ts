@@ -1,6 +1,8 @@
 import type { NavItem } from '@/types';
 
-import { BookOpen, Folder, LayoutGrid } from '@lucide/svelte';
+import { BookOpen, LayoutGrid } from '@lucide/svelte';
+
+import GitHubIcon from '@/components/github-icon.svelte';
 
 import { dashboard } from '@/routes';
 
@@ -17,7 +19,7 @@ export const secondaryNavItems: NavItem[] = [
   {
     title: 'Repository',
     href: 'https://github.com/n00ki/larastart',
-    icon: Folder,
+    icon: GitHubIcon,
   },
   {
     title: 'Documentation',

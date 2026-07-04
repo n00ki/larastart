@@ -6,7 +6,6 @@
   import { Link, page } from '@inertiajs/svelte';
   import {
     FileType,
-    FolderGit2,
     Globe,
     Hammer,
     Link as LinkIcon,
@@ -21,6 +20,7 @@
   } from '@lucide/svelte';
 
   import AppHead from '@/components/app-head.svelte';
+  import GitHubIcon from '@/components/github-icon.svelte';
   import Icon from '@/components/icon.svelte';
   import ThemeSwitch from '@/components/theme-switch.svelte';
   import { Button } from '@/components/ui/button';
@@ -96,7 +96,7 @@
             transition-none
           "
       >
-        <Icon name={FolderGit2} size={16} />
+        <GitHubIcon />
       </Button>
     </div>
     <nav class="flex items-center justify-end gap-4">
