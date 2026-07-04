@@ -65,14 +65,14 @@ php artisan boost:install
 pnpm run build
 
 # Start development environment
-composer dev
+php artisan dev
 ```
 
 ### Development
 
 ```bash
 # Standard development with automatic SSR in Vite dev
-composer dev
+php artisan dev
 
 # Production-style SSR preview
 composer dev:ssr
@@ -106,7 +106,7 @@ composer ssr:check
 composer ssr:stop
 ```
 
-- In development, `composer dev` is enough; the Inertia Vite plugin handles SSR automatically.
+- In development, `php artisan dev` is enough; the Inertia Vite plugin handles SSR automatically.
 - In production, run the SSR server under a process monitor such as Supervisor, Forge, or Laravel Cloud.
 
 ## Project Structure
