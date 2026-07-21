@@ -9,23 +9,20 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
+use SensitiveParameter;
 
 final readonly class ResetUserPassword implements ResetsUserPasswords
 {
     use PasswordValidationRules;
 
-    /**
-     * @param array<string, string> $input
-     */
-    public function reset(User $user, array $input): void
+    /** @param array<string, string> $input */
+    public function reset(User $user, #[SensitiveParameter] array $input): void
     {
         $this->handle($user, $input);
     }
 
-    /**
-     * @param array<string, string> $input
-     */
-    public function handle(User $user, array $input): void
+    /** @param array<string, string> $input */
+    public function handle(User $user, #[SensitiveParameter] array $input): void
     {
         Validator::make($input, [
             'password' => $this->passwordRules(),
