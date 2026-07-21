@@ -15,6 +15,7 @@ test('user login happy path from homepage to dashboard', function (): void {
         ->fill('password', 'password')
         ->click('Log in')
         ->assertPathIs('/dashboard')
+        ->assertSee(config('app.name'))
         ->assertSee('Dashboard')
         ->assertSee($user->name)
         ->assertSee(__('auth.logged_in'))
