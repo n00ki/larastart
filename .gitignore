@@ -67,6 +67,7 @@ CLAUDE.md
 .agents/
 .cursor/
 .claude/
+.codex/
 .opencode/
 opencode.json
 
