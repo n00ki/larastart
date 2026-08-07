@@ -109,6 +109,9 @@ jobs:
           restore-keys: ${{ runner.os }}-phpstan-
 
       - name: Format, Lint & Test
+        env:
+          # Work around pestphp/pest#1766 until the cache race is fixed in Pest 4.
+          __PEST_PLUGIN_ENV: 1
         run: composer test
 
       - name: Store Artifacts
