@@ -21,11 +21,7 @@ final class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
-    /**
-     * @see https://inertiajs.com/shared-data
-     *
-     * @return array<string, mixed>
-     */
+    /** @see https://inertiajs.com/shared-data */
     #[Override]
     public function share(Request $request): array
     {

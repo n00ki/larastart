@@ -18,9 +18,6 @@ use Laravel\Passkeys\Passkey;
 
 final readonly class SecurityController implements HasMiddleware
 {
-    /**
-     * @return array<int, Middleware>
-     */
     public static function middleware(): array
     {
         if (self::requiresPasswordConfirmation()) {

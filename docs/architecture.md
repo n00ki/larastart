@@ -10,6 +10,13 @@
 
 ## Backend Patterns
 
+### Type Policy
+
+Use native parameter, property, and return types, with `strict_types` enabled.
+PHPDoc is optional and reserved for important contracts that native PHP cannot
+express, such as generic relationships and callable signatures. PHPStan keeps all
+level 7 checks except mandatory iterable value annotations.
+
 ### Action Pattern
 
 All business logic lives in Action classes. Controllers stay thin.
@@ -18,7 +25,6 @@ All business logic lives in Action classes. Controllers stay thin.
 // app/Actions/User/UpdateUserProfile.php
 final readonly class UpdateUserProfile
 {
-    /** @param array<string, mixed> $data */
     public function handle(User $user, array $data): void
     {
         $user->update($data);
@@ -194,7 +200,6 @@ Shared logic lives in `app/Concerns/` as traits:
 // app/Concerns/PasswordValidationRules.php
 trait PasswordValidationRules
 {
-    /** @return array<int, mixed> */
     protected function passwordRules(): array
     {
         return ['required', 'string', Password::defaults(), 'confirmed'];

@@ -25,7 +25,7 @@
 - [🎨 shadcn-svelte](https://www.shadcn-svelte.com/) - Beautiful, accessible component library
 - [📘 TypeScript](https://typescriptlang.org/) - Type safety and enhanced developer experience
 - [🧪 Pest PHP](https://pestphp.com/) - Elegant PHP testing framework
-- [🔍 PHPStan](https://phpstan.org/) - Static analysis for PHP (Level 6)
+- [🔍 PHPStan](https://phpstan.org/) - Static analysis for PHP (Level 7, doc-light)
 - [✨ Laravel Pint](https://laravel.com/docs/pint) - Opinionated PHP code style fixer
 - [🔄 Rector](https://getrector.org/) - Automated code upgrades and refactoring
 - [📏 ESLint](https://eslint.org/) - JavaScript/TypeScript linting with Antfu config
