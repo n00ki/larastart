@@ -71,11 +71,6 @@
       "Composer\\Config::disableProcessTimeout",
       "@php artisan dev"
     ],
-    "dev:ssr": [
-      "pnpm run build",
-      "Composer\\Config::disableProcessTimeout",
-      "pnpm exec concurrently -c '#93c5fd,#c4b5fd,#fb7185,#fdba74' 'php artisan serve' 'php artisan queue:listen --tries=1' 'php artisan pail --timeout=0' 'php artisan inertia:start-ssr' --names=server,queue,logs,ssr --kill-others"
-    ],
     "ssr:start": "php artisan inertia:start-ssr",
     "ssr:stop": "php artisan inertia:stop-ssr",
     "ssr:check": "php artisan inertia:check-ssr",
