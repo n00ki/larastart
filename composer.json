@@ -13,7 +13,7 @@
     "php": "^8.5",
     "inertiajs/inertia-laravel": "^3.3.1",
     "laravel/fortify": "^1.37.3",
-    "laravel/framework": "^13.24.0",
+    "laravel/framework": "^13.25.0",
     "laravel/tinker": "^3.0.2",
     "laravel/wayfinder": "^0.1.21"
   },
