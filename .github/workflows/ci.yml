@@ -126,7 +126,11 @@ jobs:
       - name: Browser Tests
         timeout-minutes: 5
         run: |
-          # Work around pestphp/pest#1754 leaking the Playwright server on Ubuntu.
+          # Pest's shell intermediary leaks the Playwright server on Ubuntu (pestphp/pest#1754).
+          PEST_BROWSER_SERVER=vendor/pestphp/pest-plugin-browser/src/ServerManager.php
+          sed -i "s|'.'.DIRECTORY_SEPARATOR.'node_modules'|'exec .'.DIRECTORY_SEPARATOR.'node_modules'|" "$PEST_BROWSER_SERVER"
+          grep -Fq "'exec .'.DIRECTORY_SEPARATOR.'node_modules'" "$PEST_BROWSER_SERVER"
+
           trap 'pkill -f "[p]laywright run-server" || true' EXIT
           XDEBUG_MODE=off vendor/bin/pest --parallel --testsuite Browser
 

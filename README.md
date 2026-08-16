@@ -74,9 +74,6 @@ php artisan dev
 # Standard development with automatic SSR in Vite dev
 php artisan dev
 
-# Production-style SSR preview
-composer dev:ssr
-
 # Check format & linting
 composer lint
 
