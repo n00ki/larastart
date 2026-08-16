@@ -3,11 +3,14 @@
 declare(strict_types=1);
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+
+pest()->tia()->locally();
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
@@ -18,6 +21,6 @@ pest()->extend(TestCase::class)
         Process::preventStrayProcesses();
         Sleep::fake();
 
-        $this->freezeTime();
+        Carbon::setTestNow(now());
     })
     ->in('Unit', 'Feature', 'Browser');

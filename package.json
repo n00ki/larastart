@@ -74,7 +74,7 @@
     "{app,bootstrap,database,public}/**/*.php": [
       "./vendor/bin/rector"
     ],
-    "app/**/*.php": [
+    "{app,tests}/**/*.php": [
       "./vendor/bin/phpstan analyse -c ./phpstan.neon --error-format=table"
     ],
     "resources/**/*.{js,ts,svelte,css,json,md}": [

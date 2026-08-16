@@ -42,8 +42,7 @@ test('db-mutating actions run writes in a database transaction', function () {
             continue;
         }
 
-        expect($source, sprintf('Expected %s to use DB::transaction().', $actionFile->getRelativePathname()))
-            ->toContain('DB::transaction(');
+        expect($source)->toContain('DB::transaction(');
     }
 });
 
@@ -53,8 +52,7 @@ test('actions avoid query builder facade operations', function () {
     foreach ($actionFiles as $actionFile) {
         $source = $actionFile->getContents();
 
-        expect($source, sprintf('Expected %s to avoid DB::table().', $actionFile->getRelativePathname()))
-            ->not->toContain('DB::table(');
+        expect($source)->not->toContain('DB::table(');
     }
 });
 
@@ -93,11 +91,15 @@ test('concrete requests are final app form requests with request suffix', functi
         ->reject(fn (string $request): bool => $request === AppFormRequest::class);
 
     foreach ($requests as $request) {
+        if (! class_exists($request)) {
+            $this->fail("Expected [{$request}] to exist.");
+        }
+
         $reflection = new ReflectionClass($request);
 
-        expect($reflection->isFinal(), sprintf('Expected %s to be final.', $request))->toBeTrue()
-            ->and(Str::endsWith($request, 'Request'), sprintf('Expected %s to have a Request suffix.', $request))->toBeTrue()
-            ->and($reflection->isSubclassOf(AppFormRequest::class), sprintf('Expected %s to extend the app FormRequest.', $request))->toBeTrue();
+        expect($reflection->isFinal())->toBeTrue()
+            ->and(Str::endsWith($request, 'Request'))->toBeTrue()
+            ->and($reflection->isSubclassOf(AppFormRequest::class))->toBeTrue();
     }
 });
 
@@ -119,8 +121,7 @@ test('controllers use form requests instead of inline validation', function () {
         $source = $controllerFile->getContents();
 
         foreach ($inlineValidationMarkers as $inlineValidationMarker) {
-            expect($source, sprintf('Expected %s to avoid %s in controllers.', $controllerFile->getRelativePathname(), $inlineValidationMarker))
-                ->not->toContain($inlineValidationMarker);
+            expect($source)->not->toContain($inlineValidationMarker);
         }
     }
 });
