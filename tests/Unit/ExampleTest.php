@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-test('basic unit assertions work', function () {
-    expect(true)->toBeTrue();
+test('application uses the testing environment', function () {
+    expect(app()->environment())->toBe('testing');
 });

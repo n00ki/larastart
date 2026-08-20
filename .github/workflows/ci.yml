@@ -112,27 +112,24 @@ jobs:
         run: composer lint
 
       - name: Type Coverage
-        env:
-          # Work around pestphp/pest#1766 until the cache race is fixed in Pest 4.
-          __PEST_PLUGIN_ENV: 1
         run: composer test:type-coverage
 
       - name: Static Analysis
         run: composer test:types
 
       - name: Application Tests
-        run: vendor/bin/pest --parallel --coverage --min=100 --exclude-testsuite Browser
+        run: vendor/bin/pest --ci --parallel --coverage --min=100 --exclude-testsuite Browser
 
       - name: Browser Tests
         timeout-minutes: 5
         run: |
-          # Pest's shell intermediary leaks the Playwright server on Ubuntu (pestphp/pest#1754).
+          # Work around pestphp/pest#1754 until the Playwright process is exec-replaced upstream.
           PEST_BROWSER_SERVER=vendor/pestphp/pest-plugin-browser/src/ServerManager.php
           sed -i "s|'.'.DIRECTORY_SEPARATOR.'node_modules'|'exec .'.DIRECTORY_SEPARATOR.'node_modules'|" "$PEST_BROWSER_SERVER"
           grep -Fq "'exec .'.DIRECTORY_SEPARATOR.'node_modules'" "$PEST_BROWSER_SERVER"
 
           trap 'pkill -f "[p]laywright run-server" || true' EXIT
-          XDEBUG_MODE=off vendor/bin/pest --parallel --testsuite Browser
+          XDEBUG_MODE=off vendor/bin/pest --ci --parallel --testsuite Browser
 
       - name: Store Artifacts
         if: failure()

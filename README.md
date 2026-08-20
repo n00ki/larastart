@@ -173,6 +173,8 @@ composer test:type-coverage # 100% type coverage verification
 composer test:all           # All tests with coverage
 ```
 
+Local Pest runs use Test Impact Analysis by default. Run `composer test:all -- --no-tia` for an uncached run; CI always runs the full suite.
+
 ## Documentation
 
 ### For Humans

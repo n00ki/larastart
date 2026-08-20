@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Requests\User\UpdateProfileRequest;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
-
-uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->user = User::factory()->create([

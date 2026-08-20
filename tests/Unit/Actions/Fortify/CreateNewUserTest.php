@@ -19,8 +19,7 @@ test('creates a normalized user account', function () {
         'password_confirmation' => 'password123',
     ]);
 
-    expect($user)->toBeInstanceOf(User::class)
-        ->and($user->name)->toBe('Ada Byron Lovelace')
+    expect($user->name)->toBe('Ada Byron Lovelace')
         ->and($user->email)->toBe('ada@example.com')
         ->and(Hash::check('password123', $user->password))->toBeTrue();
 
