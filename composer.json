@@ -76,7 +76,7 @@
     "ssr:check": "php artisan inertia:check-ssr",
     "annotate": [
       "@php artisan ide-helper:generate",
-      "@php artisan ide-helper:models -RW"
+      "@php artisan ide-helper:models -N"
     ],
     "format": [
       "pint --parallel",

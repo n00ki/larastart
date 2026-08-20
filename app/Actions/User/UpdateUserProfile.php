@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 final readonly class UpdateUserProfile
 {
-    /** @param array<string, mixed> $data */
     public function handle(User $user, array $data): void
     {
         if (isset($data['name']) && is_string($data['name'])) {

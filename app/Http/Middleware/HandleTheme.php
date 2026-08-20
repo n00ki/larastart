@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class HandleTheme
 {
-    /** @param Closure(Request): (Response) $next */
+    /** @param Closure(Request): Response $next */
     public function handle(Request $request, Closure $next): Response
     {
         $key = config('app.theme_key', 'theme');

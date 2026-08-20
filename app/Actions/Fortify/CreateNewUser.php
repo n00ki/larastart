@@ -18,13 +18,11 @@ final readonly class CreateNewUser implements CreatesNewUsers
     use PasswordValidationRules;
     use ProfileValidationRules;
 
-    /** @param array<string, mixed> $input */
     public function create(#[SensitiveParameter] array $input): User
     {
         return $this->handle($input);
     }
 
-    /** @param array<string, mixed> $input */
     public function handle(#[SensitiveParameter] array $input): User
     {
         if (isset($input['name']) && is_string($input['name'])) {

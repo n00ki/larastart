@@ -7,13 +7,9 @@ namespace App\Concerns;
 use App\Models\User;
 use App\Support\UserName;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Unique;
 
 trait ProfileValidationRules
 {
-    /**
-     * @return array<string, array<int, Unique|string>>
-     */
     protected function profileRules(?string $userId = null): array
     {
         return [
@@ -22,17 +18,11 @@ trait ProfileValidationRules
         ];
     }
 
-    /**
-     * @return array<int, string>
-     */
     protected function nameRules(): array
     {
         return ['required', 'string', 'max:255', 'regex:' . UserName::VALIDATION_PATTERN];
     }
 
-    /**
-     * @return array<string, string>
-     */
     protected function profileMessages(): array
     {
         return [
@@ -40,9 +30,6 @@ trait ProfileValidationRules
         ];
     }
 
-    /**
-     * @return array<int, Unique|string>
-     */
     protected function emailRules(?string $userId = null): array
     {
         return [

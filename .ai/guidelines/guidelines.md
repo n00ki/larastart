@@ -68,23 +68,17 @@ Code should be self-documenting. Only use comments when essential.
 
 ### PHP
 
-**PHPDoc blocks - Use for:**
+Use native parameter, property, and return types. Keep `strict_types` enabled.
 
-- Array/collection type hints: `@param array<string, mixed>`, `@return array<int, User>`
-- Exception annotations: `@throws ValidationException`
+PHPDoc is optional. Add it only when it communicates an important contract that
+native PHP cannot express, such as a generic relationship, callable signature, or
+meaningful exception.
 
-**PHPDoc blocks - Avoid:**
-
-- Verbose descriptions that repeat method names
-- Obvious summaries for self-explanatory methods
+- Do not annotate ordinary arrays or collections solely for static analysis.
+- Keep useful generics such as `@extends Factory<User>` and callable signatures.
+- Avoid verbose descriptions that repeat names or implementation details.
 
 ```php
-// WRONG - verbose and obvious
-/** Update the user's profile information. */
-public function handle(User $user, array $data): void
-
-// CORRECT - only type hint
-/** @param array<string, mixed> $data */
 public function handle(User $user, array $data): void
 ```
 

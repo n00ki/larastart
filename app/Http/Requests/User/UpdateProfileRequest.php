@@ -17,17 +17,11 @@ final class UpdateProfileRequest extends FormRequest
         return true;
     }
 
-    /**
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return $this->profileRules($this->user()->id);
     }
 
-    /**
-     * @return array<string, string>
-     */
     public function messages(): array
     {
         return $this->profileMessages();

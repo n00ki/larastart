@@ -10,17 +10,11 @@ use Laravel\Fortify\Fortify;
 
 final class TwoFactorAuthenticationRequest extends FormRequest
 {
-    /**
-     * @return array<string, mixed>
-     */
     public function rules(): array
     {
         return [];
     }
 
-    /**
-     * Safely validates two-factor state when strict model mode is enabled.
-     */
     public function ensureStateIsValid(): void
     {
         if (! Fortify::confirmsTwoFactorAuthentication()) {

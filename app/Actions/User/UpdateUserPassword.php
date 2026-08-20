@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 final readonly class UpdateUserPassword
 {
-    /** @param array<string, mixed> $data */
     public function handle(User $user, array $data): void
     {
         DB::transaction(function () use ($user, $data): void {

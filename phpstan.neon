@@ -12,3 +12,9 @@ parameters:
         - routes/
 
     level: 7
+
+    # Native PHP cannot express iterable value types. PHPDoc remains optional,
+    # while every other level 7 check stays enabled.
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
