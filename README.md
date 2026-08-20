@@ -1,6 +1,6 @@
 # LaraStart
 
-**The ultimate _mise en place_ for your next Laravel + Svelte project 🚀**
+**The ultimate _mise en place_ for your next Laravel project 🚀**
 
 [![Version](https://img.shields.io/github/v/tag/n00ki/larastart?label=version&sort=semver&filter=v*&color=2563eb)](https://github.com/n00ki/larastart/tags) [![PHP](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fn00ki%2Flarastart%2Fmain%2Fcomposer.json&query=%24.require.php&label=PHP&logo=php&logoColor=white&color=777BB4)](https://php.net/) [![Laravel](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fn00ki%2Flarastart%2Fmain%2Fcomposer.json&query=%24.require%5B%22laravel%2Fframework%22%5D&label=Laravel&logo=laravel&logoColor=white&color=FF2D20)](https://laravel.com/) [![Svelte](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fn00ki%2Flarastart%2Fmain%2Fpackage.json&query=%24.devDependencies.svelte&label=Svelte&logo=svelte&logoColor=white&color=FF3E00)](https://svelte.dev/) [![CI](https://github.com/n00ki/larastart/actions/workflows/ci.yml/badge.svg)](https://github.com/n00ki/larastart/actions/workflows/ci.yml)
 
@@ -16,21 +16,19 @@
 
 ## Tech Stack
 
-- [🐘 Laravel 13](https://laravel.com/) - Latest PHP framework with modern features
-- [🔧 PHP 8.5](https://php.net/) - Latest PHP with property hooks and performance improvements
-- [🛡️ Inertia.js 3.0](https://inertiajs.com/) - Modern monolith approach with SPA feel
-- [🛣️ Laravel Wayfinder](https://github.com/laravel/wayfinder) - Type-safe routing for Laravel + TypeScript
-- [🟠 Svelte 5](https://svelte.dev/) - Revolutionary frontend framework with runes
-- [💨 TailwindCSS v4](https://tailwindcss.com/) - Utility-first CSS with latest features
-- [🎨 shadcn-svelte](https://www.shadcn-svelte.com/) - Beautiful, accessible component library
-- [📘 TypeScript](https://typescriptlang.org/) - Type safety and enhanced developer experience
-- [🧪 Pest PHP](https://pestphp.com/) - Elegant PHP testing framework
-- [🔍 PHPStan](https://phpstan.org/) - Static analysis for PHP (Level 7, doc-light)
-- [✨ Laravel Pint](https://laravel.com/docs/pint) - Opinionated PHP code style fixer
-- [🔄 Rector](https://getrector.org/) - Automated code upgrades and refactoring
-- [📏 ESLint](https://eslint.org/) - JavaScript/TypeScript linting with Antfu config
-
-...and more!
+- [🐘 Laravel 13](https://laravel.com/)
+- [🔧 PHP 8.5](https://php.net/)
+- [🟠 Svelte 5](https://svelte.dev/)
+- [🛡️ Inertia.js](https://inertiajs.com/)
+- [📘 TypeScript](https://typescriptlang.org/)
+- [💨 TailwindCSS v4](https://tailwindcss.com/)
+- [🎨 shadcn-svelte](https://www.shadcn-svelte.com/)
+- [🧪 Pest PHP](https://pestphp.com/)
+- [🛣️ Laravel Wayfinder](https://github.com/laravel/wayfinder)
+- [🔍 PHPStan](https://phpstan.org/)
+- [✨ Laravel Pint](https://laravel.com/docs/pint)
+- [🔄 Rector](https://getrector.org/)
+- [📏 ESLint](https://eslint.org/)
 
 ## Getting Started
 
@@ -57,12 +55,6 @@ php artisan key:generate
 # Setup database
 touch database/database.sqlite
 php artisan migrate
-
-# Generate AI assistant guidelines (optional)
-php artisan boost:install
-
-# Build frontend (required once)
-pnpm run build
 
 # Start development environment
 php artisan dev
@@ -124,7 +116,7 @@ app/
 ├── Models/                    # Eloquent models with typed properties
 ├── Policies/                  # Authorization logic
 ├── Providers/                 # Service providers
-
+└── Support/                   # Shared PHP helpers
 
 resources/
 ├── css/
@@ -184,12 +176,20 @@ Test Impact Analysis is opt-in through `composer test:tia`. Rebuild a stale TIA 
 
 ### For AI Assistants
 
-This project uses **[Laravel Boost](https://boost.laravel.com)** for AI guidance:
+This project uses **[Laravel Boost](https://boost.laravel.com)** and the official Svelte MCP server. Project rules live in `.ai/guidelines/`.
 
-- **Laravel/Inertia/Pest/Wayfinder:** Automatically detected and provided by Laravel Boost
-- **Svelte 5:** Use the Svelte MCP server for up-to-date documentation, patterns and conventions
+```bash
+# Refresh guidelines and skills after package updates
+php artisan boost:update
 
-After updating packages, run `php artisan boost:update` to refresh AI guidelines.
+# Scan for new packages and publish their guidelines
+php artisan boost:update --discover
+
+# List installed skills
+php artisan boost:list-skills
+```
+
+`composer update` already runs `boost:update`. Run `php artisan boost:install` only if you add another agent or editor.
 
 ## Contributing
 
