@@ -5,6 +5,23 @@ Headlines: Added, Changed, Deprecated, Removed, Fixed, Security
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-08-20
+
+### Changed
+
+- Upgraded Pest and its plugins to version 5, including the agent and PHPStan plugins
+- Made Test Impact Analysis opt-in through `composer test:tia` while keeping the default test suite uncached
+- Made native parameter, property, and return types the source of truth for application code, with PHPDoc reserved for contracts PHP cannot express
+- Kept 100% type coverage and Larastan level 7 while removing redundant annotations that added noise and could become stale
+- Moved generated Eloquent metadata outside application source
+- Expanded pre-commit PHPStan analysis to cover tests
+- Updated dependencies
+- Refreshed README
+
+### Removed
+
+- Stale Rector skip rule for adding `#[Override]` attributes
+
 ## [2.2.2] - 2026-08-14
 
 ### Added
