@@ -171,9 +171,10 @@ composer test:browser       # Browser tests only
 composer test:types         # PHPStan static analysis
 composer test:type-coverage # 100% type coverage verification
 composer test:all           # All tests with coverage
+composer test:tia           # Tests affected by local changes
 ```
 
-Local Pest runs use Test Impact Analysis by default. Run `composer test:all -- --no-tia` for an uncached run; CI always runs the full suite.
+Test Impact Analysis is opt-in through `composer test:tia`. Rebuild a stale TIA cache with `composer test:tia -- --fresh`. `composer test` and CI always run the full uncached suite.
 
 ## Documentation
 

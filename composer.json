@@ -101,6 +101,7 @@
     "test:feature": "pest --parallel --testsuite Feature",
     "test:browser": "pest --parallel --testsuite Browser",
     "test:all": "pest --parallel --coverage --min=100",
+    "test:tia": "pest --parallel --tia",
     "test": [
       "@php artisan config:clear --ansi",
       "@lint",
