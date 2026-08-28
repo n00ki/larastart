@@ -73,7 +73,7 @@
           options={{
             preserveScroll: true,
           }}
-          disableWhileProcessing
+          cancelOnUnmount
           resetOnSuccess
           resetOnError
           onError={() => {
@@ -82,7 +82,12 @@
           onSuccess={closeModal}
           class="space-y-6"
         >
-          {#snippet children({ errors, processing, resetAndClearErrors })}
+          {#snippet children({
+            errors,
+            processing,
+            resetAndClearErrors,
+            cancel,
+          })}
             <div class="grid gap-2">
               <Label for="password" class="sr-only">Password</Label>
 
@@ -92,6 +97,7 @@
                 bind:ref={passwordInput}
                 placeholder="Password"
                 autocomplete="current-password"
+                disabled={processing}
                 onkeydown={preventKeyboardDelete}
               />
 
@@ -102,7 +108,10 @@
               <Dialog.Close
                 type="button"
                 class={buttonVariants({ variant: 'secondary' })}
-                onclick={() => resetAndClearErrors()}>Cancel</Dialog.Close
+                onclick={() => {
+                  cancel();
+                  resetAndClearErrors();
+                }}>Cancel</Dialog.Close
               >
 
               <Button

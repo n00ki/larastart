@@ -224,6 +224,7 @@
         <Form
           {...confirm.form()}
           errorBag="confirmTwoFactorAuthentication"
+          cancelOnUnmount
           resetOnError
           onFinish={() => (code = '')}
           onSuccess={() => (isOpen = false)}
@@ -261,7 +262,6 @@
                   variant="outline"
                   class="w-auto flex-1"
                   onclick={() => (showVerificationStep = false)}
-                  disabled={processing}
                 >
                   Back
                 </Button>

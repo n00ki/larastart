@@ -70,6 +70,7 @@
     <Form
       {...store.form()}
       class="space-y-4"
+      cancelOnUnmount
       resetOnError
       onError={() => (code = '')}
     >
@@ -113,7 +114,7 @@
       {/snippet}
     </Form>
   {:else}
-    <Form {...store.form()} class="space-y-4" resetOnError>
+    <Form {...store.form()} class="space-y-4" cancelOnUnmount resetOnError>
       {#snippet children({ errors, processing, clearErrors })}
         <Input
           name="recovery_code"

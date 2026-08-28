@@ -65,6 +65,7 @@
         <Form
           {...regenerateRecoveryCodes.form()}
           options={{ preserveScroll: true }}
+          cancelOnUnmount
           onSuccess={() => twoFactorAuth.fetchRecoveryCodes()}
         >
           {#snippet children({ processing })}

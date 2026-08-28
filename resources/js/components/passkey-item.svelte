@@ -15,6 +15,11 @@
 
   const { passkey }: Props = $props();
   let isDeleteDialogOpen = $state(false);
+
+  function closeDeleteDialog(cancel?: () => void) {
+    cancel?.();
+    isDeleteDialogOpen = false;
+  }
 </script>
 
 <div
@@ -69,14 +74,15 @@
       <Form
         {...destroy.form.delete(passkey.id)}
         options={{ preserveScroll: true }}
-        onSuccess={() => (isDeleteDialogOpen = false)}
+        cancelOnUnmount
+        onSuccess={() => closeDeleteDialog()}
       >
-        {#snippet children({ processing })}
+        {#snippet children({ processing, cancel })}
           <Dialog.Footer class="gap-2">
             <Button
               type="button"
               variant="secondary"
-              onclick={() => (isDeleteDialogOpen = false)}
+              onclick={() => closeDeleteDialog(cancel)}
             >
               Cancel
             </Button>
