@@ -22,7 +22,7 @@ test('logs out the user when deleting the account', function () {
 
     $this->action->handle($this->user, $request);
 
-    expect(Auth::check())->toBeFalse();
+    $this->assertGuest();
 });
 
 test('deletes the user account from storage', function () {
@@ -46,7 +46,7 @@ test('invalidates session after account deletion', function () {
 
     $this->action->handle($this->user, $request);
 
-    expect($session->has('test_key'))->toBeFalse();
+    $this->assertFalse($session->has('test_key'));
 });
 
 test('regenerates session token after account deletion', function () {
