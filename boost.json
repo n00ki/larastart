@@ -4,15 +4,17 @@
   "guidelines": true,
   "mcp": true,
   "nightwatch": false,
+  "packages": ["pestphp/pest-plugin-agent"],
   "sail": false,
   "skills": [
     "infer-conventions",
     "fortify-development",
     "laravel-best-practices",
+    "testing-best-practices",
     "wayfinder-development",
-    "pest-testing",
     "inertia-svelte-development",
     "tailwindcss-development",
+    "pest-plugin-agent",
     "svelte-code-writer",
     "svelte-core-bestpractices"
   ]
