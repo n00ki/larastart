@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\Contracts\PasskeyUser;
 use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Override;
 
 #[\Illuminate\Database\Eloquent\Attributes\Hidden([
     'password',
@@ -24,6 +25,13 @@ final class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, HasUuids, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
+
+    #[Override]
+    protected $attributes = [
+        'two_factor_secret' => null,
+        'two_factor_recovery_codes' => null,
+        'two_factor_confirmed_at' => null,
+    ];
 
     protected function casts(): array
     {
