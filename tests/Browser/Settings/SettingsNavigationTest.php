@@ -19,4 +19,7 @@ test('user can navigate between settings pages', function (): void {
         ->assertPathIs('/settings/profile')
         ->assertSee('Profile Information')
         ->assertNoJavaScriptErrors();
+
+    expect($page->script('document.documentElement.scrollWidth <= document.documentElement.clientWidth'))
+        ->toBeTrue();
 });

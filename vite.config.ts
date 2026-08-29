@@ -36,4 +36,15 @@ export default defineConfig({
       '@': path.resolve(import.meta.dirname, './resources/js'),
     },
   },
+  server: {
+    watch: {
+      ignored: [
+        '**/.agents/**',
+        '**/.claude/**',
+        '**/.cursor/**',
+        '**/.junie/**',
+        '**/vendor/**',
+      ],
+    },
+  },
 });
