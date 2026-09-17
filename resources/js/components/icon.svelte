@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Icon as IconType } from '@lucide/svelte';
+  import type { LucideIcon } from '@lucide/svelte';
 
   interface Props {
-    name: typeof IconType;
+    name: LucideIcon;
     size?: number;
     class?: string;
     [key: string]: any;

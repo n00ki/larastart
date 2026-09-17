@@ -1,5 +1,5 @@
 import type { LinkComponentBaseProps } from '@inertiajs/core';
-import type { Icon } from '@lucide/svelte';
+import type { LucideIcon } from '@lucide/svelte';
 
 type Href = NonNullable<LinkComponentBaseProps['href']>;
 
@@ -12,6 +12,6 @@ export type NavItem = {
   title: string;
   href: Href;
   component?: string;
-  icon?: typeof Icon;
+  icon?: LucideIcon;
   isActive?: boolean;
 };
