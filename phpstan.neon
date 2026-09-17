@@ -14,6 +14,7 @@ parameters:
         - tests/
 
     level: 7
+    noImplicitQueryBuilderCall: true
 
     # Native PHP cannot express iterable value types. PHPDoc remains optional,
     # while every other level 7 check stays enabled.
