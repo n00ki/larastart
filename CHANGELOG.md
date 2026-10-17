@@ -5,6 +5,20 @@ Headlines: Added, Changed, Deprecated, Removed, Fixed, Security
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.2] - 2026-10-17
+
+### Changed
+
+- Updated Composer and pnpm dependencies, including MailDev 3
+
+### Fixed
+
+- Made `composer ssr:stop` succeed when the SSR server is already stopped
+
+### Security
+
+- Updated MailDev's Nodemailer dependency to 10.1.2 to fix security vulnerabilities
+
 ## [2.3.1] - 2026-09-18
 
 ### Changed
