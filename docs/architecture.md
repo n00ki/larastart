@@ -2,7 +2,7 @@
 
 ## Stack
 
-**Backend:** Laravel 13, PHP 8.5, Inertia.js 3.0, Pest PHP
+**Backend:** Laravel 13, PHP 8.5, Inertia.js 3, Pest PHP
 
 **Frontend:** Svelte 5, TypeScript, TailwindCSS v4, shadcn-svelte
 

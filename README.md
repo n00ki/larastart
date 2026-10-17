@@ -97,6 +97,7 @@ composer ssr:stop
 
 - In development, `php artisan dev` is enough; the Inertia Vite plugin handles SSR automatically.
 - In production, run the SSR server under a process monitor such as Supervisor, Forge, or Laravel Cloud.
+- `composer ssr:stop` succeeds even when the SSR server is already stopped.
 
 ## Project Structure
 

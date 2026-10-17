@@ -11,31 +11,31 @@
   "license": "MIT",
   "require": {
     "php": "^8.5",
-    "inertiajs/inertia-laravel": "^3.3.4",
-    "laravel/fortify": "^1.39.0",
-    "laravel/framework": "^13.32.0",
+    "inertiajs/inertia-laravel": "^3.5.1",
+    "laravel/fortify": "^1.41.0",
+    "laravel/framework": "^13.37.0",
     "laravel/tinker": "^3.0.2",
-    "laravel/wayfinder": "^0.1.21"
+    "laravel/wayfinder": "^0.1.23"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^3.7",
     "driftingly/rector-laravel": "^2.6.2",
     "fakerphp/faker": "^1.24.1",
-    "larastan/larastan": "^3.12.1",
-    "laravel/boost": ">=2.9.1",
+    "larastan/larastan": "^3.13.0",
+    "laravel/boost": "^2.10.3",
     "laravel/pail": "^1.2.7",
     "laravel/pao": "^1.1.5",
     "laravel/pint": "^1.32.1",
-    "laravel/sail": "^1.67.0",
+    "laravel/sail": "^1.69.0",
     "mockery/mockery": "^1.6.15",
     "nunomaduro/collision": "^8.9.5",
-    "pestphp/pest": "^5.2.0",
+    "pestphp/pest": "^5.3.2",
     "pestphp/pest-plugin-agent": "^5.0",
-    "pestphp/pest-plugin-browser": "^5.0.1",
+    "pestphp/pest-plugin-browser": "^5.1.2",
     "pestphp/pest-plugin-laravel": "^5.0.1",
-    "pestphp/pest-plugin-phpstan": "^5.2.1",
-    "pestphp/pest-plugin-type-coverage": "^5.0.2",
-    "rector/rector": "^2.6.7"
+    "pestphp/pest-plugin-phpstan": "^5.2.2",
+    "pestphp/pest-plugin-type-coverage": "^5.0.3",
+    "rector/rector": "^2.7.0"
   },
   "autoload": {
     "psr-4": {
@@ -74,7 +74,7 @@
       "@php artisan dev"
     ],
     "ssr:start": "php artisan inertia:start-ssr",
-    "ssr:stop": "php artisan inertia:stop-ssr",
+    "ssr:stop": "php artisan inertia:stop-ssr --graceful",
     "ssr:check": "php artisan inertia:check-ssr",
     "annotate": [
       "@php artisan ide-helper:generate",

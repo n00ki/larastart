@@ -39,7 +39,7 @@
   const featureCards = [
     { href: 'https://laravel.com/', icon: Sparkles, label: 'Laravel 13' },
     { href: 'https://svelte.dev/', icon: WandSparkles, label: 'Svelte 5' },
-    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 3.0' },
+    { href: 'https://inertiajs.com/', icon: LinkIcon, label: 'Inertia 3' },
     {
       href: 'https://tailwindcss.com/',
       icon: Palette,
@@ -55,7 +55,7 @@
       icon: FileType,
       label: 'TypeScript',
     },
-    { href: 'https://pestphp.com/', icon: TestTubeDiagonal, label: 'Pest 4' },
+    { href: 'https://pestphp.com/', icon: TestTubeDiagonal, label: 'Pest 5' },
     {
       href: 'https://github.com/laravel/wayfinder',
       icon: Globe,
