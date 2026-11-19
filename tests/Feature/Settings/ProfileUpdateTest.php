@@ -46,6 +46,40 @@ test('profile information can be updated', function () {
     expect($user->email)->toBe('test@example.com');
 });
 
+test('users can sign in after updating their profile with a mixed-case email', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->patch('/settings/profile', ['name' => 'Test User', 'email' => 'New@Example.com'])
+        ->assertSessionHasNoErrors();
+
+    expect($user->refresh()->email)->toBe('new@example.com');
+
+    $this->post('/logout');
+    $this->assertGuest();
+    $this->post('/login', ['email' => 'New@Example.com', 'password' => 'password']);
+    $this->assertAuthenticatedAs($user);
+});
+
+test('profile updates reject an email already in use regardless of case', function () {
+    User::factory()->create(['email' => 'taken@example.com']);
+    $user = User::factory()->create(['email' => 'original@example.com']);
+
+    $this->actingAs($user)
+        ->patch('/settings/profile', ['name' => 'Test User', 'email' => 'Taken@Example.com'])
+        ->assertSessionHasErrors(['email' => __('validation.unique', ['attribute' => 'email'])]);
+
+    expect($user->refresh()->email)->toBe('original@example.com');
+});
+
+test('mixed-case profile emails fail validation when normalization is disabled', function () {
+    config(['fortify.lowercase_usernames' => false]);
+
+    $this->actingAs(User::factory()->create())
+        ->patch('/settings/profile', ['name' => 'Test User', 'email' => 'New@Example.com'])
+        ->assertSessionHasErrors('email');
+});
+
 test('profile names are normalized when updated', function () {
     $user = User::factory()->create();
 
@@ -139,18 +173,20 @@ test('profile information can be updated with same email', function () {
     expect($user->refresh()->name)->toBe('Test User');
 });
 
-test('email verification notification is not sent when email stays the same', function () {
+test('changing only email casing preserves verification without sending a notification', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $user = User::factory()->create(['email' => 'verified@example.com']);
+    $verifiedAt = $user->email_verified_at;
 
     $this->actingAs($user)
         ->patch('/settings/profile', [
             'name' => 'Test User',
-            'email' => $user->email,
+            'email' => 'Verified@Example.com',
         ])
         ->assertRedirect('/settings/profile')
         ->assertSessionHasNoErrors();
 
+    expect($user->refresh()->email_verified_at)->toEqual($verifiedAt);
     Notification::assertNotSentTo($user, VerifyEmail::class);
 });

@@ -7,6 +7,7 @@ namespace App\Http\Requests\User;
 use App\Concerns\ProfileValidationRules;
 use App\Http\Requests\FormRequest;
 use App\Support\UserName;
+use Illuminate\Support\Str;
 
 final class UpdateProfileRequest extends FormRequest
 {
@@ -28,6 +29,12 @@ final class UpdateProfileRequest extends FormRequest
 
         if (is_string($name)) {
             $this->merge(['name' => UserName::normalize($name)]);
+        }
+
+        $email = $this->input('email');
+
+        if (config('fortify.lowercase_usernames') && is_string($email)) {
+            $this->merge(['email' => Str::lower($email)]);
         }
     }
 }
