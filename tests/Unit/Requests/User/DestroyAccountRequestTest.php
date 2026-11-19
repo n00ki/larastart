@@ -9,10 +9,6 @@ beforeEach(function () {
     $this->request = new DestroyAccountRequest;
 });
 
-test('allows users to submit account deletion request', function () {
-    expect($this->request->authorize())->toBeTrue();
-});
-
 test('requires password to delete account', function () {
     $validator = Validator::make([], $this->request->rules());
 

@@ -22,6 +22,10 @@ test('unverified users can access account settings', function () {
         ->assertOk();
 });
 
+test('guests must sign in before deleting an account', function () {
+    $this->delete('/settings/account')->assertRedirectToRoute('login');
+});
+
 test('user can delete their account', function () {
     $user = User::factory()->create();
 

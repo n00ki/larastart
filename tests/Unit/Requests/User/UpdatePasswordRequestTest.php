@@ -9,10 +9,6 @@ beforeEach(function () {
     $this->request = new UpdatePasswordRequest;
 });
 
-test('allows users to submit password update request', function () {
-    expect($this->request->authorize())->toBeTrue();
-});
-
 test('requires current password and new password', function () {
     $validator = Validator::make([], $this->request->rules());
 

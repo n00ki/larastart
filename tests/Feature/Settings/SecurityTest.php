@@ -114,6 +114,10 @@ test('security page renders without optional security data when the features are
         );
 });
 
+test('guests must sign in before updating a password', function () {
+    $this->put('/settings/password')->assertRedirectToRoute('login');
+});
+
 test('password can be updated from the security page', function () {
     $user = User::factory()->create();
 

@@ -11,11 +11,6 @@ final class UpdatePasswordRequest extends FormRequest
 {
     use PasswordValidationRules;
 
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return [

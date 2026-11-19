@@ -12,11 +12,6 @@ final class UpdateProfileRequest extends FormRequest
 {
     use ProfileValidationRules;
 
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return $this->profileRules($this->user()->id);
