@@ -66,21 +66,14 @@ jobs:
           VERSION=$(node -p "require('./node_modules/playwright/package.json').version")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Cache Playwright Browsers
+      - name: Cache Chromium headless shell
         uses: actions/cache@v6
-        id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
-          restore-keys: ${{ runner.os }}-playwright-
+          key: ${{ runner.os }}-chromium-shell-${{ steps.playwright-version.outputs.version }}
 
-      - name: Install Playwright Browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps
-
-      - name: Install Playwright System Dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps
+      - name: Install Chromium headless shell and system dependencies
+        run: pnpm exec playwright install --with-deps chromium --only-shell
 
       - name: Build Assets
         run: pnpm run build
