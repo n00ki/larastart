@@ -3,4 +3,4 @@ allowBuilds:
 
 overrides:
   # MailDev 3 still requires vulnerable Nodemailer 9.
-  '@maildev/smtp>nodemailer': ^10.1.2
+  '@maildev/smtp>nodemailer': ^10.6.0

@@ -64,9 +64,9 @@
         <div class="flex items-center justify-between">
           <Label for="password">Password</Label>
           {#if canResetPassword}
-            <TextLink href={request()} class="text-sm" tabindex={5}
-              >Forgot password?</TextLink
-            >
+            <TextLink href={request()} class="text-sm" tabindex={5}>
+              Forgot password?
+            </TextLink>
           {/if}
         </div>
         <PasswordInput

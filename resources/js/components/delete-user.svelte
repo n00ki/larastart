@@ -60,9 +60,9 @@
       </Dialog.Trigger>
 
       <Dialog.Content class="sm:max-w-lg">
-        <Dialog.Title
-          >Are you sure you want to delete your account?</Dialog.Title
-        >
+        <Dialog.Title>
+          Are you sure you want to delete your account?
+        </Dialog.Title>
         <Dialog.Description>
           Once your account is deleted, all of its resources and data will also
           be permanently deleted. Please enter your password to confirm you
@@ -111,8 +111,10 @@
                 onclick={() => {
                   cancel();
                   resetAndClearErrors();
-                }}>Cancel</Dialog.Close
+                }}
               >
+                Cancel
+              </Dialog.Close>
 
               <Button
                 type="submit"

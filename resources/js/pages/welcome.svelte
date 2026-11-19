@@ -135,8 +135,9 @@
       <h2 class="text-base font-medium tracking-tight md:text-lg">
         the ultimate <span
           class="bg-linear-to-r from-blue-500 to-sky-400 bg-clip-text text-transparent"
-          >mise en place</span
-        > for your next Laravel + Svelte project 🚀
+        >
+          mise en place
+        </span> for your next Laravel + Svelte project 🚀
       </h2>
     </section>
 

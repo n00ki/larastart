@@ -98,9 +98,9 @@
           </div>
           <InputError message={errors.code} />
         </div>
-        <Button type="submit" class="w-full" disabled={processing}
-          >Continue</Button
-        >
+        <Button type="submit" class="w-full" disabled={processing}>
+          Continue
+        </Button>
         <div class="text-center text-sm text-muted-foreground">
           <span>or you can </span>
           <button
@@ -123,9 +123,9 @@
           required
         />
         <InputError message={errors.recovery_code} />
-        <Button type="submit" class="w-full" disabled={processing}
-          >Continue</Button
-        >
+        <Button type="submit" class="w-full" disabled={processing}>
+          Continue
+        </Button>
 
         <div class="text-center text-sm text-muted-foreground">
           <span>or you can </span>
