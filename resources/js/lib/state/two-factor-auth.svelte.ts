@@ -1,134 +1,106 @@
+import type { CancelToken, UrlMethodPair } from '@inertiajs/core';
+
+import { HttpCancelledError } from '@inertiajs/core';
 import { useHttp } from '@inertiajs/svelte';
+import { onDestroy } from 'svelte';
+import { SvelteSet } from 'svelte/reactivity';
 
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 
-type TwoFactorAuthState = {
-  qrCodeSvg: string | null;
-  manualSetupKey: string | null;
-  recoveryCodesList: string[];
-  errors: string[];
-};
+export type TwoFactorAuth = ReturnType<typeof twoFactorAuthState>;
 
-export type TwoFactorAuthStateApi = {
-  state: TwoFactorAuthState;
-  hasSetupData: () => boolean;
-  clearSetupData: () => void;
-  clearErrors: () => void;
-  clearTwoFactorAuthData: () => void;
-  fetchQrCode: () => Promise<void>;
-  fetchSetupKey: () => Promise<void>;
-  fetchSetupData: () => Promise<void>;
-  fetchRecoveryCodes: () => Promise<void>;
-};
+export function twoFactorAuthState() {
+  const state = $state<{
+    qrCodeSvg: string | null;
+    manualSetupKey: string | null;
+    recoveryCodesList: string[];
+    errors: string[];
+  }>({
+    qrCodeSvg: null,
+    manualSetupKey: null,
+    recoveryCodesList: [],
+    errors: [],
+  });
+  const http = useHttp({});
+  const pending = new SvelteSet<CancelToken>();
 
-const state = $state<TwoFactorAuthState>({
-  qrCodeSvg: null,
-  manualSetupKey: null,
-  recoveryCodesList: [],
-  errors: [],
-});
-
-const hasSetupData = (): boolean =>
-  state.qrCodeSvg !== null && state.manualSetupKey !== null;
-
-export function twoFactorAuthState(): TwoFactorAuthStateApi {
-  const http = useHttp<Record<string, never>, unknown>({});
-
-  const addError = (message: string): void => {
-    if (!state.errors.includes(message)) {
-      state.errors = [...state.errors, message];
-    }
-  };
-
-  const reportFailure = (message: string) => ({
-    onHttpException: () => addError(message),
-    onNetworkError: () => addError(message),
+  onDestroy(() => {
+    for (const request of pending) request.cancel();
   });
 
-  const fetchQrCode = async (): Promise<void> => {
-    const message = 'Failed to fetch QR code';
-
-    try {
-      const { svg } = (await http.submit(qrCode(), reportFailure(message))) as {
-        svg: string;
-        url: string;
-      };
-      state.qrCodeSvg = svg;
-    } catch {
-      addError(message);
-      state.qrCodeSvg = null;
-    }
-  };
-
-  const fetchSetupKey = async (): Promise<void> => {
-    const message = 'Failed to fetch a setup key';
-
-    try {
-      const payload = (await http.submit(
-        secretKey(),
-        reportFailure(message),
-      )) as { secretKey?: string; secret_key?: string } | string;
-      const key =
-        typeof payload === 'string'
-          ? payload
-          : (payload.secretKey ?? payload.secret_key ?? null);
-
-      if (!key) {
-        throw new Error('Setup key not found in response');
-      }
-
-      state.manualSetupKey = key;
-    } catch {
-      addError(message);
-      state.manualSetupKey = null;
-    }
-  };
-
-  const clearErrors = (): void => {
+  async function fetchSetupData() {
     state.errors = [];
-  };
+    [state.qrCodeSvg, state.manualSetupKey] = await Promise.all([
+      load(
+        qrCode(),
+        'Failed to fetch QR code',
+        ({ svg }: { svg: string }) => svg,
+      ),
+      load(secretKey(), 'Failed to fetch a setup key', readSetupKey),
+    ]);
+  }
 
-  const clearSetupData = (): void => {
-    state.manualSetupKey = null;
-    state.qrCodeSvg = null;
-    clearErrors();
-  };
-
-  const clearTwoFactorAuthData = (): void => {
-    clearSetupData();
-    state.recoveryCodesList = [];
-    clearErrors();
-  };
-
-  const fetchRecoveryCodes = async (): Promise<void> => {
-    const message = 'Failed to fetch recovery codes';
-
-    try {
-      clearErrors();
-      state.recoveryCodesList = (await http.submit(
+  async function fetchRecoveryCodes() {
+    state.errors = [];
+    state.recoveryCodesList =
+      (await load(
         recoveryCodes(),
-        reportFailure(message),
-      )) as string[];
-    } catch {
-      addError(message);
-      state.recoveryCodesList = [];
-    }
-  };
+        'Failed to fetch recovery codes',
+        (codes: string[]) => codes,
+      )) ?? [];
+  }
 
-  const fetchSetupData = async (): Promise<void> => {
-    clearErrors();
-    await Promise.all([fetchQrCode(), fetchSetupKey()]);
-  };
+  function clearSetupData() {
+    state.qrCodeSvg = null;
+    state.manualSetupKey = null;
+    state.errors = [];
+  }
+
+  async function load<Input, Value>(
+    route: UrlMethodPair,
+    message: string,
+    read: (payload: Input) => Value,
+  ): Promise<Value | null> {
+    let request: CancelToken | undefined;
+    try {
+      const payload = await http.submit(route, {
+        onCancelToken(token) {
+          request = token;
+          pending.add(token);
+        },
+      });
+      return read(payload as Input);
+    } catch (error) {
+      if (
+        !(error instanceof HttpCancelledError) &&
+        !state.errors.includes(message)
+      ) {
+        state.errors.push(message);
+      }
+      return null;
+    } finally {
+      if (request) pending.delete(request);
+    }
+  }
 
   return {
     state,
-    hasSetupData,
+    get hasSetupData() {
+      return Boolean(state.qrCodeSvg && state.manualSetupKey);
+    },
     clearSetupData,
-    clearErrors,
-    clearTwoFactorAuthData,
-    fetchQrCode,
-    fetchSetupKey,
     fetchSetupData,
     fetchRecoveryCodes,
   };
+}
+
+function readSetupKey(
+  payload: string | { secretKey?: string; secret_key?: string },
+) {
+  const key =
+    typeof payload === 'string'
+      ? payload
+      : (payload.secretKey ?? payload.secret_key);
+  if (!key) throw new Error('Missing setup key');
+  return key;
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
+  import type { TwoFactorAuth } from '@/lib/state/two-factor-auth.svelte';
+
   import { Form } from '@inertiajs/svelte';
   import { Eye, EyeOff, LockKeyhole, RefreshCw } from '@lucide/svelte';
   import { onMount, tick } from 'svelte';
-
-  import { twoFactorAuthState } from '@/lib/state/two-factor-auth.svelte';
 
   import AlertError from '@/components/alert-error.svelte';
   import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@
 
   import { regenerateRecoveryCodes } from '@/routes/two-factor';
 
-  const twoFactorAuth = twoFactorAuthState();
+  const { twoFactorAuth }: { twoFactorAuth: TwoFactorAuth } = $props();
   let isRecoveryCodesVisible = $state(false);
   let recoveryCodeSectionRef = $state<HTMLDivElement | undefined>();
 

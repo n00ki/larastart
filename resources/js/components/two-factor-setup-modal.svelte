@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { TwoFactorAuth } from '@/lib/state/two-factor-auth.svelte';
   import type { TwoFactorConfigContent } from '@/types';
 
   import { Form } from '@inertiajs/svelte';
@@ -6,7 +7,6 @@
   import { tick } from 'svelte';
 
   import { useTheme } from '@/hooks/use-theme.svelte';
-  import { twoFactorAuthState } from '@/lib/state/two-factor-auth.svelte';
 
   import AlertError from '@/components/alert-error.svelte';
   import InputError from '@/components/input-error.svelte';
@@ -22,17 +22,18 @@
   import { confirm } from '@/routes/two-factor';
 
   let {
+    twoFactorAuth,
     requiresConfirmation,
     twoFactorEnabled,
     isOpen = $bindable(false),
   }: {
+    twoFactorAuth: TwoFactorAuth;
     requiresConfirmation: boolean;
     twoFactorEnabled: boolean;
     isOpen?: boolean;
   } = $props();
 
   const theme = useTheme();
-  const twoFactorAuth = twoFactorAuthState();
 
   let showVerificationStep = $state(false);
   let code = $state('');

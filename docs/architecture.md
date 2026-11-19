@@ -151,23 +151,9 @@ class Counter {
 export const counter = new Counter();
 ```
 
-```typescript
-// @/lib/state/auth.svelte.ts
-class AuthState {
-  user = $state<User | null>(null);
-  isAuthenticated = $derived(this.user !== null);
-
-  login = (user: User) => {
-    this.user = user;
-  };
-
-  logout = () => {
-    this.user = null;
-  };
-}
-
-export const auth = new AuthState();
-```
+The security page owns its two-factor state and shares it with its children.
+When the page unmounts, it cancels pending requests for QR codes, setup keys,
+and recovery codes.
 
 ### shadcn-svelte Components
 

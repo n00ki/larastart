@@ -25,7 +25,6 @@
 
   import { Form } from '@inertiajs/svelte';
   import { ShieldCheck } from '@lucide/svelte';
-  import { onDestroy } from 'svelte';
 
   import { twoFactorAuthState } from '@/lib/state/two-factor-auth.svelte';
 
@@ -62,10 +61,6 @@
 
   const twoFactorAuth = twoFactorAuthState();
   let showSetupModal = $state(false);
-
-  onDestroy(() => {
-    twoFactorAuth.clearTwoFactorAuthData();
-  });
 </script>
 
 <AppHead title="Security settings" />
@@ -153,7 +148,7 @@
         </p>
 
         <div>
-          {#if twoFactorAuth.hasSetupData()}
+          {#if twoFactorAuth.hasSetupData}
             <Button onclick={() => (showSetupModal = true)}>
               <ShieldCheck class="size-4" />Continue Setup
             </Button>
@@ -183,11 +178,12 @@
           </Form>
         </div>
 
-        <TwoFactorRecoveryCodes />
+        <TwoFactorRecoveryCodes {twoFactorAuth} />
       </div>
     {/if}
 
     <TwoFactorSetupModal
+      {twoFactorAuth}
       bind:isOpen={showSetupModal}
       {requiresConfirmation}
       {twoFactorEnabled}
