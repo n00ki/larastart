@@ -1,13 +1,8 @@
 import type { LinkComponentBaseProps } from '@inertiajs/core';
-import type { ClassValue } from 'clsx';
 
-import { clsx } from 'clsx';
 import { toast } from 'svelte-sonner';
-import { twMerge } from 'tailwind-merge';
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+export { cn } from 'tailwind-variants/merge';
 
 export function toUrl(
   href: NonNullable<LinkComponentBaseProps['href']>,
