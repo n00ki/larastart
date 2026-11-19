@@ -46,18 +46,20 @@ test('profile information can be updated', function () {
     expect($user->email)->toBe('test@example.com');
 });
 
-test('users can sign in after updating their profile with a mixed-case email', function () {
+test('users can sign in with their new mixed-case email', function () {
     $user = User::factory()->create();
+    $email = 'New@Example.com';
 
     $this->actingAs($user)
-        ->patch('/settings/profile', ['name' => 'Test User', 'email' => 'New@Example.com'])
+        ->patch('/settings/profile', ['name' => 'Test User', 'email' => $email])
         ->assertSessionHasNoErrors();
 
     expect($user->refresh()->email)->toBe('new@example.com');
 
     $this->post('/logout');
     $this->assertGuest();
-    $this->post('/login', ['email' => 'New@Example.com', 'password' => 'password']);
+
+    $this->post('/login', ['email' => $email, 'password' => 'password']);
     $this->assertAuthenticatedAs($user);
 });
 
@@ -72,7 +74,7 @@ test('profile updates reject an email already in use regardless of case', functi
     expect($user->refresh()->email)->toBe('original@example.com');
 });
 
-test('mixed-case profile emails fail validation when normalization is disabled', function () {
+test('profile updates require lowercase email when Fortify lowercasing is off', function () {
     config(['fortify.lowercase_usernames' => false]);
 
     $this->actingAs(User::factory()->create())
@@ -173,11 +175,10 @@ test('profile information can be updated with same email', function () {
     expect($user->refresh()->name)->toBe('Test User');
 });
 
-test('changing only email casing preserves verification without sending a notification', function () {
+test('a case-only email change keeps the address verified', function () {
     Notification::fake();
 
     $user = User::factory()->create(['email' => 'verified@example.com']);
-    $verifiedAt = $user->email_verified_at;
 
     $this->actingAs($user)
         ->patch('/settings/profile', [
@@ -187,6 +188,6 @@ test('changing only email casing preserves verification without sending a notifi
         ->assertRedirect('/settings/profile')
         ->assertSessionHasNoErrors();
 
-    expect($user->refresh()->email_verified_at)->toEqual($verifiedAt);
+    expect($user->fresh()->email_verified_at)->toEqual($user->email_verified_at);
     Notification::assertNotSentTo($user, VerifyEmail::class);
 });
