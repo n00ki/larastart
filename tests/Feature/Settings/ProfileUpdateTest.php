@@ -24,6 +24,10 @@ test('unverified users can access profile settings', function () {
         ->assertOk();
 });
 
+test('guests must sign in before updating a profile', function () {
+    $this->patch('/settings/profile')->assertRedirectToRoute('login');
+});
+
 test('profile information can be updated', function () {
     $user = User::factory()->create();
 
@@ -179,6 +183,7 @@ test('a case-only email change keeps the address verified', function () {
     Notification::fake();
 
     $user = User::factory()->create(['email' => 'verified@example.com']);
+    $verifiedAt = $user->email_verified_at;
 
     $this->actingAs($user)
         ->patch('/settings/profile', [
@@ -188,6 +193,6 @@ test('a case-only email change keeps the address verified', function () {
         ->assertRedirect('/settings/profile')
         ->assertSessionHasNoErrors();
 
-    expect($user->fresh()->email_verified_at)->toEqual($user->email_verified_at);
+    expect($user->fresh()->email_verified_at)->toEqual($verifiedAt);
     Notification::assertNotSentTo($user, VerifyEmail::class);
 });
