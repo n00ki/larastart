@@ -138,9 +138,6 @@ importers:
       '@laravel/multiplex':
         specifier: ^0.4.5
         version: 0.4.5
-      '@rollup/rollup-linux-x64-gnu':
-        specifier: 4.68.6
-        version: 4.68.6
       '@tailwindcss/oxide-linux-x64-gnu':
         specifier: ^4.3.5
         version: 4.3.5
@@ -610,12 +607,6 @@ packages:
 
   '@rolldown/pluginutils@1.1.1':
     resolution: {integrity: sha512-glFIJDvLNDtJhT9qrMFWLPbvS+skxgt4L0K8Ei2YtnhPysAJnsI7nyxSJxKj4ADeKX0OLjC4ntRkwpLOoS3rwA==}
-
-  '@rollup/rollup-linux-x64-gnu@4.68.6':
-    resolution: {integrity: sha512-O+C505KYTRgQp/CF6p7XUzZGB4/pQAZTCj/edTDEXXE3wTKtAgNDXWX/5IcIZ/JQYaE8+iRLGoekmBv9XTz+PA==}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
 
   '@selderee/plugin-htmlparser2@0.12.0':
     resolution: {integrity: sha512-oELmoyA6ML9jDRMV3kgcMQFKxUfBU0yFVn6yTctVaLT5ygXnxH52I3TZEgV9EhXJC68/uFvE5Daj1/25c0Xa/A==}
@@ -3216,9 +3207,6 @@ snapshots:
     optional: true
 
   '@rolldown/pluginutils@1.1.1': {}
-
-  '@rollup/rollup-linux-x64-gnu@4.68.6':
-    optional: true
 
   '@selderee/plugin-htmlparser2@0.12.0(selderee@0.12.0)':
     dependencies:
