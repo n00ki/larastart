@@ -148,7 +148,7 @@
         </p>
 
         <div>
-          {#if twoFactorAuth.hasSetupData}
+          {#if twoFactorAuth.canContinueSetup}
             <Button onclick={() => (showSetupModal = true)}>
               <ShieldCheck class="size-4" />Continue Setup
             </Button>
@@ -178,7 +178,7 @@
           </Form>
         </div>
 
-        <TwoFactorRecoveryCodes {twoFactorAuth} />
+        <TwoFactorRecoveryCodes />
       </div>
     {/if}
 

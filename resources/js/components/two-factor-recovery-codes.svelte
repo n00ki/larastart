@@ -1,7 +1,5 @@
 <script lang="ts">
-  import type { TwoFactorAuth } from '@/lib/state/two-factor-auth.svelte';
-
-  import { Form } from '@inertiajs/svelte';
+  import { Form, useHttp } from '@inertiajs/svelte';
   import { Eye, EyeOff, LockKeyhole, RefreshCw } from '@lucide/svelte';
   import { onMount, tick } from 'svelte';
 
@@ -9,33 +7,39 @@
   import { Button } from '@/components/ui/button';
   import * as Card from '@/components/ui/card';
 
-  import { regenerateRecoveryCodes } from '@/routes/two-factor';
+  import { recoveryCodes, regenerateRecoveryCodes } from '@/routes/two-factor';
 
-  const { twoFactorAuth }: { twoFactorAuth: TwoFactorAuth } = $props();
-  let isRecoveryCodesVisible = $state(false);
-  let recoveryCodeSectionRef = $state<HTMLDivElement | undefined>();
+  const request = useHttp<Record<string, never>, string[]>({});
+  let codes = $state<string[]>([]);
+  let errors = $state<string[]>([]);
+  let visible = $state(false);
+  let codesSection = $state<HTMLDivElement | undefined>();
 
-  async function toggleRecoveryCodesVisibility() {
-    if (
-      !isRecoveryCodesVisible &&
-      !twoFactorAuth.state.recoveryCodesList.length
-    ) {
-      await twoFactorAuth.fetchRecoveryCodes();
-    }
-
-    isRecoveryCodesVisible = !isRecoveryCodesVisible;
-
-    if (isRecoveryCodesVisible) {
-      await tick();
-      recoveryCodeSectionRef?.scrollIntoView({ behavior: 'smooth' });
+  async function fetchCodes() {
+    codes = [];
+    errors = [];
+    try {
+      codes = await request.submit(recoveryCodes());
+    } catch {
+      errors = ['Failed to fetch recovery codes'];
     }
   }
 
-  onMount(async () => {
-    if (!twoFactorAuth.state.recoveryCodesList.length) {
-      await twoFactorAuth.fetchRecoveryCodes();
+  async function toggleVisible() {
+    visible = !visible;
+    if (!visible) {
+      return;
     }
-  });
+
+    if (!codes.length && !request.processing) {
+      fetchCodes();
+    }
+
+    await tick();
+    codesSection?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  onMount(fetchCodes);
 </script>
 
 <Card.Root class="w-full">
@@ -52,47 +56,47 @@
     <div
       class="flex flex-col gap-3 select-none sm:flex-row sm:items-center sm:justify-between"
     >
-      <Button onclick={toggleRecoveryCodesVisibility} class="w-fit">
-        {#if isRecoveryCodesVisible}
+      <Button onclick={toggleVisible} class="w-fit">
+        {#if visible}
           <EyeOff class="size-4" />
         {:else}
           <Eye class="size-4" />
         {/if}
-        {isRecoveryCodesVisible ? 'Hide' : 'View'} Recovery Codes
+        {visible ? 'Hide' : 'View'} Recovery Codes
       </Button>
 
-      {#if isRecoveryCodesVisible && twoFactorAuth.state.recoveryCodesList.length}
-        <Form
-          {...regenerateRecoveryCodes.form()}
-          options={{ preserveScroll: true }}
-          cancelOnUnmount
-          onSuccess={() => twoFactorAuth.fetchRecoveryCodes()}
-        >
-          {#snippet children({ processing })}
+      <Form
+        {...regenerateRecoveryCodes.form()}
+        options={{ preserveScroll: true }}
+        onSuccess={fetchCodes}
+        class="empty:hidden"
+      >
+        {#snippet children({ processing })}
+          {#if visible && codes.length}
             <Button variant="secondary" type="submit" disabled={processing}>
               <RefreshCw class="size-4" /> Regenerate Codes
             </Button>
-          {/snippet}
-        </Form>
-      {/if}
+          {/if}
+        {/snippet}
+      </Form>
     </div>
 
     <div
-      class="relative overflow-hidden transition-all duration-300 {isRecoveryCodesVisible
+      class="relative overflow-hidden transition-all duration-300 {visible
         ? 'h-auto opacity-100'
         : 'h-0 opacity-0'}"
     >
-      {#if twoFactorAuth.state.errors.length}
+      {#if errors.length}
         <div class="mt-6">
-          <AlertError errors={twoFactorAuth.state.errors} />
+          <AlertError {errors} />
         </div>
       {:else}
         <div class="mt-3 space-y-3">
           <div
-            bind:this={recoveryCodeSectionRef}
+            bind:this={codesSection}
             class="grid gap-1 rounded-lg bg-muted p-4 font-mono text-sm"
           >
-            {#if !twoFactorAuth.state.recoveryCodesList.length}
+            {#if !codes.length}
               <div class="space-y-2">
                 {#each { length: 8 } as _, n (n)}
                   <div
@@ -101,7 +105,7 @@
                 {/each}
               </div>
             {:else}
-              {#each twoFactorAuth.state.recoveryCodesList as code, index (index)}
+              {#each codes as code, index (index)}
                 <div>{code}</div>
               {/each}
             {/if}

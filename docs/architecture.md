@@ -151,9 +151,9 @@ class Counter {
 export const counter = new Counter();
 ```
 
-The security page owns its two-factor state and shares it with its children.
-When the page unmounts, it cancels pending requests for QR codes, setup keys,
-and recovery codes.
+The security page shares its two-factor setup state with the setup modal and
+discards it when you leave. The recovery codes card fetches its own codes each
+time it mounts.
 
 ### shadcn-svelte Components
 

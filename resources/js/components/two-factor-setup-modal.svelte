@@ -2,9 +2,8 @@
   import type { TwoFactorAuth } from '@/lib/state/two-factor-auth.svelte';
   import type { TwoFactorConfigContent } from '@/types';
 
-  import { Form } from '@inertiajs/svelte';
   import { Check, Copy, ScanLine } from '@lucide/svelte';
-  import { tick } from 'svelte';
+  import { tick, untrack } from 'svelte';
 
   import { useTheme } from '@/hooks/use-theme.svelte';
 
@@ -35,8 +34,9 @@
 
   const theme = useTheme();
 
+  const confirmForm = $derived(twoFactorAuth.confirmForm);
+
   let showVerificationStep = $state(false);
-  let code = $state('');
   let copied = $state(false);
   let pinInputContainerRef = $state<HTMLDivElement>();
 
@@ -90,12 +90,22 @@
     isOpen = false;
   }
 
+  function confirmTwoFactor(event: SubmitEvent) {
+    event.preventDefault();
+    confirmForm.submit(confirm(), {
+      errorBag: 'confirmTwoFactorAuthentication',
+      onFinish: () => confirmForm.reset(),
+      onSuccess: () => (isOpen = false),
+    });
+  }
+
   function resetModalState() {
     if (twoFactorEnabled) {
       twoFactorAuth.clearSetupData();
     }
     showVerificationStep = false;
-    code = '';
+    // Keep errors on close. Do not rerun the effect when form state changes.
+    untrack(() => confirmForm.reset());
   }
 
   $effect(() => {
@@ -104,9 +114,8 @@
       return;
     }
 
-    if (!twoFactorAuth.state.qrCodeSvg) {
-      twoFactorAuth.fetchSetupData();
-    }
+    // Tracking request state would retry failed fetches in a loop.
+    untrack(twoFactorAuth.fetchSetupData);
   });
 </script>
 
@@ -222,61 +231,51 @@
           </div>
         {/if}
       {:else}
-        <Form
-          {...confirm.form()}
-          errorBag="confirmTwoFactorAuthentication"
-          cancelOnUnmount
-          resetOnError
-          onFinish={() => (code = '')}
-          onSuccess={() => (isOpen = false)}
-        >
-          {#snippet children({ errors: formErrors, processing })}
-            <input type="hidden" name="code" value={code} />
+        <form onsubmit={confirmTwoFactor}>
+          <div
+            bind:this={pinInputContainerRef}
+            class="relative w-full space-y-3"
+          >
             <div
-              bind:this={pinInputContainerRef}
-              class="relative w-full space-y-3"
+              class="flex w-full flex-col items-center justify-center space-y-3 py-2"
             >
-              <div
-                class="flex w-full flex-col items-center justify-center space-y-3 py-2"
+              <InputOTP
+                inputId="otp"
+                bind:value={confirmForm.code}
+                maxlength={6}
+                disabled={confirmForm.processing}
+                autofocus
               >
-                <InputOTP
-                  inputId="otp"
-                  bind:value={code}
-                  maxlength={6}
-                  disabled={processing}
-                  autofocus
-                >
-                  {#snippet children({ cells })}
-                    <InputOTPGroup>
-                      {#each cells as cell, i (i)}
-                        <InputOTPSlot {cell} />
-                      {/each}
-                    </InputOTPGroup>
-                  {/snippet}
-                </InputOTP>
-                <InputError message={formErrors.code} />
-              </div>
-
-              <div class="flex w-full items-center space-x-5">
-                <Button
-                  type="button"
-                  variant="outline"
-                  class="w-auto flex-1"
-                  onclick={() => (showVerificationStep = false)}
-                >
-                  Back
-                </Button>
-                <Button
-                  type="submit"
-                  class="w-auto flex-1"
-                  disabled={processing || code.length < 6}
-                >
-                  Confirm
-                </Button>
-              </div>
+                {#snippet children({ cells })}
+                  <InputOTPGroup>
+                    {#each cells as cell, i (i)}
+                      <InputOTPSlot {cell} />
+                    {/each}
+                  </InputOTPGroup>
+                {/snippet}
+              </InputOTP>
+              <InputError message={confirmForm.errors.code} />
             </div>
-          {/snippet}
-        </Form>
+
+            <div class="flex w-full items-center space-x-5">
+              <Button
+                type="button"
+                variant="outline"
+                class="w-auto flex-1"
+                onclick={() => (showVerificationStep = false)}
+              >
+                Back
+              </Button>
+              <Button
+                type="submit"
+                class="w-auto flex-1"
+                disabled={confirmForm.processing || confirmForm.code.length < 6}
+              >
+                Confirm
+              </Button>
+            </div>
+          </div>
+        </form>
       {/if}
     </div>
   </Dialog.Content>
