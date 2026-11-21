@@ -20,7 +20,6 @@
           <Sidebar.MenuButton
             size="lg"
             class="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
-            data-active={undefined}
             data-test="sidebar-menu-button"
             {...props}
           >

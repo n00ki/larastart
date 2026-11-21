@@ -203,7 +203,9 @@ test('two-factor confirmation finishes after the user leaves the confirmation st
         ->click('Confirm')
         ->script('() => window.heldResponses');
 
-    $page->click($leave)->script('() => window.releaseResponses()');
+    $page->click($leave)
+        ->assertMissing('#otp')
+        ->script('() => window.releaseResponses()');
 
     $page->assertSee('View Recovery Codes')
         ->click('Disable 2FA')
@@ -214,6 +216,27 @@ test('two-factor confirmation finishes after the user leaves the confirmation st
     'back' => 'Back',
     'close' => '[data-slot="dialog-close"]',
 ]);
+
+test('a confirmed two-factor code does not prefill the next setup', function (): void {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    $page = visit('/settings/security')
+        ->fill('password', 'password')
+        ->click('@confirm-password-button')
+        ->click('Enable 2FA')
+        ->click('Continue')
+        ->type('#otp', app(Google2FA::class)->getCurrentOtp(decrypt($user->refresh()->two_factor_secret)))
+        ->click('Confirm')
+        ->assertSee('View Recovery Codes')
+        ->click('Disable 2FA')
+        ->click('Enable 2FA')
+        ->click('Continue')
+        ->assertVisible('#otp')
+        ->assertNoJavaScriptErrors();
+
+    expect($page->value('#otp'))->toBe('');
+});
 
 test('re-entering two-factor confirmation waits for the pending code check', function (): void {
     $this->actingAs(User::factory()->create());

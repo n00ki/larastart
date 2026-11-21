@@ -164,7 +164,9 @@ import { Button } from '@/components/ui/button';
 import * as Dialog from '@/components/ui/dialog';
 ```
 
-Add new components: `pnx shadcn-svelte add <component>`
+Add new components with `pnpm exec shadcn-svelte add <component>`. Review the
+`package.json` diff afterwards, since the CLI can downgrade existing
+dependencies such as `tailwind-variants`.
 
 ## Testing
 

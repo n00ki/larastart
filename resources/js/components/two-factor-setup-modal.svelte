@@ -3,7 +3,7 @@
   import type { TwoFactorConfigContent } from '@/types';
 
   import { Check, Copy, ScanLine } from '@lucide/svelte';
-  import { tick, untrack } from 'svelte';
+  import { untrack } from 'svelte';
 
   import { useTheme } from '@/hooks/use-theme.svelte';
 
@@ -38,7 +38,6 @@
 
   let showVerificationStep = $state(false);
   let copied = $state(false);
-  let pinInputContainerRef = $state<HTMLDivElement>();
 
   const modalConfig: TwoFactorConfigContent = $derived.by(() => {
     if (twoFactorEnabled) {
@@ -78,16 +77,12 @@
     setTimeout(() => (copied = false), 2000);
   }
 
-  async function handleModalNextStep() {
+  function handleModalNextStep() {
     if (requiresConfirmation) {
       showVerificationStep = true;
-      await tick();
-      pinInputContainerRef?.querySelector('input')?.focus();
-      return;
+    } else {
+      isOpen = false;
     }
-
-    twoFactorAuth.clearSetupData();
-    isOpen = false;
   }
 
   function confirmTwoFactor(event: SubmitEvent) {
@@ -95,31 +90,34 @@
     confirmForm.submit(confirm(), {
       errorBag: 'confirmTwoFactorAuthentication',
       onFinish: () => confirmForm.reset(),
-      onSuccess: () => (isOpen = false),
+      onSuccess: () => {
+        // Inertia saves the submitted code as the form default after onSuccess.
+        confirmForm.reset();
+        twoFactorAuth.clearSetupData();
+        isOpen = false;
+      },
     });
   }
 
-  function resetModalState() {
+  // Reset once the close animation ends so the content doesn't change mid-fade.
+  function handleOpenChangeComplete(open: boolean) {
+    if (open) return;
+
     if (twoFactorEnabled) {
       twoFactorAuth.clearSetupData();
     }
     showVerificationStep = false;
-    // Keep errors on close. Do not rerun the effect when form state changes.
-    untrack(() => confirmForm.reset());
+    // reset() keeps errors, so a failed confirmation stays visible.
+    confirmForm.reset();
   }
 
   $effect(() => {
-    if (!isOpen) {
-      resetModalState();
-      return;
-    }
-
     // Tracking request state would retry failed fetches in a loop.
-    untrack(twoFactorAuth.fetchSetupData);
+    if (isOpen) untrack(twoFactorAuth.fetchSetupData);
   });
 </script>
 
-<Dialog.Root bind:open={isOpen}>
+<Dialog.Root bind:open={isOpen} onOpenChangeComplete={handleOpenChangeComplete}>
   <Dialog.Content class="sm:max-w-md">
     <div class="flex flex-col items-center justify-center">
       <div
@@ -232,10 +230,7 @@
         {/if}
       {:else}
         <form onsubmit={confirmTwoFactor}>
-          <div
-            bind:this={pinInputContainerRef}
-            class="relative w-full space-y-3"
-          >
+          <div class="relative w-full space-y-3">
             <div
               class="flex w-full flex-col items-center justify-center space-y-3 py-2"
             >
@@ -245,11 +240,16 @@
                 maxlength={6}
                 disabled={confirmForm.processing}
                 autofocus
+                aria-label="Authentication code"
+                aria-invalid={!!confirmForm.errors.code}
               >
                 {#snippet children({ cells })}
                   <InputOTPGroup>
                     {#each cells as cell, i (i)}
-                      <InputOTPSlot {cell} />
+                      <InputOTPSlot
+                        {cell}
+                        aria-invalid={!!confirmForm.errors.code}
+                      />
                     {/each}
                   </InputOTPGroup>
                 {/snippet}

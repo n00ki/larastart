@@ -15,17 +15,21 @@
 	bind:ref
 	data-slot="input-otp-slot"
 	class={cn(
-		"border-input aria-invalid:border-destructive dark:bg-input/30 relative flex size-9 items-center justify-center border-y border-e text-sm transition-all outline-none first:rounded-s-md first:border-s last:rounded-e-md",
-		cell.isActive &&
-			"border-ring ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 z-10 ring-[3px]",
+		"dark:bg-input/30 border-input data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive size-8 border-y border-r text-sm transition-all outline-none first:rounded-l-lg first:border-l last:rounded-r-lg data-[active=true]:ring-3 relative flex items-center justify-center data-[active=true]:z-10",
 		className
 	)}
 	{...restProps}
 >
-	{cell.char}
-	{#if cell.hasFakeCaret}
-		<div class="pointer-events-none absolute inset-0 flex items-center justify-center">
-			<div class="animate-caret-blink bg-foreground h-4 w-px duration-1000"></div>
+	{#snippet child({ props })}
+		<div {...props} data-active={cell.isActive}>
+			{cell.char}
+			{#if cell.hasFakeCaret}
+				<div
+					class="pointer-events-none absolute inset-0 flex items-center justify-center"
+				>
+					<div class="animate-caret-blink bg-foreground h-4 w-px duration-1000"></div>
+				</div>
+			{/if}
 		</div>
-	{/if}
+	{/snippet}
 </InputOTPPrimitive.Cell>

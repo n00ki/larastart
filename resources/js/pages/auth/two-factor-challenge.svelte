@@ -86,11 +86,13 @@
               maxlength={6}
               disabled={processing}
               autofocus
+              aria-label="Authentication code"
+              aria-invalid={!!errors.code}
             >
               {#snippet children({ cells })}
                 <InputOTPGroup>
                   {#each cells as cell, i (i)}
-                    <InputOTPSlot {cell} />
+                    <InputOTPSlot {cell} aria-invalid={!!errors.code} />
                   {/each}
                 </InputOTPGroup>
               {/snippet}

@@ -22,10 +22,7 @@
     {#each items as item (item.title)}
       {@const isActive = currentUrl.startsWithCurrentUrl(item.href)}
       <Sidebar.MenuItem>
-        <Sidebar.MenuButton
-          data-active={isActive ? '' : undefined}
-          tooltipContent={item.title}
-        >
+        <Sidebar.MenuButton {isActive} tooltipContent={item.title}>
           {#snippet child({ props })}
             <Link
               href={item.href}
