@@ -5,6 +5,37 @@ Headlines: Added, Changed, Deprecated, Removed, Fixed, Security
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-11-21
+
+### Added
+
+- shadcn-svelte as a dev dependency, with its Tailwind variants and utilities imported into `app.css`
+- shadcn-svelte `Select.Value` component
+
+### Changed
+
+- Refreshed shadcn-svelte components to the latest nova style
+- Scaled every border radius from `--radius` and moved theme tokens to `@theme inline`
+- Lightened the dark destructive color so destructive text stays readable
+- Scoped two-factor setup state to the security page, which cancels pending requests on leave
+- Merged classes with Tailwind Variants instead of `clsx` and `tailwind-merge`
+- Installed only the Chromium headless shell in CI
+- Updated dependencies
+
+### Removed
+
+- `tailwindcss-animate`, `clsx`, `tailwind-merge`, and the unused Rollup binary
+- The `--destructive-foreground` theme token
+- Redundant `authorize()` methods from form requests
+
+### Fixed
+
+- Styled component states that depend on shadcn-svelte variants, including checked checkboxes, active tabs and sidebar items, and overlay animations
+- Made two-factor setup and recovery codes recover from failed, late, and in-flight requests when the dialog closes or reopens
+- Labeled two-factor code inputs and marked them invalid when the code is wrong
+- Normalized profile emails before validation
+- Preserved request methods on trailing-slash redirects
+
 ## [2.3.2] - 2026-10-17
 
 ### Changed
